@@ -1,8 +1,8 @@
 const { combineReducers } =require('redux');
-const counter =require('./counter');
+const params=require('./params');
 
 const rootReducer = combineReducers({
-  counter
+  params
 });
 
 module.exports=rootReducer;
