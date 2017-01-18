@@ -1,0 +1,4 @@
+*.min.js
+node_modules
+static/bundle.js
+static

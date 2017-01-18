@@ -1,0 +1,19 @@
+{
+  "name": "redux-boilderplate",
+  "description": "New Ksana application",
+  "version": "1.0.0",
+  "main": "index.html",
+  "single-instance":true,
+	"scripts": {
+  	"start": "watchify src/index.js -o static/bundle.js -dv -p livereactload -u react-native -x react -x react-dom -x ksana-codemirror -x codemirror",
+  	"build": "browserify src/index.js -t [ babelify --presets es2015 ]  -u react-native -x ksana-codemirror -x codemirror  -x react -x react-dom  | uglifyjs --screw-ie8 -c=dead_code,evaluate,loops,unused -m > static/bundle.js"
+	 },
+  "dependencies": {
+  	"ksana2015-breadcrumbtoc":"https://github.com/ksanaforge/ksana2015-breadcrumbtoc.git",
+  	"ksana-codemirror":"https://github.com/ksanaforge/ksana-codemirror.git",
+  	"ksana-jsonrom":"https://github.com/ksanaforge/ksana-jsonrom.git",
+  	"ksana-localization":"https://github.com/ksanaforge/ksana-localization.git",
+  	"ksana-corpus":"https://github.com/ksanaforge/ksana-corpus.git",
+  	"ksana-corpus-search":"https://github.com/ksanaforge/ksana-corpus-search.git"
+	}
+}
