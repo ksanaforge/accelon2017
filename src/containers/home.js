@@ -1,54 +1,29 @@
-const React =require('react');
-const PT=React.PropTypes;
-const E=React.createElement;
 
 const { bindActionCreators } =require('redux');
 const { connect } = require('react-redux');
 const ParamsActions= require('../actions/params');
-
+const SearchActions=require('../actions/search');
+const FilterActions=require('../actions/filter');
+const GroupingActions=require('../actions/grouping');
 
 function mapStateToProps(state) {
   return {
+  	activeCorpus:state.activeCorpus,
   	params:state.params,
-  	filter:{hits:[],exclude:[]}
+  	filters:state.filters,
+  	filter:state.filters[state.activeCorpus]||{}
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ParamsActions, dispatch);
+	const boundsearch= bindActionCreators(SearchActions, dispatch);
+  const boundparams= bindActionCreators(ParamsActions, dispatch);
+  const boundgrouping= bindActionCreators(GroupingActions, dispatch);
+  const boundfilter= bindActionCreators(FilterActions, dispatch);
+
+	const bound=Object.assign({},boundsearch,boundparams,boundgrouping,boundfilter);
+	return bound;  
 }
 
-const HomeBar=require("./homebar");
-const BookSelector=require("./bookselector");
-
-const Home=React.createClass({
-  getInitialState() {
-    return {}
-  },	
-  componentWillMount(){
-		this.props.updateParams(this.parseRoute(window.location.hash));
-  }
-	,componentDidMount(){
-		window.addEventListener('hashchange', () => {
-			this.props.updateParams(this.parseRoute(window.location.hash));
-		})
-	}
-	,parseRoute(route){
-		var regex = /[?#&]([^=#]+)=([^&#]*)/g, params = {}, match ;
-		while(match = regex.exec(route)) {
-		  params[match[1]] = match[2];
-		}
-  	console.log("parse route",params)
-		return params;
-	}
-	,render(){
-		const selectorProps=Object.assign({},this.props,{activeCorpus:"yinshun"});
-		return E("div",{}
-			,E(HomeBar,this.props)
-			,E(BookSelector,selectorProps)
-		)
-	}
-});
-
-
-module.exports=connect(mapStateToProps, mapDispatchToProps)(Home);
+const MainScreen=require('./mainscreen');
+module.exports=connect(mapStateToProps, mapDispatchToProps)(MainScreen);

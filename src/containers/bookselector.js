@@ -13,6 +13,7 @@ const RangeSelector=React.createClass({
 		this.props.setExclude(group,value);
 	}
 	,propTypes:{
+		filter:PT.object.isRequired,
 		activeCorpus:PT.string.isRequired
 	}
 	,goGroup(group){
@@ -35,7 +36,12 @@ const RangeSelector=React.createClass({
 		this.props.goOccur(occur);
 	}	
 	,rendergroup(g,key){
-		const hit=this.props.filter.hits[key] || 0;
+		if (!this.props.filter.hits)return;
+		var hit=0;
+		if (this.props.showHit) {
+			hit=this.props.filter.hits[key] || 0;			
+		}
+
 		const exclude=this.props.filter.exclude[key] || false;
 		var br=false;
 		if (g.substr(0,2)=="\\n") {

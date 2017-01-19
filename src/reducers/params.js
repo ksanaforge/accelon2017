@@ -1,6 +1,7 @@
 const  { UPDATE_PARAMS_FROM_URL } = require('../actions/params');
 const initState={
-	q:""
+	q:"",
+	mode:0 // 0 : home, 1: book result , 2: excerpt, 3: read text
 }
 
 module.exports=function params(state = initState, action = {}) {

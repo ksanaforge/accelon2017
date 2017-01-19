@@ -1,7 +1,18 @@
 const UPDATE_PARAMS_FROM_URL="UPDATE_PARAMS_FROM_URL";
 const SET_PARAMS="SET_PARAMS"
+const {_search}=require("./search");
+
 function updateParams(params) {
-	return Object.assign({type:"UPDATE_PARAMS_FROM_URL"},params);
+	return (dispatch,getState) =>{
+		dosearch(getState().activeCorpus,params.q||"",dispatch,getState);
+		dispatch(Object.assign({type:"UPDATE_PARAMS_FROM_URL"},params));
+	}
+}
+
+function dosearch(corpus,q,dispatch,getState){
+	if (getState().params.q!==q) {
+		_search(corpus,q,dispatch,getState);
+	}
 }
 
 function setParams(params){
@@ -12,7 +23,14 @@ function setParams(params){
 	window.location.hash=p.join("&");
 	return {type:"SET_PARAMS"};
 }
+
 function setQ(q){
-	return setParams({q});
+	return (dispatch,getState) =>{
+		dosearch(getState().activeCorpus,q,dispatch,getState);
+		dispatch(setParams({q,mode:1}));
+	}
 }
-module.exports={UPDATE_PARAMS_FROM_URL,updateParams,setParams,setQ}
+function setMode(mode) {
+	return setParams({mode});
+}
+module.exports={UPDATE_PARAMS_FROM_URL,updateParams,setParams,setQ, setMode}
