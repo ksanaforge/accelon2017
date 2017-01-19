@@ -7,26 +7,27 @@ const BookSelector=require("./bookselector");
 const BookResult=require("./bookresult");
 const Excerpt=0;
 const ReadText=1;
-const MainScreen=React.createClass({
-  getInitialState() {
-    return {}
-  },	
+class MainScreen extends React.Component{
+  constructor(props) {
+  	super(props)
+    this.state= {}
+  }
   componentWillMount(){
 		this.props.updateParams(this.parseRoute(window.location.hash));
   }
-	,componentDidMount(){
+	componentDidMount(){
 		window.addEventListener('hashchange', () => {
 			this.props.updateParams(this.parseRoute(window.location.hash));
 		})
 	}
-	,parseRoute(route){
+	parseRoute(route){
 		var regex = /[?#&]([^=#]+)=([^&#]*)/g, params = {}, match ;
 		while(match = regex.exec(route)) {
 		  params[match[1]] = match[2];
 		}
 		return params;
 	}
-	,getBody(mode){
+	getBody(mode){
 		mode=parseInt(mode);
 		switch (mode) {
 			case 0: return BookSelector;
@@ -36,11 +37,12 @@ const MainScreen=React.createClass({
 		}
 		return BookSelector;
 	}
-	,render(){
+	render(){
 		return E("div",{}
 			,E(HomeBar,this.props)
-			,E(this.getBody(this.props.params.mode),this.props)
+			,E(this.getBody(this.props.params.m),this.props)
 		)
 	}
-});
+};
+
 module.exports=MainScreen;

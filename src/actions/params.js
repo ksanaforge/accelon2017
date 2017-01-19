@@ -27,10 +27,10 @@ function setParams(params){
 function setQ(q){
 	return (dispatch,getState) =>{
 		dosearch(getState().activeCorpus,q,dispatch,getState);
-		dispatch(setParams({q,mode:1}));
+		dispatch(setParams({q,m:1}));
 	}
 }
-function setMode(mode) {
-	return setParams({mode});
+function setMode(m) {
+	return setParams({m});
 }
 module.exports={UPDATE_PARAMS_FROM_URL,updateParams,setParams,setQ, setMode}

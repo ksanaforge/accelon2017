@@ -8,21 +8,19 @@ const styles={
 	container:{overflowY:"auto"},
 	btn:{marginLeft:"10px"}
 }
-const RangeSelector=React.createClass({
+
+class RangeSelector extends React.Component {
 	setExclude(group,value){
 		this.props.setExclude(group,value);
 	}
-	,propTypes:{
-		filter:PT.object.isRequired,
-		activeCorpus:PT.string.isRequired
-	}
-	,goGroup(group){
+
+	goGroup(group){
 		const cor=openCorpus(this.props.activeCorpus);
 		const groupKPoss=cor.groupKPoss();
 		const kpos=groupKPoss[group];
 		this.props.updateArticleByAddress(kpos);
 	}
-	,firstOccurOfGroup(group){
+	firstOccurOfGroup(group){
 		var first=0;
 		for(let i=0;i<group;i++) {
 			if (!this.props.filter.exclude[i]){
@@ -31,11 +29,11 @@ const RangeSelector=React.createClass({
 		}
 		return first;
 	}
-	,goHit(group){
+	goHit(group){
 		const occur=this.firstOccurOfGroup(group);
 		this.props.goOccur(occur);
 	}	
-	,rendergroup(g,key){
+	rendergroup(g,key){
 		if (!this.props.filter.hits)return;
 		var hit=0;
 		if (this.props.showHit) {
@@ -53,21 +51,24 @@ const RangeSelector=React.createClass({
 		return E(filterItem,{label,hit,exclude,key,br,idx:key,hint,idx:key,
 			setExclude:this.setExclude,goGroup:this.goGroup,goHit:this.goHit});
 	}
-	,selectall(){
+	selectall(){
 		this.props.includeAll();
 	}
-	,deselectall(){
+	deselectall(){
 		this.props.excludeAll();
 	}
-	,render(){
+	render(){
 		if (!this.props.activeCorpus) return E("div");
 		const cor=openCorpus(this.props.activeCorpus);		
 		const groupNames=cor.groupNames();
 		return E("div",{style:styles.container},
 			E("button",{style:styles.btn,onClick:this.selectall},_("Select All")),
 			E("button",{style:styles.btn,onClick:this.deselectall},_("Deselect All")),
-			groupNames.map(this.rendergroup));	
+			groupNames.map(this.rendergroup.bind(this)));	
 	}
-});
-
+};
+RangeSelector.propTypes={
+		filter:PT.object.isRequired,
+		activeCorpus:PT.string.isRequired
+}
 module.exports=RangeSelector;

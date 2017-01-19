@@ -19,8 +19,36 @@ const humanhit=function(hit){
 	}
 	return "1M+";
 }
-const filterItem=React.createClass({
-	propTypes:{
+
+class filterItem extends React.Component{
+	setExclude(e){
+		this.props.setExclude(this.props.idx,!this.props.exclude);
+	}
+	labelClick(e){
+		this.props.goGroup(this.props.idx);
+	}
+	hitClick(e){
+		this.props.goHit(this.props.idx);
+	}
+	render(){
+		const firstitem=this.props.br||this.props.idx==0?" tooltipfirst":"";
+		return E("span",{},
+			firstitem?E("br"):E("span"),
+		  E("span",{style:styles.container,className:"tooltip"}
+//		  	,E("span",{className:"tooltiptext"+firstitem},this.props.hint)
+		  	,"　"
+				,E("input",{type:"checkbox",checked:!this.props.exclude,onChange:this.setExclude.bind(this)})
+				,E("span",{onClick:this.labelClick.bind(this)},this.props.label)
+				," "
+
+				,E("span",{className:this.props.exclude?"disablefilterhit":"filterhit",
+					onClick:this.hitClick.bind(this)}, humanhit(this.props.hit))
+			)
+		)
+	}
+};
+
+filterItem.propTypes={
 		label:PT.string.isRequired,
 		hit:PT.number.isRequired,
 		exclude:PT.bool.isRequired,
@@ -29,30 +57,6 @@ const filterItem=React.createClass({
 		goHit:PT.func.isRequired,
 		idx:PT.number.isRequired
 	}
-	,setExclude(e){
-		this.props.setExclude(this.props.idx,!this.props.exclude);
-	}
-	,labelClick(e){
-		this.props.goGroup(this.props.idx);
-	}
-	,hitClick(e){
-		this.props.goHit(this.props.idx);
-	}
-	,render(){
-		const firstitem=this.props.br||this.props.idx==0?" tooltipfirst":"";
-		return E("span",{},
-			firstitem?E("br"):E("span"),
-		  E("span",{style:styles.container,className:"tooltip"}
-//		  	,E("span",{className:"tooltiptext"+firstitem},this.props.hint)
-		  	,"　"
-				,E("input",{type:"checkbox",checked:!this.props.exclude,onChange:this.setExclude})
-				,E("span",{onClick:this.labelClick},this.props.label)
-				," "
 
-				,E("span",{className:this.props.exclude?"disablefilterhit":"filterhit",onClick:this.hitClick}, humanhit(this.props.hit))
-			)
-		)
-	}
-});
 
 module.exports=filterItem;
