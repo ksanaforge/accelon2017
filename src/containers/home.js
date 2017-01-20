@@ -11,7 +11,7 @@ function mapStateToProps(state) {
   	activeCorpus:state.activeCorpus,
   	params:state.params,
   	filters:state.filters,
-  	filter:state.filters[state.activeCorpus]||{}
+  	filter:state.filters[state.activeCorpus]||{exclude:[],hits:[]}
   };
 }
 

@@ -34,7 +34,6 @@ class RangeSelector extends React.Component {
 		this.props.goOccur(occur);
 	}	
 	rendergroup(g,key){
-		if (!this.props.filter.hits)return;
 		var hit=0;
 		if (this.props.showHit) {
 			hit=this.props.filter.hits[key] || 0;			
@@ -49,7 +48,7 @@ class RangeSelector extends React.Component {
 		const hint=g.replace(/.*;/,"");
 		const label=hint;//g.replace(/;.*/,"");
 		return E(filterItem,{label,hit,exclude,key,br,idx:key,hint,idx:key,
-			setExclude:this.setExclude,goGroup:this.goGroup,goHit:this.goHit});
+			setExclude:this.setExclude.bind(this),goGroup:this.goGroup.bind(this),goHit:this.goHit.bind(this)});
 	}
 	selectall(){
 		this.props.includeAll();
@@ -58,12 +57,13 @@ class RangeSelector extends React.Component {
 		this.props.excludeAll();
 	}
 	render(){
-		if (!this.props.activeCorpus) return E("div");
+		if (!this.props.activeCorpus) return E("div",{},"no active corpus");
 		const cor=openCorpus(this.props.activeCorpus);		
 		const groupNames=cor.groupNames();
 		return E("div",{style:styles.container},
-			E("button",{style:styles.btn,onClick:this.selectall},_("Select All")),
-			E("button",{style:styles.btn,onClick:this.deselectall},_("Deselect All")),
+			"BOOK SELECTOR",
+			E("button",{style:styles.btn,onClick:this.selectall.bind(this)},_("Select All")),
+			E("button",{style:styles.btn,onClick:this.deselectall.bind(this)},_("Deselect All")),
 			groupNames.map(this.rendergroup.bind(this)));	
 	}
 };

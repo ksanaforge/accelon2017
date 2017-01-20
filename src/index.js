@@ -7,6 +7,8 @@ const SelectDB=require('./containers/selectdb');
 const configureStore=require('./store/configurestore');
 const store = configureStore();
 const ksanacorpus=require("ksana-corpus");
+require("./localestring");
+
 const openDB=function(cb){
 	ksanacorpus.openCorpus("yinshun",function(err,db){
 		if (err) {

@@ -13,21 +13,18 @@ class MainScreen extends React.Component{
     this.state= {}
   }
   componentWillMount(){
-		this.props.updateParams(this.parseRoute(window.location.hash));
+		this.props.updateParams();
   }
 	componentDidMount(){
 		window.addEventListener('hashchange', () => {
-			this.props.updateParams(this.parseRoute(window.location.hash));
+			this.props.updateParams();
 		})
 	}
-	parseRoute(route){
-		var regex = /[?#&]([^=#]+)=([^&#]*)/g, params = {}, match ;
-		while(match = regex.exec(route)) {
-		  params[match[1]] = match[2];
-		}
-		return params;
-	}
+
 	getBody(mode){
+		if (!this.props.params.q) {
+			return BookSelector;
+		}
 		mode=parseInt(mode);
 		switch (mode) {
 			case 0: return BookSelector;

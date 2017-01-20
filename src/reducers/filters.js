@@ -9,20 +9,23 @@ module.exports=function articlegroup(state = {} , action = {}) {
 	}
 	
 	if (UPDATE_HITS===A.type)  {
-		const exclude=state[A.corpus].exclude;
+		const exclude=newstate[A.corpus].exclude;
 		const hits=A.hits;
 		newstate=Object.assign({},newstate,{[A.corpus]:{hits,exclude}});
 	} else if (UPDATE_EXCLUDE===A.type) {
-		const exclude=state[A.corpus].exclude.slice();
+		const exclude=newstate[A.corpus].exclude.slice();
 		exclude[A.group]=A.value;
-		const hits=state[A.corpus].hits;
+		while(exclude.length && !exclude[exclude.length-1]) exclude.pop();
+
+		const hits=newstate[A.corpus].hits;
 		newstate=Object.assign({},newstate,{[A.corpus]:{hits,exclude}});		
 	} else if (INCLUDE_ALL===A.type) {
-		const hits=state[A.corpus].hits;
+		const hits=newstate[A.corpus].hits;
 		newstate=Object.assign({},newstate,{[A.corpus]:{hits,exclude:[]}});
 	} else if (EXCLUDE===A.type) {
-		const hits=state[A.corpus].hits;
+		const hits=newstate[A.corpus].hits;			
 		const exclude=A.groups;
+		while(!exclude[exclude.length-1]) exclude.pop();
 		newstate=Object.assign({},newstate,{[A.corpus]:{hits,exclude}});
 	}
 
