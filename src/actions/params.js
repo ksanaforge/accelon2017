@@ -51,13 +51,18 @@ function setParams(newparams){
 }
 
 function setMode(m) {
-	return setParams({m});
+	return (dispatch,getState) =>{
+		if (!getState().search.q && (m==1 || m==2 ) )m=0;
+		dispatch(setParams({m}));
+	}
 }
 
 function setQ(q){
 	return (dispatch,getState) =>{
 		dosearch(getState().activeCorpus,q,dispatch,getState);
-		dispatch(setParams({q,m:1}));
+		var m=1;
+		if (!getState().search.q && (m==1 || m==2 ) )m=0;
+		dispatch(setParams({q,m}));
 	}
 }
 
