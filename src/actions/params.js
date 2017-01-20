@@ -6,7 +6,7 @@ const {packBits,unpackBits}=require("../unit/bitstr");
 
 //better in filter.js , but filter.js need params.js, move here to prevent circular dependency
 const setExcludeByStr=function(str,dispatch,getState){
-	const groups=unpackBits(str);
+	const groups=unpackBits(str,true);
 	const corpus=getState().activeCorpus;
 	dispatch({type:EXCLUDE,corpus,groups});
 }
@@ -16,7 +16,7 @@ function updateParams() {
 
 	return (dispatch,getState) =>{
 		dosearch(getState().activeCorpus,params.q||"",dispatch,getState);
-		if (params.ex!==getState().params.ex) {
+		if (params.ex && params.ex!==getState().params.ex) {
 			setExcludeByStr(params.ex,dispatch,getState);
 		}
 		dispatch(Object.assign({type:"UPDATE_PARAMS_FROM_URL"},params));

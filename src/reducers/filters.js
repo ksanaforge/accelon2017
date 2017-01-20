@@ -25,7 +25,7 @@ module.exports=function articlegroup(state = {} , action = {}) {
 	} else if (EXCLUDE===A.type) {
 		const hits=newstate[A.corpus].hits;			
 		const exclude=A.groups;
-		while(!exclude[exclude.length-1]) exclude.pop();
+		while(exclude.length && !exclude[exclude.length-1]) exclude.pop();
 		newstate=Object.assign({},newstate,{[A.corpus]:{hits,exclude}});
 	}
 

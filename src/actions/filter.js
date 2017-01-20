@@ -40,7 +40,7 @@ const excludeAll=()=>(dispatch,getState)=>{
 	const corpus=getState().activeCorpus;
 	const cor=openCorpus(corpus)
 	if (!cor)return;
-	const groups=cor.groupNames().map(()=>true);
+	const groups=cor.groupNames().map(()=>1);
 	dispatch({type:EXCLUDE,corpus,groups});
 	updateExcerpt(dispatch,getState);
 }

@@ -1,4 +1,5 @@
 const packBits=function(_bits){
+	if (!_bits)return "";
 	var bits=JSON.parse(JSON.stringify(_bits));
 	var byte=Math.floor(bits.length / 8);
 	if (bits.length % 8) byte++;
@@ -23,7 +24,8 @@ const packBits=function(_bits){
 	}
 	return str;
 }
-const unpackBits=function(str){
+const unpackBits=function(str,bool){
+	if (!str) return [];
 	var byte=Math.floor(str.length / 2);
 	if (str.length % 2) byte++;
 	var arr=[];
@@ -34,7 +36,10 @@ const unpackBits=function(str){
 		
 		arr=arr.concat(bits.split("").map(i=>parseInt(i)));
 	}
-	while (arr.length && arr[arr.length-1]==0) arr.pop();
+	while (arr.length>0 && arr[arr.length-1]==0) arr.pop();
+	if (bool) {
+		arr=arr.map((i)=>!!i);
+	}
 	return arr;
 }
 
