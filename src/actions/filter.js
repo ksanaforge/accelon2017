@@ -15,6 +15,12 @@ const filterMatch=function(corpus,matches,excludegroup){
 	return kcs.filterMatch(cor,matches,excludegroup);
 }
 
+const setExcludeByStr=function(str,dispatch,getState){
+	const groups=unpackBits(str,true);
+	const corpus=getState().activeCorpus;
+	dispatch({type:EXCLUDE,corpus,groups});
+}
+
 const updateExcerpt=function(dispatch,getState){
 	const corpus=getState().activeCorpus;  
 
@@ -52,4 +58,4 @@ const includeAll=()=>(dispatch,getState)=>{
 
 
 module.exports={INCLUDE_ALL,EXCLUDE,UPDATE_EXCLUDE,SET_FILTERED,
-	setExclude,filterMatch,includeAll,excludeAll};
+	setExclude,filterMatch,includeAll,excludeAll,setExcludeByStr};

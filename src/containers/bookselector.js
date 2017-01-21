@@ -3,7 +3,7 @@ const E=React.createElement;
 const PT=React.PropTypes;
 const {openCorpus}=require("ksana-corpus");
 const filterItem=require("../components/filteritem");
-const {_}=require("ksana-localization")
+const {_}=require("ksana-localization");
 const styles={
 	container:{overflowY:"auto"},
 	btn:{marginLeft:"10px"}

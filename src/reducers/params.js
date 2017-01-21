@@ -1,7 +1,7 @@
 const  { UPDATE_PARAMS_FROM_URL } = require('../actions/params');
 const initState={
 	q:"",
-	m:0, // 0 : home, 1: book result , 2: excerpt, 3: read text
+	m:0, //modes, see mainscreen
 	ex:"" //exclude book bits
 }
 

@@ -1,6 +1,7 @@
 const {SEARCHING,SEARCH_DONE}=require("../actions/search");
 const {SET_FILTERED}=require("../actions/filter");
-const initialState={searching:false};
+const initialState={searching:false,filtered:[],now:0};
+
 module.exports=function search(state=initialState,action={}){
 	switch(action.type) {
 		case SEARCHING:

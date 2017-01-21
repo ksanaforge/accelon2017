@@ -5,7 +5,8 @@ const E=React.createElement;
 const HomeBar=require("./homebar");
 const BookSelector=require("./bookselector");
 const BookResult=require("./bookresult");
-const Excerpt=0;
+const {BOOKSELECTOR,BOOKRESULT,READTEXT,EXCERPTVIEW}=require("../actions/params");
+const ExcerptView=require("./excerptview");
 const ReadText=1;
 class MainScreen extends React.Component{
   constructor(props) {
@@ -13,11 +14,11 @@ class MainScreen extends React.Component{
     this.state= {}
   }
   componentWillMount(){
-		this.props.updateParams();
+		this.props.execURL();
   }
 	componentDidMount(){
 		window.addEventListener('hashchange', () => {
-			this.props.updateParams();
+			this.props.execURL();
 		})
 	}
 
@@ -27,10 +28,10 @@ class MainScreen extends React.Component{
 		}
 		mode=parseInt(mode);
 		switch (mode) {
-			case 0: return BookSelector;
-			case 1: return BookResult;
-			case 2: return Excerpt;
-			case 3: return ReadText;
+			case BOOKSELECTOR: return BookSelector;
+			case READTEXT: return ReadText;
+			case BOOKRESULT: return BookResult; //must have q
+			case EXCERPTVIEW: return ExcerptView;    //must have q
 		}
 		return BookSelector;
 	}

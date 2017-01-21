@@ -1,69 +1,32 @@
 const UPDATE_PARAMS_FROM_URL="UPDATE_PARAMS_FROM_URL";
 const SET_PARAMS="SET_PARAMS";
-const EXCLUDE = 'EXCLUDE';//already defined in filter.js
-const {_search}=require("./search");
 const {packBits,unpackBits}=require("../unit/bitstr");
+const {setHashTag}=require("../unit/hashtag");
+const BOOKSELECTOR=0;
+const READTEXT=1;
+const BOOKRESULT=10;
+const EXCERPTVIEW=11;
 
-//better in filter.js , but filter.js need params.js, move here to prevent circular dependency
-const setExcludeByStr=function(str,dispatch,getState){
-	const groups=unpackBits(str,true);
-	const corpus=getState().activeCorpus;
-	dispatch({type:EXCLUDE,corpus,groups});
-}
 
-function updateParams() {
-	const params=parseRoute(window.location.hash);
-
-	return (dispatch,getState) =>{
-		dosearch(getState().activeCorpus,params.q||"",dispatch,getState);
-		if (params.ex && params.ex!==getState().params.ex) {
-			setExcludeByStr(params.ex,dispatch,getState);
-		}
-		dispatch(Object.assign({type:"UPDATE_PARAMS_FROM_URL"},params));
-	}
-}
-
-function dosearch(corpus,q,dispatch,getState){
-	if (getState().params.q!==q) {
-		_search(corpus,q,dispatch,getState);
-	}
-}
-function parseRoute(route){
-	var regex = /[?#&]([^=#]+)=([^&#]*)/g, params = {}, match ;
-	while(match = regex.exec(route)) {
-	  params[match[1]] = match[2];
-	}
-	return params;
-}
-
-function setParams(newparams){
-	var params=parseRoute(window.location.hash);
-	var key;
-	for (key in newparams) {
-		params[key]=newparams[key];
-	}
-	var p=[];
-	for (key in params) {
-		if (params[key]) p.push(key+"="+params[key]);
-	}
-	window.location.hash=p.join("&");
+function setParams(params){
+	setHashTag(params);
 	return {type:"SET_PARAMS"};
 }
 
 function setMode(m) {
 	return (dispatch,getState) =>{
-		if (!getState().search.q && (m==1 || m==2 ) )m=0;
+		if (!getState().searchresult.q && (m>=BOOKRESULT) )m=0;
 		dispatch(setParams({m}));
 	}
 }
 
 function setQ(q){
 	return (dispatch,getState) =>{
-		dosearch(getState().activeCorpus,q,dispatch,getState);
-		var m=1;
-		if (!getState().search.q && (m==1 || m==2 ) )m=0;
+		var m=BOOKRESULT;
+		if (!getState().searchresult.q && (m>=BOOKRESULT) )m=0;
 		dispatch(setParams({q,m}));
 	}
 }
 
-module.exports={UPDATE_PARAMS_FROM_URL,updateParams,setParams,setQ, setMode}
+module.exports={UPDATE_PARAMS_FROM_URL,setParams,setQ, setMode
+,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW}

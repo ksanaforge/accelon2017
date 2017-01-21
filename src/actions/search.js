@@ -6,15 +6,15 @@ const {openCorpus}=require("ksana-corpus");
 
 const kcs=require("ksana-corpus-search");
 
-function _search(corpus,q,dispatch,getState){
+function _search(corpus,q,dispatch,getState,cb){
   if (!corpus)return;
   var searchtimer=setInterval(()=>{
 
   	const cor=openCorpus(corpus);
   	if (!cor) return;
   	
-    if (getState().search.searching) {
-      console.log("wait searching",getState().search.q);
+    if (getState().searchresult.searching) {
+      console.log("wait searching",getState().searchresult.q);
       return;
     }
     clearInterval(searchtimer);
@@ -28,8 +28,9 @@ function _search(corpus,q,dispatch,getState){
       
       groupHits(corpus,result,dispatch);
       //updateResultView(query,dispatch,getState().excerpts);
+      cb&&cb();
     });
-  },100);
+  },10);
 }
 
 function search(q) {

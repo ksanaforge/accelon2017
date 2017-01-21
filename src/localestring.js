@@ -7,7 +7,8 @@ const stringtable={
 	["config","設定"],
 	["source","出處"],
 	["Select All","全選"],
-	["Deselect All","全不選"]
+	["Deselect All","全不選"],
+	["View All Excerpt","全部摘要瀏覽"]
 	]
 }
 for (var locale in stringtable) {
