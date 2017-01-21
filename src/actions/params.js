@@ -27,6 +27,16 @@ function setQ(q){
 		dispatch(setParams({q,m}));
 	}
 }
+const selectBook=function(){
+	return (dispatch,getState) =>{
+		dispatch(setParams({m:BOOKSELECTOR}));
+	}		
+}
 
-module.exports={UPDATE_PARAMS_FROM_URL,setParams,setQ, setMode
+const groupByBook=function(){
+	return (dispatch,getState) =>{
+		dispatch(setParams({m:BOOKRESULT}));
+	}		
+}
+module.exports={UPDATE_PARAMS_FROM_URL,setParams,setQ, setMode,selectBook,groupByBook
 ,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW}

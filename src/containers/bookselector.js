@@ -61,7 +61,6 @@ class RangeSelector extends React.Component {
 		const cor=openCorpus(this.props.activeCorpus);		
 		const groupNames=cor.groupNames();
 		return E("div",{style:styles.container},
-			"BOOK SELECTOR",
 			E("button",{style:styles.btn,onClick:this.selectall.bind(this)},_("Select All")),
 			E("button",{style:styles.btn,onClick:this.deselectall.bind(this)},_("Deselect All")),
 			groupNames.map(this.rendergroup.bind(this)));	

@@ -29,7 +29,6 @@ const showExcerpt=function(){
 		_showExcerpt(dispatch,getState);
 	}
 }
-
 const listExcerpts=function(cor,dispatch,getState){
 	const searchstate=getState().searchresult;
 	const hits=searchstate.matches;

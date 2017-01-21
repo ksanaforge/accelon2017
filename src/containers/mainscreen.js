@@ -8,6 +8,9 @@ const BookResult=require("./bookresult");
 const {BOOKSELECTOR,BOOKRESULT,READTEXT,EXCERPTVIEW}=require("../actions/params");
 const ExcerptView=require("./excerptview");
 const ReadText=1;
+const styles={
+	body:{overflowY:"auto",height:"96%"}
+}
 class MainScreen extends React.Component{
   constructor(props) {
   	super(props)
@@ -38,7 +41,9 @@ class MainScreen extends React.Component{
 	render(){
 		return E("div",{}
 			,E(HomeBar,this.props)
-			,E(this.getBody(this.props.params.m),this.props)
+			,E("div",{style:styles.body},
+				E(this.getBody(this.props.params.m),this.props)
+			)
 		)
 	}
 };

@@ -1,8 +1,9 @@
 const SEARCHING = 'SEARCHING';
 const SEARCH_DONE = 'SEARCH_DONE';
-const {groupHits}=require("./grouping");
-const {openCorpus}=require("ksana-corpus");
 
+const {groupStat}=require("ksana-corpus-search");
+const {openCorpus}=require("ksana-corpus");
+const {_filterMatch}=require("./filter");
 
 const kcs=require("ksana-corpus-search");
 
@@ -24,10 +25,12 @@ function _search(corpus,q,dispatch,getState,cb){
     	const {matches,phrasepostings,timer}=result;
       
       const exclude=(getState().filters[corpus]||{}).exclude;
-      dispatch({type:SEARCH_DONE, corpus, q , matches,phrasepostings,timer });
+      const filtered=_filterMatch(corpus,result.matches,exclude);
+      const grouphits=groupStat(result.matches,cor.groupTPoss());
+      grouphits.shift();
+
+      dispatch({type:SEARCH_DONE, corpus, q , matches,phrasepostings,timer, grouphits , filtered});
       
-      groupHits(corpus,result,dispatch);
-      //updateResultView(query,dispatch,getState().excerpts);
       cb&&cb();
     });
   },10);

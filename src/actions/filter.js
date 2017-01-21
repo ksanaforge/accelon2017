@@ -9,7 +9,7 @@ const kcs=require("ksana-corpus-search")
 //const {updateResultView}=require("./occur");
 const {packBits,unpackBits}=require("../unit/bitstr");
 
-const filterMatch=function(corpus,matches,excludegroup){
+const _filterMatch=function(corpus,matches,excludegroup){
 	const cor=openCorpus(corpus)
 	if (!cor)return;
 	return kcs.filterMatch(cor,matches,excludegroup);
@@ -31,9 +31,9 @@ const updateExcerpt=function(dispatch,getState){
 
 	const matches=getState().search.matches;
 	if (!matches) return;
-	const filtered=filterMatch(corpus,matches,exclude);
-	dispatch({type:SET_FILTERED, filtered });
-	const excerpts=getState().excerpts;	
+	const filtered=_filterMatch(corpus,matches,exclude);
+
+	dispatch({type:SET_FILTERED, filtered , grouphits});
 }
 
 
@@ -58,4 +58,4 @@ const includeAll=()=>(dispatch,getState)=>{
 
 
 module.exports={INCLUDE_ALL,EXCLUDE,UPDATE_EXCLUDE,SET_FILTERED,
-	setExclude,filterMatch,includeAll,excludeAll,setExcludeByStr};
+	setExclude,_filterMatch,includeAll,excludeAll,setExcludeByStr};

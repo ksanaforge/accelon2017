@@ -13,6 +13,7 @@ module.exports=function search(state=initialState,action={}){
 		case SET_FILTERED:
 			var newstate=Object.assign({},state);
 			newstate.filtered=action.filtered;
+			newstate.grouphits=action.grouphits;
 			return newstate;
 		default:
 			return state;

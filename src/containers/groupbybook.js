@@ -10,13 +10,14 @@ const styles={
 
 class GroupByBook extends React.Component {
 	rendergroup(g,key){
-		if (!this.props.filter.hits)return;
-		const hit=this.props.filter.hits[key] || 0;
+		if (!this.props.searchresult.q)return;
+		const hit=this.props.searchresult.grouphits[key] || 0;
 		const hint=g.replace(/.*;/,"");
 		const label=hint;//g.replace(/;.*/,"");
 		if (!hit) return null;
 
 		return E("div",{key},
+				"　",
 				E("span",{style:styles.bookname},label),
 				"(",
 				E("span",{style:styles.hit},hit),

@@ -8,6 +8,8 @@ const stringtable={
 	["source","出處"],
 	["Select All","全選"],
 	["Deselect All","全不選"],
+	["Select Book","主畫面"],
+	["Group By Book","檢索所得"],
 	["View All Excerpt","全部摘要瀏覽"]
 	]
 }

@@ -31,16 +31,11 @@ class filterItem extends React.Component{
 		this.props.goHit(this.props.idx);
 	}
 	render(){
-		const firstitem=this.props.br||this.props.idx==0?" tooltipfirst":"";
-		return E("span",{},
-			firstitem?E("br"):E("span"),
-		  E("span",{style:styles.container,className:"tooltip"}
-//		  	,E("span",{className:"tooltiptext"+firstitem},this.props.hint)
+		return E("div",{},
+		  E("span",{style:styles.container}
 		  	,"　"
 				,E("input",{type:"checkbox",checked:!this.props.exclude,onChange:this.setExclude.bind(this)})
 				,E("span",{onClick:this.labelClick.bind(this)},this.props.label)
-				," "
-
 				,E("span",{className:this.props.exclude?"disablefilterhit":"filterhit",
 					onClick:this.hitClick.bind(this)}, humanhit(this.props.hit))
 			)
