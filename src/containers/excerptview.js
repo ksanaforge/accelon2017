@@ -24,6 +24,7 @@ class ExcerptView extends React.Component {
 	renderItem(item,key){
 		const start=this.props.excerpt.batch*this.props.excerpt.hitperbatch;
 		const n=start+key;
+		const first=(this.props.excerpt.now%this.props.excerpt.hitperbatch)==0;
 		const {grouphit,address,title}=this.excerptTitle(n);
 		const header=(title!==prevtitle)? title:"";
 		prevtitle=title;
@@ -31,7 +32,7 @@ class ExcerptView extends React.Component {
 		const seq=this.getSeqOfBook(this.props.searchresult.grouphits,n);
 		const highlight=this.props.excerpt.now==n;
 		var obj={};
-		if (highlight) obj.ref="highlight";
+		if (highlight && !first) obj.ref="highlight"; //no need to scroll if first item is highlighted
 		return E(ExcerptLine,Object.assign(obj,item,{key,seq,header,address,grouphit,highlight}));
 	}
 	excerptTitle(n){
@@ -66,13 +67,15 @@ class ExcerptView extends React.Component {
 		const batch=this.props.excerpt.batch;
 
 		setTimeout(function(){ //componentDidUpdate only triggered once, don't know why
-			ReactDOM.findDOMNode(this.refs.highlight).scrollIntoView();
+			const w=ReactDOM.findDOMNode(this.refs.highlight);
+			w&&w.scrollIntoView();
 		}.bind(this),100)
 
 		return E("div",{style:styles.container},
 				E(ModeSelector,this.props),
 				E(ExcerptNav,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
-				excerpts.map(this.renderItem.bind(this))
+				excerpts.map(this.renderItem.bind(this)),
+				E(ExcerptNav,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)})
 		)
 	}
 }
