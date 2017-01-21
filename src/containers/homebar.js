@@ -3,6 +3,7 @@ const PT=React.PropTypes;
 const E=React.createElement;
 const SearchBox=require("./searchbox");
 const SearchOptions=require("./searchoptions");
+const ModeSelector=require("./modeselector");
 const {openCorpus}=require("ksana-corpus");
 
 class HomeBar extends React.Component {
@@ -13,6 +14,8 @@ class HomeBar extends React.Component {
 			title
 			,E("br")
 			,E(SearchBox,this.props)
+			,"　"
+			,E(ModeSelector,this.props)
 			//,E(SearchOptions,this.props)
 		)
 	}

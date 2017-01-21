@@ -11,7 +11,7 @@ const styles={
 class ModelSelector extends React.Component{
 	render(){
 		const m=this.props.params.m;
-		return E("div",{},
+		return E("span",{},
 			E("a",{style:m==BOOKSELECTOR?styles.b:styles.a,onClick:this.props.selectBook},_("Select Book")),
 			" ",
 			E("a",{style:m==BOOKRESULT?styles.b:styles.a,onClick:this.props.groupByBook},_("Group By Book")),

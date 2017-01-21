@@ -35,7 +35,6 @@ function setMode(m) {
 function setQ(q){
 	return (dispatch,getState) =>{
 		var m=BOOKRESULT;
-		if (!getState().searchresult.q && (m>=BOOKRESULT) )m=0;
 		dispatch(setParams({q,m}));
 	}
 }

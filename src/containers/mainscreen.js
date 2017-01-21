@@ -25,7 +25,9 @@ class MainScreen extends React.Component{
   }
 	componentDidMount(){
 		window.addEventListener('hashchange', () => {
-			if (!isUpdating()) this.props.execURL();
+			if (!isUpdating()) {
+				this.props.execURL();
+			}
 		})
 	}
 

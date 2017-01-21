@@ -7,7 +7,6 @@ const ModeSelector=require("./modeselector");
 class BookResult extends React.Component {
 	render(){
 		return E("div",{},
-			E(ModeSelector,this.props),
 			E(GroupByBook,this.props)
 		)
 	}

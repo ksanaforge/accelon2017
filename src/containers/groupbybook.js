@@ -20,7 +20,7 @@ class GroupByBook extends React.Component {
 		this.props.showExcerpt(start);
 	}
 	rendergroup(g,key){
-		if (!this.props.searchresult.q)return;
+		if (!this.props.searchresult.q||!this.props.searchresult.grouphits)return;
 		const hit=this.props.searchresult.grouphits[key] || 0;
 		const hint=g.replace(/.*;/,"");
 		const label=hint;//g.replace(/;.*/,"");
@@ -35,7 +35,7 @@ class GroupByBook extends React.Component {
 		);
 	}
 	render(){
-		if (!this.props.activeCorpus) return E("div");
+		if (!this.props.activeCorpus) return E("div",{},"searching");
 		const cor=openCorpus(this.props.activeCorpus);
 		const groupNames=cor.groupNames();
 		return E("div",{style:styles.container},
