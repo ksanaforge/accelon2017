@@ -11,11 +11,12 @@ const initialState={
 	,excerptline:parseInt(localStorage.getItem("yinshun_excerptline"),10)||3
 	,query:{count:0}
   ,batch:0
+  ,now:0
 	,hitperbatch
 };
 module.exports=function Excerpt(state = initialState , action = {}) {
   if (SHOW_EXCERPT===action.type) {
-  	return {excerpts:action.excerpts,batch:action.batch,
+  	return {excerpts:action.excerpts,batch:action.batch,now:action.now,
   		hitperbatch:action.hitperbatch, excerptline:action.excerptline||state.excerptline};
   } else if (SET_EXCERPT_LINE===action.type) {
   	if (state.excerptline!==action.excerptline) {

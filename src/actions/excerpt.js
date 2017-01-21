@@ -1,4 +1,4 @@
-const {EXCERPTVIEW,setParams}=require("./params");
+const {EXCERPTVIEW,setMode,_updateParams}=require("./params");
 //const {packBits,unpackBits}=require("../unit/bitstr");
 const SHOW_EXCERPT="SHOW_EXCERPT";
 const SET_EXCERPT_LINE="SET_EXCERPT_LINE";
@@ -17,30 +17,30 @@ const setExcerptLine=function(line){
 }
 
 
-const showExcerpt=function(batch){
+const showExcerpt=function(now){
 	return (dispatch,getState) =>{
-		if (typeof batch!=="number") batch=0;
-		_showExcerpt(batch,dispatch,getState);
+		if (typeof now!=="number") now=0;
+		_showExcerpt(now,dispatch,getState);
 	}
 }
 
-const _showExcerpt=function(batch,dispatch,getState){
+const _showExcerpt=function(now,dispatch,getState){
  	const cor=openCorpus(getState().activeCorpus);
-
 	const searchstate=getState().searchresult;
 	const hits=searchstate.matches;
 	const excerptstate=getState().excerpt;
 	var tpos=[];
+	const batch=Math.floor(now/hitperbatch);
 
 	for (let i=0;i<hitperbatch;i++) {
 		const at=hitperbatch*batch+i;		
 		tpos.push(hits[at]);
 	}
-
 	const line=excerptstate.excerptline;
 	fetchExcerpts(cor,{tpos,line,phrasepostings:searchstate.phrasepostings},function(excerpts){
-		dispatch({type:SHOW_EXCERPT, excerpts, hitperbatch, batch});
-		dispatch(setParams({m:EXCERPTVIEW}));
+		_updateParams({n:now},dispatch,getState);
+		dispatch({type:SHOW_EXCERPT, excerpts, hitperbatch, batch, now });
+		dispatch(setMode(EXCERPTVIEW));
 	});
 }
 

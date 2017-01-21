@@ -1,4 +1,5 @@
 const React =require('react');
+const ReactDOM =require('react-dom');
 const PT=React.PropTypes;
 const E=React.createElement;
 const {openCorpus}=require("ksana-corpus");
@@ -22,19 +23,21 @@ class ExcerptView extends React.Component {
 	}
 	renderItem(item,key){
 		const start=this.props.excerpt.batch*this.props.excerpt.hitperbatch;
-		const now=start+key;
-		const {grouphit,address,title}=this.excerptTitle(key+start);
+		const n=start+key;
+		const {grouphit,address,title}=this.excerptTitle(n);
 		const header=(title!==prevtitle)? title:"";
 		prevtitle=title;
 
-		const seq=this.getSeqOfBook(this.props.searchresult.grouphits,now);
-		
-		return E(ExcerptLine,Object.assign({},item,{key,seq,header,address,grouphit}));
+		const seq=this.getSeqOfBook(this.props.searchresult.grouphits,n);
+		const highlight=this.props.excerpt.now==n;
+		var obj={};
+		if (highlight) obj.ref="highlight";
+		return E(ExcerptLine,Object.assign(obj,item,{key,seq,header,address,grouphit,highlight}));
 	}
-	excerptTitle(now){
+	excerptTitle(n){
 		const cor=openCorpus(this.props.activeCorpus);
 		const searchresult=this.props.searchresult;
-		const tpos=searchresult.matches[now];
+		const tpos=searchresult.matches[n];
 		const address=cor.fromTPos(tpos).kpos[0];
 		if (address) {
 			var addressH=cor.stringify(address);
@@ -49,7 +52,8 @@ class ExcerptView extends React.Component {
 		}
 	}
 	gobatch(batch) {
-		this.props.showExcerpt(batch);
+		const hitperbatch=this.props.excerpt.hitperbatch;
+		this.props.showExcerpt(batch*hitperbatch);
 	}	
 	render(){
 		prevtitle="";
@@ -60,6 +64,10 @@ class ExcerptView extends React.Component {
 		const count=(searchresult.filtered||{}).length||0;
 		const hitperbatch=this.props.excerpt.hitperbatch;
 		const batch=this.props.excerpt.batch;
+
+		setTimeout(function(){ //componentDidUpdate only triggered once, don't know why
+			ReactDOM.findDOMNode(this.refs.highlight).scrollIntoView();
+		}.bind(this),100)
 
 		return E("div",{style:styles.container},
 				E(ModeSelector,this.props),

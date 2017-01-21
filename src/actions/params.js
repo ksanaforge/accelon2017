@@ -1,4 +1,3 @@
-const UPDATE_PARAMS_FROM_URL="UPDATE_PARAMS_FROM_URL";
 const SET_PARAMS="SET_PARAMS";
 const {packBits,unpackBits}=require("../unit/bitstr");
 const {setHashTag}=require("../unit/hashtag");
@@ -6,17 +5,30 @@ const BOOKSELECTOR=0;
 const READTEXT=1;
 const BOOKRESULT=10;
 const EXCERPTVIEW=11;
-
+var _updating=false;
+const isUpdating=function(){
+	return _updating;
+}
 
 function setParams(params){
 	setHashTag(params);
-	return {type:"SET_PARAMS"};
+	return Object.assign({type:"SET_PARAMS"},params);
+}
+
+function _updateParams(params,dispatch,getState) {
+	_updating=true;
+	setHashTag(params);
+	setTimeout(function(){
+		_updating=false;
+	},100);
 }
 
 function setMode(m) {
 	return (dispatch,getState) =>{
 		if (!getState().searchresult.q && (m>=BOOKRESULT) )m=0;
-		dispatch(setParams({m}));
+		if (m!==getState().params.m) {
+			dispatch(setParams({m}));	
+		}
 	}
 }
 
@@ -38,5 +50,5 @@ const groupByBook=function(){
 		dispatch(setParams({m:BOOKRESULT}));
 	}		
 }
-module.exports={UPDATE_PARAMS_FROM_URL,setParams,setQ, setMode,selectBook,groupByBook
+module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setMode,selectBook,groupByBook
 ,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW}

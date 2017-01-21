@@ -10,9 +10,10 @@ const ksanacorpus=require("ksana-corpus");
 require("./localestring");
 
 const openDB=function(cb){
-	ksanacorpus.openCorpus("yinshun",function(err,db){
+	const corpus=store.getState().activeCorpus;
+	ksanacorpus.openCorpus(corpus,function(err,db){
 		if (err) {
-			console.error("cannot open yinshun.cor");
+			console.error("cannot open "+corpus+".cor");
 		} else {
 			console.log(db);
 			cb&&cb();

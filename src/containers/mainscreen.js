@@ -7,21 +7,25 @@ const BookSelector=require("./bookselector");
 const BookResult=require("./bookresult");
 const {BOOKSELECTOR,BOOKRESULT,READTEXT,EXCERPTVIEW}=require("../actions/params");
 const ExcerptView=require("./excerptview");
+const {isUpdating}=require("../actions/params");
 const ReadText=1;
 const styles={
 	body:{overflowY:"auto",height:"96%"}
 }
 class MainScreen extends React.Component{
   constructor(props) {
-  	super(props)
+  	super(props);
     this.state= {}
+  }
+  shouldComponentUpdate(){
+  	return true;
   }
   componentWillMount(){
 		this.props.execURL();
   }
 	componentDidMount(){
 		window.addEventListener('hashchange', () => {
-			this.props.execURL();
+			if (!isUpdating()) this.props.execURL();
 		})
 	}
 

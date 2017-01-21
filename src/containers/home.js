@@ -34,7 +34,8 @@ function mapDispatchToProps(dispatch) {
   const boundexcerpt= bindActionCreators(ExcerptActions, dispatch);
   const boundexecurl= bindActionCreators(ExecURLActions, dispatch);
 
-	const bound=Object.assign({},boundsearch,boundparams,boundgrouping,boundfilter,boundexcerpt,boundexecurl);
+	const bound=Object.assign({},boundsearch,boundparams,boundgrouping,
+		boundfilter,boundexcerpt,boundexecurl);
 	return bound;  
 }
 

@@ -9,6 +9,7 @@ const styles={
 	grouphit:{color:"red"},
 	seq:{marginLeft:3},
 	pb:{},
+	highlight:{background:"pink"},
 	header:{background:"lightblue"}
 }
 class ExcerptLine extends React.Component {
@@ -16,7 +17,7 @@ class ExcerptLine extends React.Component {
 		var pb=this.props.address;
 		pb=pb.substr(pb.indexOf("p")+1).replace(".","-");
 		return E("div",{},
-			this.props.header?E("div",{style:styles.header},
+			this.props.header?E("div",{style:this.props.highlight?styles.highlight:styles.header},
 				this.props.header
 				,"("
 				,E("span",{style:styles.grouphit},this.props.grouphit)
