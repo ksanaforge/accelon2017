@@ -24,7 +24,7 @@ const execURL=function() {
 				setExcludeByStr(params.ex,dispatch,getState);
 			}
 			if (parseInt(params.m)==EXCERPTVIEW) {
-				_showExcerpt(dispatch,getState);
+				_showExcerpt(0,dispatch,getState);
 			}
 		});
 	}

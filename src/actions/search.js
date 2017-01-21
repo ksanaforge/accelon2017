@@ -13,7 +13,7 @@ function _search(corpus,q,dispatch,getState,cb){
 
   	const cor=openCorpus(corpus);
   	if (!cor) return;
-  	
+
     if (getState().searchresult.searching) {
       console.log("wait searching",getState().searchresult.q);
       return;
@@ -26,10 +26,11 @@ function _search(corpus,q,dispatch,getState,cb){
       
       const exclude=(getState().filters[corpus]||{}).exclude;
       const filtered=_filterMatch(corpus,result.matches,exclude);
-      const grouphits=groupStat(result.matches,cor.groupTPoss());
+      const grouphits=groupStat(filtered,cor.groupTPoss());
       grouphits.shift();
 
-      dispatch({type:SEARCH_DONE, corpus, q , matches,phrasepostings,timer, grouphits , filtered});
+      dispatch({type:SEARCH_DONE, corpus, q , 
+        matches,phrasepostings,timer, grouphits , filtered});
       
       cb&&cb();
     });

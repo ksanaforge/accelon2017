@@ -7,6 +7,8 @@ const styles={
 	text:{whiteSpace:"pre",display:"block"},
 	table:{width:"100%"},
 	grouphit:{color:"red"},
+	seq:{marginLeft:3},
+	pb:{},
 	header:{background:"lightblue"}
 }
 class ExcerptLine extends React.Component {
@@ -25,12 +27,20 @@ class ExcerptLine extends React.Component {
 			,E("table",{style:styles.table},
 				E("tbody",{},
 				E("tr",{style:styles.tr},
-					E("td",{},pb),
+					E("td",{},E("span",{style:styles.seq},this.props.seq+1)),
+					E("td",{style:styles.pb},pb),
 					E("td",{style:styles.text}, this.props.text)
 				)
 				)
 			)
 		)
 	}
+}
+ExcerptLine.propTypes={
+	seq:PT.number.isRequired,
+	header:PT.string.isRequired,
+	text:PT.string.isRequired,
+	address:PT.string.isRequired,
+	grouphit:PT.number.isRequired
 }
 module.exports=ExcerptLine;

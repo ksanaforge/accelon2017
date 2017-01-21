@@ -4,6 +4,7 @@ const E=React.createElement;
 const {openCorpus}=require("ksana-corpus");
 const ExcerptLine=require("../components/excerptline");
 const ModeSelector=require("./modeselector");
+const ExcerptNav=require("./excerptnav");
 
 const styles={
 	container:{},
@@ -11,12 +12,24 @@ const styles={
 }
 var prevtitle="";
 class ExcerptView extends React.Component {
+	getSeqOfBook(grouphits,now){
+		var remain=now,acc=0, g=0;
+		while (remain>=grouphits[g] && g<grouphits.length) {
+			remain-=grouphits[g];
+			g++;
+		}
+		return remain ;
+	}
 	renderItem(item,key){
-		const {grouphit,address,title}=this.excerptTitle(key);
+		const start=this.props.excerpt.batch*this.props.excerpt.hitperbatch;
+		const now=start+key;
+		const {grouphit,address,title}=this.excerptTitle(key+start);
 		const header=(title!==prevtitle)? title:"";
 		prevtitle=title;
+
+		const seq=this.getSeqOfBook(this.props.searchresult.grouphits,now);
 		
-		return E(ExcerptLine,Object.assign({},item,{key,header,address,grouphit}));
+		return E(ExcerptLine,Object.assign({},item,{key,seq,header,address,grouphit}));
 	}
 	excerptTitle(now){
 		const cor=openCorpus(this.props.activeCorpus);
@@ -35,12 +48,22 @@ class ExcerptView extends React.Component {
 			return {grouphit:0,title:"",address:""};
 		}
 	}
+	gobatch(batch) {
+		this.props.showExcerpt(batch);
+	}	
 	render(){
 		prevtitle="";
-		if (this.props.searchresult.searching)return E("div",{},"searching");
+		const searchresult=this.props.searchresult;
+		if (searchresult.searching)return E("div",{},"searching");
 		const excerpts=this.props.excerpt.excerpts;
+
+		const count=(searchresult.filtered||{}).length||0;
+		const hitperbatch=this.props.excerpt.hitperbatch;
+		const batch=this.props.excerpt.batch;
+
 		return E("div",{style:styles.container},
 				E(ModeSelector,this.props),
+				E(ExcerptNav,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
 				excerpts.map(this.renderItem.bind(this))
 		)
 	}
