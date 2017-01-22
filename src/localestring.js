@@ -10,7 +10,7 @@ const stringtable={
 	["Deselect All","全不選"],
 	["Select Book","選書"],
 	["Group By Book","檢索所得"],
-	["View All Excerpt","全部摘要瀏覽"]
+	["View Excerpt","摘要瀏覽"]
 	]
 }
 for (var locale in stringtable) {

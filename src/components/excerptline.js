@@ -1,10 +1,12 @@
 const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
+const {renderHits}=require("../unit/highlight");
 
 const styles={
 	tr:{background:"white",borderBottom:"1px gray solid"},
 	text:{whiteSpace:"pre",display:"block"},
+	hl:{color:"red"},
 	table:{width:"100%"},
 	grouphit:{color:"red"},
 	seq:{marginLeft:3},
@@ -13,6 +15,9 @@ const styles={
 	header:{background:"lightblue"}
 }
 class ExcerptLine extends React.Component {
+	highlightText(text,hits){
+    return renderHits(text,hits, (o,t)=> E("span",o,t) )
+	}
 	render() {
 		var pb=this.props.address;
 		pb=pb.substr(pb.indexOf("p")+1).replace(".","-");
@@ -30,7 +35,7 @@ class ExcerptLine extends React.Component {
 				E("tr",{style:styles.tr},
 					E("td",{},E("span",{style:styles.seq},this.props.seq+1)),
 					E("td",{style:styles.pb},pb),
-					E("td",{style:styles.text}, this.props.text)
+					E("td",{style:styles.text}, this.highlightText(this.props.text,this.props.hits))
 				)
 				)
 			)

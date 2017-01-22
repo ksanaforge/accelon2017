@@ -20,22 +20,54 @@ class ExcerptView extends React.Component {
 		}
 		return remain ;
 	}
+	buildlinelengths(rawtext){
+		var linelengths=[];
+		var acc=0;
+		for (let i=0;i<rawtext.length;i++) {
+			linelengths.push(acc);
+			acc+=rawtext[i].length;
+		}
+		linelengths.push(acc);
+		return linelengths;
+	}
+	highlights(cor,excerpt){
+		const linebreaks=excerpt.linebreaks;
+		const getrawline=(line)=>excerpt.rawtext[line] ;
+		const linelengths=this.buildlinelengths(excerpt.rawtext);
+		var hl=[];
+		for(let j=0;j<excerpt.phrasehits.length;j++) {
+			const hits=excerpt.phrasehits[j].hits;
+			const phraselengths=this.props.searchresult.phrasepostings[j].lengths;
+			const linecharr=hits.map((hit,idx)=>{
+				const phraselength=phraselengths[idx]||phraselengths;//should be kpos width
+				const range=cor.makeKRange(hit,hit+phraselength);
+				var {start,end}=cor.toLogicalRange(excerpt.linebreaks,range,getrawline);
+				const absstart=linelengths[start.line]+start.ch;
+				const len=linelengths[end.line]+end.ch - absstart;
+				hl.push([absstart,len,0]);
+			});
+		}
+		return hl;
+	}	
 	renderItem(item,key){
+		const cor=openCorpus(this.props.activeCorpus);
 		const start=this.props.excerpt.batch*this.props.excerpt.hitperbatch;
 		const n=start+key;
 		const first=(this.props.excerpt.now%this.props.excerpt.hitperbatch)==0;
-		const {grouphit,address,title}=this.excerptTitle(n);
+		const {grouphit,address,title}=this.excerptTitle(cor,n);
 		const header=(title!==prevtitle)? title:"";
 		prevtitle=title;
 
 		const seq=this.getSeqOfBook(this.props.searchresult.grouphits,n);
-		const highlight=this.props.excerpt.now==n;
+		const scrollto=this.props.excerpt.now==n;
 		var obj={};
-		if (highlight && !first) obj.ref="highlight"; //no need to scroll if first item is highlighted
-		return E(ExcerptLine,Object.assign(obj,item,{key,seq,header,address,grouphit,highlight}));
+		if (scrollto && !first) obj.ref="scrollto"; //no need to scroll if first item is highlighted
+
+		const hits=this.highlights(cor,this.props.excerpt.excerpts[key]);
+
+		return E(ExcerptLine,Object.assign(obj,item,{key,seq,header,address,grouphit,scrollto,hits}));
 	}
-	excerptTitle(n){
-		const cor=openCorpus(this.props.activeCorpus);
+	excerptTitle(cor,n){
 		const searchresult=this.props.searchresult;
 		const tpos=searchresult.matches[n];
 		const address=cor.fromTPos(tpos).kpos[0];
@@ -66,7 +98,7 @@ class ExcerptView extends React.Component {
 		const batch=this.props.excerpt.batch;
 
 		setTimeout(function(){ //componentDidUpdate only triggered once, don't know why
-			const w=ReactDOM.findDOMNode(this.refs.highlight);
+			const w=ReactDOM.findDOMNode(this.refs.scrollto);
 			w&&w.scrollIntoView();
 		}.bind(this),100)
 
