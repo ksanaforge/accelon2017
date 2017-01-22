@@ -43,11 +43,16 @@ const selectBook=function(){
 		dispatch(setParams({m:BOOKSELECTOR}));
 	}		
 }
-
+const readText=function(a,n){
+	return (dispatch,getState) =>{
+		var m=READTEXT;
+		dispatch(setParams({a,m,n}));
+	}
+}
 const groupByBook=function(){
 	return (dispatch,getState) =>{
 		dispatch(setParams({m:BOOKRESULT}));
 	}		
 }
 module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setMode,selectBook,groupByBook
-,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW}
+,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW,readText}

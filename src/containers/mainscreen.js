@@ -8,7 +8,7 @@ const BookResult=require("./bookresult");
 const {BOOKSELECTOR,BOOKRESULT,READTEXT,EXCERPTVIEW}=require("../actions/params");
 const ExcerptView=require("./excerptview");
 const {isUpdating}=require("../actions/params");
-const ReadText=1;
+const ReadText=require("./readtext");
 const styles={
 	body:{overflowY:"auto",height:"96%"}
 }

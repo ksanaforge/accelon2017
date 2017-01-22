@@ -16,7 +16,9 @@ class ModelSelector extends React.Component{
 			" ",
 			E("a",{style:m==BOOKRESULT?styles.b:styles.a,onClick:this.props.groupByBook},_("Group By Book")),
 			" ",
-			E("a",{style:m==EXCERPTVIEW?styles.b:styles.a,onClick:this.props.showExcerpt},_("View Excerpt"))
+			E("a",{style:m==EXCERPTVIEW?styles.b:styles.a,onClick:this.props.showExcerpt},_("View Excerpt")),
+			" ",
+			m==READTEXT?E("span",{style:styles.b},_("Read Text")):null
 		)
 	}
 }

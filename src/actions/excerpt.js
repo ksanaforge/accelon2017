@@ -19,7 +19,7 @@ const setExcerptLine=function(line){
 
 const showExcerpt=function(now){
 	return (dispatch,getState) =>{
-		if (typeof now!=="number") now=0;
+		if (typeof now!=="number") now=getState().params.n||0; //use n in url
 		_showExcerpt(now,dispatch,getState);
 	}
 }
@@ -38,7 +38,7 @@ const _showExcerpt=function(now,dispatch,getState){
 	}
 	const line=excerptstate.excerptline;
 	fetchExcerpts(cor,{tpos,line,phrasepostings:searchstate.phrasepostings},function(excerpts){
-		_updateParams({n:now},dispatch,getState);
+		_updateParams({n:now,a:""},dispatch,getState);
 		dispatch({type:SHOW_EXCERPT, excerpts, hitperbatch, batch, now });
 		dispatch(setMode(EXCERPTVIEW));
 	});

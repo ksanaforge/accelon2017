@@ -5,9 +5,9 @@ const initialState={searching:false,filtered:[],now:0};
 module.exports=function search(state=initialState,action={}){
 	switch(action.type) {
 		case SEARCHING:
-			return {searching:true, q:action.q ,corpus:action.corpus};
+			return {q:action.q ,corpus:action.corpus};
 		case SEARCH_DONE:
-			var newstate=Object.assign({searching:false},action);
+			var newstate=Object.assign({},action);
 			delete newstate.type;
 			return newstate;
 		case SET_FILTERED:

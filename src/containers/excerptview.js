@@ -13,6 +13,7 @@ const styles={
 var prevtitle="";
 class ExcerptView extends React.Component {
 	getSeqOfBook(grouphits,now){
+		if (!grouphits)return;
 		var remain=now,acc=0, g=0;
 		while (remain>=grouphits[g] && g<grouphits.length) {
 			remain-=grouphits[g];
@@ -49,15 +50,20 @@ class ExcerptView extends React.Component {
 		}
 		return hl;
 	}	
+	openAddress(addr,now){
+		this.props.readText(addr,now);
+	}
 	renderItem(item,key){
 		const cor=openCorpus(this.props.activeCorpus);
 		const start=this.props.excerpt.batch*this.props.excerpt.hitperbatch;
 		const n=start+key;
 		const first=(this.props.excerpt.now%this.props.excerpt.hitperbatch)==0;
 		const {grouphit,address,title}=this.excerptTitle(cor,n);
+		
+
 		const header=(title!==prevtitle)? title:"";
 		prevtitle=title;
-
+		const now=this.props.excerpt.now;
 		const seq=this.getSeqOfBook(this.props.searchresult.grouphits,n);
 		const scrollto=this.props.excerpt.now==n;
 		var obj={};
@@ -65,10 +71,12 @@ class ExcerptView extends React.Component {
 
 		const hits=this.highlights(cor,this.props.excerpt.excerpts[key]);
 
-		return E(ExcerptLine,Object.assign(obj,item,{key,seq,header,address,grouphit,scrollto,hits}));
+		return E(ExcerptLine,Object.assign(obj,item,
+			{openAddress:this.openAddress.bind(this),key,now,n,seq,header,address,grouphit,scrollto,hits}));
 	}
 	excerptTitle(cor,n){
 		const searchresult=this.props.searchresult;
+		if (!searchresult.matches)return {};
 		const tpos=searchresult.matches[n];
 		const address=cor.fromTPos(tpos).kpos[0];
 		if (address) {

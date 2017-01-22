@@ -6,7 +6,7 @@ const {openCorpus}=require("ksana-corpus");
 const {_filterMatch}=require("./filter");
 
 const kcs=require("ksana-corpus-search");
-
+var searching=false;
 function _search(corpus,q,dispatch,getState,cb){
   if (!corpus)return;
   var searchtimer=setInterval(()=>{
@@ -14,7 +14,7 @@ function _search(corpus,q,dispatch,getState,cb){
   	const cor=openCorpus(corpus);
   	if (!cor) return;
 
-    if (getState().searchresult.searching) {
+    if (searching) {
       console.log("wait searching",getState().searchresult.q);
       return;
     }
@@ -22,6 +22,7 @@ function _search(corpus,q,dispatch,getState,cb){
     dispatch({type:SEARCHING,corpus,q});
 
     kcs.search(cor,q,function(result){
+
     	const {matches,phrasepostings,timer}=result;
       
       const exclude=(getState().filters[corpus]||{}).exclude;
@@ -31,10 +32,10 @@ function _search(corpus,q,dispatch,getState,cb){
 
       dispatch({type:SEARCH_DONE, corpus, q , 
         matches,phrasepostings,timer, grouphits , filtered});
-      
+      searching=false;
       cb&&cb();
     });
-  },10);
+  },50);
 }
 
 function search(q) {

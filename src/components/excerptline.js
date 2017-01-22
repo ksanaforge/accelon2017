@@ -10,13 +10,17 @@ const styles={
 	table:{width:"100%"},
 	grouphit:{color:"red"},
 	seq:{marginLeft:3},
-	pb:{},
+	pbnow:{backgroundColor:"yellow"},
+	pb:{cursor:"pointer"},
 	highlight:{background:"pink"},
 	header:{background:"lightblue"}
 }
 class ExcerptLine extends React.Component {
 	highlightText(text,hits){
     return renderHits(text,hits, (o,t)=> E("span",o,t) )
+	}
+	openAddress(){
+		this.props.openAddress(this.props.address,this.props.n);
 	}
 	render() {
 		var pb=this.props.address;
@@ -29,12 +33,12 @@ class ExcerptLine extends React.Component {
 				,")"
 			)
 			:null
-
 			,E("table",{style:styles.table},
 				E("tbody",{},
 				E("tr",{style:styles.tr},
 					E("td",{},E("span",{style:styles.seq},this.props.seq+1)),
-					E("td",{style:styles.pb},pb),
+					E("td",{},E("a",{onClick:this.openAddress.bind(this)},
+						E("span",{style:this.props.n==this.props.now?styles.pbnow:styles.pb},pb))),
 					E("td",{style:styles.text}, this.highlightText(this.props.text,this.props.hits))
 				)
 				)
