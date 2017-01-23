@@ -13,8 +13,9 @@ const maxbutton=10;
 class ExcerptNav extends React.Component {
 	calbatch(){
 		if(!this.props.count) return null;
+
 		var batchcount=Math.floor(this.props.count/this.props.hitperbatch);
-		if (batchcount*this.props.hitperbatch>this.props.count) batchcount++;
+		if (batchcount*this.props.hitperbatch<this.props.count) batchcount++;
 		var remain=maxbutton;
 		var start=this.props.batch||0 ,end=this.props.batch||0;
 		while ( remain ) {

@@ -34,7 +34,8 @@ const _showExcerpt=function(now,dispatch,getState){
 
 	for (let i=0;i<hitperbatch;i++) {
 		const at=hitperbatch*batch+i;		
-		tpos.push(hits[at]);
+		if (hits[at]) tpos.push(hits[at]);
+		else break;
 	}
 	const line=excerptstate.excerptline;
 	fetchExcerpts(cor,{tpos,line,phrasepostings:searchstate.phrasepostings},function(excerpts){

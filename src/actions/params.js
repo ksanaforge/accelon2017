@@ -51,7 +51,7 @@ const readText=function(a,n){
 }
 const groupByBook=function(){
 	return (dispatch,getState) =>{
-		dispatch(setParams({m:BOOKRESULT}));
+		dispatch(setParams({m:BOOKRESULT,n:0}));
 	}		
 }
 module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setMode,selectBook,groupByBook

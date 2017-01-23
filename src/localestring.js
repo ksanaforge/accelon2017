@@ -11,7 +11,8 @@ const stringtable={
 	["Select Book","選書"],
 	["Group By Book","檢索所得"],
 	["View Excerpt","摘要瀏覽"],
-	["Read Text","閱讀內文"]
+	["Read Text","閱讀內文"],
+	["Matches","筆數"]
 	]
 }
 for (var locale in stringtable) {
