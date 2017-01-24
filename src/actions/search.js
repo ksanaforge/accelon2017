@@ -20,7 +20,7 @@ function _search(corpus,q,dispatch,getState,cb){
     }
     clearInterval(searchtimer);
     dispatch({type:SEARCHING,corpus,q});
-
+    
     kcs.search(cor,q,function(result){
 
     	const {matches,phrasepostings,timer}=result;

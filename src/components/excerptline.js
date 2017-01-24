@@ -23,7 +23,7 @@ class ExcerptLine extends React.Component {
 		this.props.openAddress(this.props.address,this.props.n);
 	}
 	render() {
-		var pb=this.props.address;
+		var pb=this.props.address||"";
 		pb=pb.substr(pb.indexOf("p")+1).replace(".","-");
 		return E("div",{},
 			this.props.header?E("div",{style:this.props.highlight?styles.highlight:styles.header},

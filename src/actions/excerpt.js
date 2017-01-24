@@ -38,6 +38,7 @@ const _showExcerpt=function(now,dispatch,getState){
 		else break;
 	}
 	const line=excerptstate.excerptline;
+
 	fetchExcerpts(cor,{tpos,line,phrasepostings:searchstate.phrasepostings},function(excerpts){
 		_updateParams({n:now,a:""},dispatch,getState);
 		dispatch({type:SHOW_EXCERPT, excerpts, hitperbatch, batch, now });

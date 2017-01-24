@@ -13,7 +13,7 @@ const styles={
 var prevtitle="";
 class ExcerptView extends React.Component {
 	getSeqOfBook(grouphits,now){
-		if (!grouphits)return;
+		if (!grouphits)return 0;
 		var remain=now,acc=0, g=0;
 		while (remain>=grouphits[g] && g<grouphits.length) {
 			remain-=grouphits[g];
@@ -32,20 +32,24 @@ class ExcerptView extends React.Component {
 		return linelengths;
 	}
 	highlights(cor,excerpt){
+		if (!this.props.searchresult.phrasepostings) return [];
 		const linebreaks=excerpt.linebreaks;
 		const getrawline=(line)=>excerpt.rawtext[line] ;
 		const linelengths=this.buildlinelengths(excerpt.rawtext);
 		var hl=[];
+
 		for(let j=0;j<excerpt.phrasehits.length;j++) {
 			const hits=excerpt.phrasehits[j].hits;
 			const phraselengths=this.props.searchresult.phrasepostings[j].lengths;
 			const linecharr=hits.map((hit,idx)=>{
+
 				const phraselength=phraselengths[idx]||phraselengths;//should be kpos width
 				const range=cor.makeKRange(hit,hit+phraselength);
+
 				var {start,end}=cor.toLogicalRange(excerpt.linebreaks,range,getrawline);
-				const absstart=linelengths[start.line]+start.ch;
-				const len=linelengths[end.line]+end.ch - absstart;
-				hl.push([absstart,len,0]);
+				const absstart=linelengths[start.line]+start.ch +start.line //for linefeed ;
+				const absend=linelengths[end.line]+end.ch + end.line ;
+				hl.push([absstart,absend-absstart,0]);
 			});
 		}
 		return hl;
@@ -70,9 +74,10 @@ class ExcerptView extends React.Component {
 		if (scrollto && !first) obj.ref="scrollto"; //no need to scroll if first item is highlighted
 
 		const hits=this.highlights(cor,this.props.excerpt.excerpts[key]);
-
+		
 		return E(ExcerptLine,Object.assign(obj,item,
-			{openAddress:this.openAddress.bind(this),key,now,n,seq,header,address,grouphit,scrollto,hits}));
+			{openAddress:this.openAddress.bind(this),key,now,n,seq,header,
+				address:address||"",grouphit,scrollto,hits}));
 	}
 	excerptTitle(cor,n){
 		const searchresult=this.props.searchresult;

@@ -6,7 +6,9 @@
   "single-instance":true,
 	"scripts": {
   	"start": "watchify src/index.js -o static/bundle.js -dv -p livereactload -u react-native -x react -x react-dom -x ksana-codemirror -x codemirror",
-  	"build": "browserify src/index.js -t [ babelify --presets es2015 ]  -u react-native -x ksana-codemirror -x codemirror  -x react -x react-dom  | uglifyjs --screw-ie8 -c=dead_code,evaluate,loops,unused -m > static/bundle.js"
+  	"build": "browserify src/index.js -t [ babelify --presets es2015 ]  -u react-native -x ksana-codemirror -x codemirror  -x react -x react-dom  | uglifyjs --screw-ie8 -c=dead_code,evaluate,loops,unused -m > static/bundle.js",
+    "debugbuild": "browserify src/index.js -t [ babelify --presets es2015 ]  -u react-native -x ksana-codemirror -x codemirror  -x react -x react-dom > static/bundle.js"
+
 	 },
   "dependencies": {
   	"ksana2015-breadcrumbtoc":"https://github.com/ksanaforge/ksana2015-breadcrumbtoc.git",
