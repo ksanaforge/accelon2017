@@ -12,6 +12,12 @@ body {margin:0px}
 .filterlabel {color:lightblue;cursor:pointer}
 .filterlabel:hover {text-decoration:underline;}
 .dicthandle{position: absolute;right:0;cursor: pointer;top:-1em;}
+
+.CodeMirror-linewidget {overflow:visible;}
+.pb {border-top:1px solid gray; text-align:right; width:95%;height:1px}
+.pblabel {position:absolute;color:silver;top:-0.5em;font-size:80%;font-weight: 200;font-family: Arial}
+
+
 .cm-s-ambiance.CodeMirror {
   line-height: 1.50em;
   font-size:120%;
@@ -100,3 +106,5 @@ body {margin:0px}
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
+

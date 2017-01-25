@@ -12,7 +12,7 @@ class HomeBar extends React.Component {
 		const title=cor.meta.title;
 		return E("div",{},
 			title
-			,E("br")
+			,"　"
 			,E(SearchBox,this.props)
 			,"　"
 			,E(ModeSelector,this.props)

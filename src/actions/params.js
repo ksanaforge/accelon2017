@@ -38,6 +38,11 @@ function setQ(q){
 		dispatch(setParams({q,m}));
 	}
 }
+function setA(a){
+	return (dispatch,getState) =>{
+		dispatch(setParams({a}));
+	}	
+}
 const selectBook=function(){
 	return (dispatch,getState) =>{
 		dispatch(setParams({m:BOOKSELECTOR}));
@@ -54,5 +59,5 @@ const groupByBook=function(){
 		dispatch(setParams({m:BOOKRESULT,n:0}));
 	}		
 }
-module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setMode,selectBook,groupByBook
+module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setA,setMode,selectBook,groupByBook
 ,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW,readText}
