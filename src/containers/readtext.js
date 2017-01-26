@@ -5,13 +5,13 @@ const {openCorpus}=require("ksana-corpus");
 const {CorpusView}=require("ksana-corpus-view");
 const {ptr,def,note,link}=require("accelon2016/decorators");
 const quoteCopy=require("../unit/quotecopy");
-const fetchArticle=function(cor,address,cb){
+const {fetchArticleWithHits}=require("ksana-corpus-search");
+
+const fetchArticle=function(cor,address,searchresult,cb){
 	const article=cor.articleOf(address);
   if (article){
   	const articleFields=cor.meta.articleFields||[];
-  	//,title:cor.getTitle(address)
-
-    cor.getArticleTextTag( article.at, articleFields , (res)=>{
+    cor.getArticleTextTag(article.at , articleFields, (res)=>{
   	    cb({address,article,rawlines:res.text,fields:res.fields});
     });	
 	}
@@ -24,7 +24,7 @@ class ReadText extends React.Component {
   }
 	componentWillMount(){
 		const cor=openCorpus(this.props.activeCorpus);
-		fetchArticle(cor,this.props.params.a,(states)=>{
+		fetchArticle(cor,this.props.params.a,this.props.searchresult,(states)=>{
 			this.setState(states);
 		})
 	}
@@ -47,6 +47,7 @@ class ReadText extends React.Component {
 			fields:this.state.fields,
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
 			showPageStart:true,
+			searchresult:this.props.searchresult,
 			theme:"ambiance"
 		});
 	}
