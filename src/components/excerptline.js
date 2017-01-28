@@ -48,9 +48,9 @@ class ExcerptLine extends React.Component {
 }
 ExcerptLine.propTypes={
 	seq:PT.number.isRequired,
-	header:PT.string.isRequired,
+	header:PT.string,
 	text:PT.string.isRequired,
 	address:PT.string.isRequired,
-	grouphit:PT.number.isRequired
+	grouphit:PT.number
 }
 module.exports=ExcerptLine;
