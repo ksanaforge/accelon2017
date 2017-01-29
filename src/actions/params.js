@@ -3,6 +3,7 @@ const {packBits,unpackBits}=require("../unit/bitstr");
 const {setHashTag}=require("../unit/hashtag");
 const BOOKSELECTOR=0;
 const READTEXT=1;
+const TOCVIEW=2;
 const BOOKRESULT=10;
 const EXCERPTVIEW=11;
 var _updating=false;
@@ -60,4 +61,4 @@ const groupByBook=function(){
 	}		
 }
 module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setA,setMode,selectBook,groupByBook
-,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW,readText}
+,TOCVIEW,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW,readText}

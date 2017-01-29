@@ -5,8 +5,9 @@ const E=React.createElement;
 const HomeBar=require("./homebar");
 const BookSelector=require("./bookselector");
 const BookResult=require("./bookresult");
-const {BOOKSELECTOR,BOOKRESULT,READTEXT,EXCERPTVIEW}=require("../actions/params");
+const {BOOKSELECTOR,TOCVIEW,BOOKRESULT,READTEXT,EXCERPTVIEW}=require("../actions/params");
 const ExcerptView=require("./excerptview");
+const TOCView=require("./tocview");
 const {isUpdating}=require("../actions/params");
 const ReadText=require("./readtext");
 const styles={
@@ -39,6 +40,7 @@ class MainScreen extends React.Component{
 		switch (mode) {
 			case BOOKSELECTOR: return BookSelector;
 			case READTEXT: return ReadText;
+			case TOCVIEW: return TOCView;
 			case BOOKRESULT: return BookResult; //must have q
 			case EXCERPTVIEW: return ExcerptView;    //must have q
 		}

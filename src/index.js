@@ -15,7 +15,7 @@ const openDB=function(cb){
 		if (err) {
 			console.error("cannot open "+corpus+".cor");
 		} else {
-			console.log(db);
+			//console.log(db);
 			cb&&cb();
 		}
 	});

@@ -2,8 +2,8 @@ const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
 const styles={
-	label:{},
 	hit:{},
+	label:{cursor:"pointer"},
 	container:{whiteSpace: "break-word", display:"inline-block"}
 }
 const humanhit=function(hit){
@@ -35,7 +35,7 @@ class filterItem extends React.Component{
 		  E("span",{style:styles.container}
 		  	,"　"
 				,E("input",{type:"checkbox",checked:!this.props.exclude,onChange:this.setExclude.bind(this)})
-				,E("span",{onClick:this.labelClick.bind(this)},this.props.label)
+				,E("span",{style:styles.label,onClick:this.labelClick.bind(this)},this.props.label)
 				,E("span",{className:this.props.exclude?"disablefilterhit":"filterhit",
 					onClick:this.hitClick.bind(this)}, humanhit(this.props.hit))
 			)

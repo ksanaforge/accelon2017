@@ -11,12 +11,13 @@ const styles={
 class ModelSelector extends React.Component{
 	render(){
 		const m=this.props.params.m;
+		const hasQ=this.props.searchresult.filtered;
 		return E("span",{},
 			E("a",{style:m==BOOKSELECTOR?styles.b:styles.a,onClick:this.props.selectBook},_("Select Book")),
 			" ",
-			E("a",{style:m==BOOKRESULT?styles.b:styles.a,onClick:this.props.groupByBook},_("Group By Book")),
+			hasQ?E("a",{style:m==BOOKRESULT?styles.b:styles.a,onClick:this.props.groupByBook},_("Group By Book")):null,
 			" ",
-			E("a",{style:m==EXCERPTVIEW?styles.b:styles.a,onClick:this.props.showExcerpt},_("View Excerpt")),
+			hasQ?E("a",{style:m==EXCERPTVIEW?styles.b:styles.a,onClick:this.props.showExcerpt},_("View Excerpt")):null,
 			" ",
 			m==READTEXT?E("span",{style:styles.b},_("Read Text")):null
 		)

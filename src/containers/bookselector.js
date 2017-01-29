@@ -3,6 +3,7 @@ const E=React.createElement;
 const PT=React.PropTypes;
 const {openCorpus}=require("ksana-corpus");
 const filterItem=require("../components/filteritem");
+const {TOCVIEW}=require("../actions/params");
 const {_}=require("ksana-localization");
 const styles={
 	container:{overflowY:"auto"},
@@ -13,12 +14,8 @@ class RangeSelector extends React.Component {
 	setExclude(group,value){
 		this.props.setExclude(group,value);
 	}
-
 	goGroup(group){
-		const cor=openCorpus(this.props.activeCorpus);
-		const groupKPoss=cor.groupKPoss();
-		const kpos=groupKPoss[group];
-		this.props.updateArticleByAddress(kpos);
+		this.props.setParams({m:TOCVIEW,g:group});
 	}
 	firstOccurOfGroup(group){
 		var first=0;
