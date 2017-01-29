@@ -11,6 +11,10 @@ body {margin:0px}
 .disablefilterhit {color:#ff7f7f;font-size:75%}
 .filterlabel {color:lightblue;cursor:pointer}
 .filterlabel:hover {text-decoration:underline;}
+
+.toclabel {cursor:pointer}
+.toclabel:hover {border-bottom:1px solid blue}
+
 .dicthandle{position: absolute;right:0;cursor: pointer;top:-1em;}
 
 .hitbuttongroup {position: absolute;top:-1.2em;}
