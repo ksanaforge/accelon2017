@@ -1,6 +1,7 @@
 const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
+const {_}=require("ksana-localization");
 class SearchBox extends React.Component {
 	constructor(props){
 		super(props)
@@ -28,7 +29,7 @@ class SearchBox extends React.Component {
 		return E("span",{},
 			E("input",{ref:this.setRef.bind(this),value:this.state.q,
 				onChange:this.onChange.bind(this),onKeyPress:this.onKeyPress.bind(this)})
-			,E("button",{onClick:this.search.bind(this)},"檢索")
+			,E("button",{onClick:this.search.bind(this)},_("Search"))
 		)
 	}
 };

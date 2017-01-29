@@ -5,12 +5,14 @@ const SearchBox=require("./searchbox");
 const SearchOptions=require("./searchoptions");
 const ModeSelector=require("./modeselector");
 const {openCorpus}=require("ksana-corpus");
-
+const styles={
+	container:{background:"#E0E0E0"}
+}
 class HomeBar extends React.Component {
 	render(){
 		const cor=openCorpus(this.props.activeCorpus);
 		const title=cor.meta.title;
-		return E("div",{},
+		return E("div",{style:styles.container},
 			title
 			,"　"
 			,E(SearchBox,this.props)

@@ -10,6 +10,8 @@ const ExcerptView=require("./excerptview");
 const TOCView=require("./tocview");
 const {isUpdating}=require("../actions/params");
 const ReadText=require("./readtext");
+const Footer=require("../components/footer");
+
 const styles={
 	body:{overflowY:"auto",height:"96%"}
 }
@@ -46,12 +48,25 @@ class MainScreen extends React.Component{
 		}
 		return BookSelector;
 	}
+	getBodyRef(ref) {
+		this.bodyref=ref;
+	}
+	componentDidUpdate(){
+		this.bodyref.scrollTop=0;
+	}
+	showFooter(){
+		const mode=parseInt(this.props.params.m);
+		return (mode!==READTEXT)?E(Footer):null;
+	}
 	render(){
 		return E("div",{}
 			,E(HomeBar,this.props)
-			,E("div",{style:styles.body},
+
+			,E("div",{style:styles.body,ref:this.getBodyRef.bind(this)},
 				E(this.getBody(this.props.params.m),this.props)
+				,this.showFooter()
 			)
+			
 		)
 	}
 };

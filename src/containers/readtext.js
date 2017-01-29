@@ -33,7 +33,6 @@ class ReadText extends React.Component {
 		const addressH=cor.stringify(address);
 		this.props.setA(addressH);
 	}
-
 	render(){
 		if (!this.state.article) {
 			return E("div",{},"loading");

@@ -1,7 +1,7 @@
 const localization=require("ksana-localization");
 const stringtable={
 "zh.tw":[
-	["search","搜尋"],
+	["Search","搜尋"],
 	["toc","目錄"],
 	["dictionary","詞典"],
 	["config","設定"],
@@ -15,6 +15,7 @@ const stringtable={
 	["Matches","筆數"],
 	["Prev Hit","上一個"],
 	["Next Hit","下一個"],
+	["Page Number","頁碼"]
 	]
 }
 for (var locale in stringtable) {
