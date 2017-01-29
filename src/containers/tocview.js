@@ -18,7 +18,7 @@ class TOCView extends React.Component {
 	componentDidMount(){
 		const cor=openCorpus(this.props.activeCorpus);
 		this.cor=cor;
-		const group=parseInt(this.props.params.g)||0;
+		const group=(parseInt(this.props.params.g)-1)||0;
 		cor.getGroupTOC(group,function(toc){
 			this.setState({toc});
 		}.bind(this));

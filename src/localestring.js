@@ -15,7 +15,8 @@ const stringtable={
 	["Matches","筆數"],
 	["Prev Hit","上一個"],
 	["Next Hit","下一個"],
-	["Page Number","頁碼"]
+	["Page Number","頁碼"],
+	["TOC View","目錄"]
 	]
 }
 for (var locale in stringtable) {

@@ -15,7 +15,7 @@ class RangeSelector extends React.Component {
 		this.props.setExclude(group,value);
 	}
 	goGroup(group){
-		this.props.setParams({m:TOCVIEW,g:group});
+		this.props.setParams({m:TOCVIEW,g:group+1});
 	}
 	firstOccurOfGroup(group){
 		var first=0;

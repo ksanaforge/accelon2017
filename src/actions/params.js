@@ -46,7 +46,7 @@ function setA(a){
 }
 const selectBook=function(){
 	return (dispatch,getState) =>{
-		dispatch(setParams({m:BOOKSELECTOR}));
+		dispatch(setParams({m:BOOKSELECTOR,g:0}));
 	}		
 }
 const readText=function(a,n){
@@ -57,7 +57,7 @@ const readText=function(a,n){
 }
 const groupByBook=function(){
 	return (dispatch,getState) =>{
-		dispatch(setParams({m:BOOKRESULT,n:0}));
+		dispatch(setParams({m:BOOKRESULT,n:0,g:0}));
 	}		
 }
 module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setA,setMode,selectBook,groupByBook

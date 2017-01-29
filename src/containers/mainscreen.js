@@ -35,16 +35,14 @@ class MainScreen extends React.Component{
 	}
 
 	getBody(mode){
-		if (!this.props.params.q) {
-			return BookSelector;
-		}
+		const q=this.props.params.q;
 		mode=parseInt(mode);
 		switch (mode) {
 			case BOOKSELECTOR: return BookSelector;
 			case READTEXT: return ReadText;
 			case TOCVIEW: return TOCView;
-			case BOOKRESULT: return BookResult; //must have q
-			case EXCERPTVIEW: return ExcerptView;    //must have q
+			case BOOKRESULT: return q?BookResult:BookSelector;
+			case EXCERPTVIEW: return q?ExcerptView:BookSelector;
 		}
 		return BookSelector;
 	}
@@ -61,7 +59,6 @@ class MainScreen extends React.Component{
 	render(){
 		return E("div",{}
 			,E(HomeBar,this.props)
-
 			,E("div",{style:styles.body,ref:this.getBodyRef.bind(this)},
 				E(this.getBody(this.props.params.m),this.props)
 				,this.showFooter()
