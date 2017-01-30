@@ -101,6 +101,9 @@ class ExcerptView extends React.Component {
 		const hitperbatch=this.props.excerpt.hitperbatch;
 		this.props.showExcerpt(batch*hitperbatch);
 	}	
+	setExtra(extra){
+		this.props.setParams({e:extra});
+	}
 	render(){
 		prevtitle="";
 		const searchresult=this.props.searchresult;
@@ -118,7 +121,8 @@ class ExcerptView extends React.Component {
 
 		return E("div",{style:styles.container},
 				E(ExcerptNav,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
-				E(ExcerptSetting,{extraline:parseInt(this.props.params.e,10)||3}),
+				E(ExcerptSetting,{setExtra:this.setExtra.bind(this),
+					extraline:parseInt(this.props.params.e,10)||0}),
 				excerpts.map(this.renderItem.bind(this)),
 				E(ExcerptNav,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)})
 		)

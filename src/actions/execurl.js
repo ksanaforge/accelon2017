@@ -23,10 +23,10 @@ const execURL=function() {
 			}
 
 			if (m===EXCERPTVIEW) {
-				_showExcerpt(parseInt(params.n)||0,dispatch,getState);
+				_showExcerpt(parseInt(params.n)||0,parseInt(params.e)||0,dispatch,getState);
 			}
 
-			
+
 		});
 	}
 }

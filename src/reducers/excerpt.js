@@ -18,11 +18,6 @@ module.exports=function Excerpt(state = initialState , action = {}) {
   if (SHOW_EXCERPT===action.type) {
   	return {excerpts:action.excerpts,batch:action.batch,now:action.now,
   		hitperbatch:action.hitperbatch, excerptline:action.excerptline||state.excerptline};
-  } else if (SET_EXCERPT_LINE===action.type) {
-  	if (state.excerptline!==action.excerptline) {
-  		localStorage.setItem("yinshun_excerptline",action.excerptline);
-  	}
-  	return Object.assign({},state,{excerptline:action.excerptline});
   } else {
   	return state;
   }

@@ -9,22 +9,16 @@ const kcs=require("ksana-corpus-search");
 
 const hitperbatch=20;
 
-const setExcerptLine=function(line){
-	if (!line) line=1;
-	if (line>5) line=5;
-	if (line==2||line==4) line==3;
-	return {type:SET_EXCERPT_LINE, excerptline:line};
-}
 
-
-const showExcerpt=function(now){
+const showExcerpt=function(now,extra){
 	return (dispatch,getState) =>{
 		if (typeof now!=="number") now=getState().params.n||0; //use n in url
-		_showExcerpt(now,dispatch,getState);
+		if (typeof extra!=="number") line=getState().params.e||0; //use n in url
+		_showExcerpt(now,line,dispatch,getState);
 	}
 }
 
-const _showExcerpt=function(now,dispatch,getState){
+const _showExcerpt=function(now,extra,dispatch,getState){ //line = 1,3,5
  	const cor=openCorpus(getState().activeCorpus);
 	const searchstate=getState().searchresult;
 	const hits=searchstate.matches;
@@ -37,8 +31,7 @@ const _showExcerpt=function(now,dispatch,getState){
 		if (hits[at]) tpos.push(hits[at]);
 		else break;
 	}
-	const line=excerptstate.excerptline;
-
+	var line=extra==0?3:extra;
 	fetchExcerpts(cor,{tpos,line,phrasepostings:searchstate.phrasepostings},function(excerpts){
 		_updateParams({n:now,a:""},dispatch,getState);
 		dispatch({type:SHOW_EXCERPT, excerpts, hitperbatch, batch, now });
@@ -46,5 +39,5 @@ const _showExcerpt=function(now,dispatch,getState){
 	});
 }
 
-module.exports={showExcerpt,_showExcerpt,SHOW_EXCERPT,SET_EXCERPT_LINE,hitperbatch,setExcerptLine};
+module.exports={showExcerpt,_showExcerpt,SHOW_EXCERPT,SET_EXCERPT_LINE,hitperbatch};
 
