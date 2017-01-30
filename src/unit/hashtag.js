@@ -9,7 +9,11 @@ const parseRoute=function(route){
 }
 
 const setHashTag=function(newparams){
-	var params=parseRoute(window.location.hash);
+	var hash=window.location.hash;
+	if (hash.match(/%[0-9A-Fa-f]/)) {
+		hash=decodeURIComponent(hash);
+	}
+	var params=parseRoute(hash);
 	var key;
 	for (key in newparams) {
 		params[key]=newparams[key];

@@ -41,7 +41,7 @@ class ExcerptNav extends React.Component {
 		return out;
 	}
 	render(){
-		return E("div",{style:styles.container},
+		return E("span",{style:styles.container},
 			this.renderPager()
 		);
 	}

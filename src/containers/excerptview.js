@@ -5,6 +5,7 @@ const E=React.createElement;
 const {openCorpus}=require("ksana-corpus");
 const ExcerptLine=require("../components/excerptline");
 const ExcerptNav=require("./excerptnav");
+const ExcerptSetting=require("./excerptsetting");
 
 const styles={
 	container:{},
@@ -117,6 +118,7 @@ class ExcerptView extends React.Component {
 
 		return E("div",{style:styles.container},
 				E(ExcerptNav,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
+				E(ExcerptSetting,{extraline:parseInt(this.props.params.e,10)||3}),
 				excerpts.map(this.renderItem.bind(this)),
 				E(ExcerptNav,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)})
 		)

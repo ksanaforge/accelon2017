@@ -8,7 +8,11 @@ const {SET_PARAMS}=require("../actions/params");
 const execURL=function() {
 	return (dispatch,getState) =>{
 
-		const params=parseRoute(window.location.hash);
+		var hash=window.location.hash;
+		if (hash.match(/%[0-9A-Fa-f]/)) {
+			hash=decodeURIComponent(hash);
+		}
+		const params=parseRoute(hash);
 		const p=getState().params;
 		const m=parseInt(params.m);
 		_search(getState().activeCorpus,params.q||"",dispatch,getState,function(){
@@ -21,6 +25,8 @@ const execURL=function() {
 			if (m===EXCERPTVIEW) {
 				_showExcerpt(parseInt(params.n)||0,dispatch,getState);
 			}
+
+			
 		});
 	}
 }
