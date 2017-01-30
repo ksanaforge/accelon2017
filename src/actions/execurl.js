@@ -16,17 +16,13 @@ const execURL=function() {
 		const p=getState().params;
 		const m=parseInt(params.m);
 		_search(getState().activeCorpus,params.q||"",dispatch,getState,function(){
-
 			dispatch(Object.assign({type:SET_PARAMS},params));
 			if (params.ex && params.ex!==p.ex) {
 				setExcludeByStr(params.ex,dispatch,getState);
 			}
-
 			if (m===EXCERPTVIEW) {
 				_showExcerpt(parseInt(params.n)||0,parseInt(params.e)||0,dispatch,getState);
 			}
-
-
 		});
 	}
 }

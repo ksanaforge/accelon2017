@@ -17,7 +17,9 @@ const stringtable={
 	["Next Hit","下一個"],
 	["Page Number","頁碼"],
 	["TOC View","目錄"],
-	["Extra Line","摘要行"]
+	["Extra Line","摘要行"],
+	["Prev Fascicle","上卷"],
+	["Next Fascicle","下卷"],
 	]
 }
 for (var locale in stringtable) {

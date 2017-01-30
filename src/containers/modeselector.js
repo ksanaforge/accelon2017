@@ -4,7 +4,7 @@ const PT=React.PropTypes;
 const {_}=require("ksana-localization");
 const {openCorpus}=require("ksana-corpus");
 const {BOOKSELECTOR,TOCVIEW,READTEXT,BOOKRESULT,EXCERPTVIEW}=require("../actions/params");
-
+const GroupNav=require("./groupnav");
 const styles={
 	a:{cursor:"pointer"},
 	b:{pointerEvents:"none",color:"black"}
@@ -19,7 +19,6 @@ class ModelSelector extends React.Component{
 		const hasQ=this.props.searchresult.filtered && this.props.params.q;
 		const cor=openCorpus(this.props.activeCorpus);
 
-		const groupname=this.props.params.a?cor.getGroupName(this.props.params.a):"";
 		return E("span",{},
 			E("a",{style:m==BOOKSELECTOR?styles.b:styles.a,onClick:this.props.selectBook},_("Select Book")),
 			" ",
@@ -29,7 +28,7 @@ class ModelSelector extends React.Component{
 			" ",
 			hasQ?E("a",{style:m==EXCERPTVIEW?styles.b:styles.a,onClick:this.props.showExcerpt},_("Excerpt")):null,
 			" ",
-			m==READTEXT?E("span",{style:styles.b},groupname):null
+			m==READTEXT?E(GroupNav,{setA:this.props.setA,address:this.props.params.a,corpus:this.props.activeCorpus}):null
 		)
 	}
 }

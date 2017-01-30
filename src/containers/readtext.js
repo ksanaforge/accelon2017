@@ -9,6 +9,7 @@ const quoteCopy=require("../unit/quotecopy");
 const {_updateParams}=require("../actions/params");
 const {fetchArticleWithHits}=require("ksana-corpus-search");
 const TOCNav=require("../components/tocnav");
+
 const fetchArticle=function(cor,address,searchresult,cb){
 	const article=cor.articleOf(address);
   if (article){
@@ -30,11 +31,21 @@ class ReadText extends React.Component {
   	const kpos=this.getCaretKPos();
     this.state= {article:null,kpos};
   }
-	componentWillMount(){
+  fetch(){
 		const cor=openCorpus(this.props.activeCorpus);
 		fetchArticle(cor,this.props.params.a,this.props.searchresult,(states)=>{
 			if (!this._unmounted) this.setState(states);
-		})
+		})  	
+  }
+  componentWillReceiveProps(nextProps) {
+		const cor=openCorpus(this.props.activeCorpus);
+  	if(cor.articleOf(this.props.params.a)!==cor.articleOf(nextProps.params.a)) {
+  		this.fetch();
+  	}
+  }
+	componentWillMount(){
+		const cor=openCorpus(this.props.activeCorpus);
+		this.fetch();
 	}
 	componentWillUnmount(){
 		this._unmounted=false;
@@ -53,7 +64,7 @@ class ReadText extends React.Component {
 		const cor=openCorpus(this.props.activeCorpus);
 		const addressH=cor.stringify(kpos);
 		this.props.setA(addressH);
-		this.setState({kpos});
+		if (!this._unmounted) this.setState({kpos});
 	}
 	render(){
 		if (!this.state.article) {
