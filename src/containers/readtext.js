@@ -4,7 +4,9 @@ const E=React.createElement;
 const {openCorpus}=require("ksana-corpus");
 const {CorpusView}=require("ksana-corpus-view");
 const {ptr,def,note,link}=require("accelon2016/decorators");
+const figure=require("../decorators/figure");
 const quoteCopy=require("../unit/quotecopy");
+const {_updateParams}=require("../actions/params");
 const {fetchArticleWithHits}=require("ksana-corpus-search");
 const TOCNav=require("../components/tocnav");
 const fetchArticle=function(cor,address,searchresult,cb){
@@ -31,8 +33,11 @@ class ReadText extends React.Component {
 	componentWillMount(){
 		const cor=openCorpus(this.props.activeCorpus);
 		fetchArticle(cor,this.props.params.a,this.props.searchresult,(states)=>{
-			this.setState(states);
+			if (!this._unmounted) this.setState(states);
 		})
+	}
+	componentWillUnmount(){
+		this._unmounted=false;
 	}
 	updateArticleByAddress(address){
 		const cor=openCorpus(this.props.activeCorpus);
@@ -44,7 +49,10 @@ class ReadText extends React.Component {
 		const r=cor.parseRange(this.props.params.a);
 		return r.start;
 	}
-	onCursorActivity(cm,kpos) {
+	onCursorActivity(cm,kpos) {		
+		const cor=openCorpus(this.props.activeCorpus);
+		const addressH=cor.stringify(kpos);
+		this.props.setA(addressH);
 		this.setState({kpos});
 	}
 	render(){
@@ -58,7 +66,7 @@ class ReadText extends React.Component {
 				E("div",{style:styles.nav},E(TOCNav,navprops)))
 
 			,E(CorpusView,{address:this.props.params.a,
-			decorators:{ptr,def,note,link},
+			decorators:{ptr,def,note,link,figure},
 			corpus:this.props.activeCorpus,
 			article:this.state.article,
 			rawlines:this.state.rawlines,
@@ -68,7 +76,7 @@ class ReadText extends React.Component {
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
 			showPageStart:true,
 			searchresult:this.props.searchresult,
-			theme:"ambiance"
+			//theme:"ambiance"
 			})
 		);
 	}

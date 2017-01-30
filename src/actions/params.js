@@ -16,7 +16,7 @@ function setParams(params){
 	return Object.assign({type:"SET_PARAMS"},params);
 }
 
-function _updateParams(params,dispatch,getState) {
+function _updateParams(params) {
 	_updating=true;
 	setHashTag(params);
 	setTimeout(function(){
