@@ -13,7 +13,7 @@ const ReadText=require("./readtext");
 const Footer=require("../components/footer");
 
 const styles={
-	body:{overflowY:"auto",height:"96%"}
+	body:{overflowY:"auto",height:"96%",overflowX:"hidden"}
 }
 class MainScreen extends React.Component{
   constructor(props) {

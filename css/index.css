@@ -22,7 +22,7 @@ body {margin:0px}
   cursor:pointer;background: rgba(127,127,255,127)}
 
 .CodeMirror-linewidget {overflow:visible;}
-.pb {border-top:1px solid gray; text-align:right; width:95%;height:1px}
+.pb {border-top:0.5px solid gray; text-align:right; width:95%;height:1px}
 .pblabel {position:absolute;color:silver;top:-0.5em;font-size:80%;font-weight: 200;font-family: Arial}
 
 
