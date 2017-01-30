@@ -18,7 +18,8 @@ class TOCView extends React.Component {
 	componentDidMount(){
 		const cor=openCorpus(this.props.activeCorpus);
 		this.cor=cor;
-		const group=(parseInt(this.props.params.g)-1)||0;
+		const group=cor.groupOf(this.props.params.a);
+
 		cor.getGroupTOC(group,function(toc){
 			this.setState({toc});
 		}.bind(this));
@@ -40,7 +41,7 @@ class TOCView extends React.Component {
 	}
 	render(){
 		if (!this.state.toc) return E("div",{},"loading toc");
-		const group=parseInt(this.props.params.g)||0;
+		const group=this.cor.groupOf(this.props.params.a);
 		const range=this.cor.groupKRange(group);
 
 		return E("div",{},

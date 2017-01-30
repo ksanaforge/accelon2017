@@ -48,10 +48,10 @@ body {margin:0px}
 
 
 .notelink {font-size:0.6em;cursor:pointer;
-	top:1.1em;color:lightblue;position:absolute;
+	top:1.1em;color:blue;position:absolute;
 }
 
-.link {border-bottom:solid 1px lightblue;cursor:pointer;}
+.link {border-bottom:solid 1px blue;cursor:pointer;}
 
 .note {font-size:0.6em;cursor:pointer;
 	top:-1.1em;color:black;position:absolute;}

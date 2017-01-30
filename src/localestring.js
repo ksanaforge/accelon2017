@@ -10,7 +10,7 @@ const stringtable={
 	["Deselect All","全不選"],
 	["Select Book","選書"],
 	["Group By Book","檢索所得"],
-	["View Excerpt","摘要瀏覽"],
+	["Excerpt","摘要"],
 	["Read Text","閱讀內文"],
 	["Matches","筆數"],
 	["Prev Hit","上一個"],
