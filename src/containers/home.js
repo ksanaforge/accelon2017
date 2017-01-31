@@ -14,6 +14,7 @@ const FilterActions=require('../actions/filter');
 const GroupingActions=require('../actions/grouping');
 const ExcerptActions=require('../actions/excerpt');
 const ExecURLActions=require('../actions/execurl');
+const SelectionActions=require('../actions/selection');
 
 function mapStateToProps(state) {
   return {
@@ -22,7 +23,8 @@ function mapStateToProps(state) {
   	filters:state.filters,
   	filter:state.filters[state.activeCorpus]||{exclude:[],hits:[]},
   	excerpt:state.excerpt,
-  	searchresult:state.searchresult
+  	searchresult:state.searchresult,
+  	selection:state.selection
   };
 }
 
@@ -33,9 +35,10 @@ function mapDispatchToProps(dispatch) {
   const boundfilter= bindActionCreators(FilterActions, dispatch);
   const boundexcerpt= bindActionCreators(ExcerptActions, dispatch);
   const boundexecurl= bindActionCreators(ExecURLActions, dispatch);
+  const boundselection=bindActionCreators(SelectionActions, dispatch);
 
 	const bound=Object.assign({},boundsearch,boundparams,boundgrouping,
-		boundfilter,boundexcerpt,boundexecurl);
+		boundfilter,boundexcerpt,boundexecurl,boundselection);
 	return bound;  
 }
 
