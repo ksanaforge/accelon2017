@@ -9,8 +9,9 @@ const styles={
 	container:{overflowY:"auto"},
 	btn:{marginLeft:"10px"}
 }
+const BookCategorySelector=require("./bookcategoryselector");
 
-class RangeSelector extends React.Component {
+class BookSelector extends React.Component {
 	setExclude(group,value){
 		this.props.setExclude(group,value);
 	}
@@ -29,10 +30,6 @@ class RangeSelector extends React.Component {
 		}
 		return first;
 	}
-	goHit(group){
-		const occur=this.firstOccurOfGroup(group);
-		this.props.goOccur(occur);
-	}	
 	rendergroup(g,key){
 		var hit=0;
 		if (this.props.showHit) {
@@ -48,7 +45,7 @@ class RangeSelector extends React.Component {
 		const hint=g.replace(/.*;/,"");
 		const label=hint;//g.replace(/;.*/,"");
 		return E(filterItem,{label,hit,exclude,key,br,idx:key,hint,idx:key,
-			setExclude:this.setExclude.bind(this),goGroup:this.goGroup.bind(this),goHit:this.goHit.bind(this)});
+			setExclude:this.setExclude.bind(this),goGroup:this.goGroup.bind(this)});
 	}
 	selectall(){
 		this.props.includeAll();
@@ -58,7 +55,10 @@ class RangeSelector extends React.Component {
 	}
 	render(){
 		if (!this.props.activeCorpus) return E("div",{},"no active corpus");
-		const cor=openCorpus(this.props.activeCorpus);		
+		const cor=openCorpus(this.props.activeCorpus);
+		if (cor.meta.groupPrefix) {
+			return E(BookCategorySelector,this.props);
+		}
 		const groupNames=cor.groupNames();
 		return E("div",{style:styles.container},
 			E("button",{style:styles.btn,onClick:this.selectall.bind(this)},_("Select All")),
@@ -66,8 +66,8 @@ class RangeSelector extends React.Component {
 			groupNames.map(this.rendergroup.bind(this)));	
 	}
 };
-RangeSelector.propTypes={
+BookSelector.propTypes={
 		filter:PT.object.isRequired,
 		activeCorpus:PT.string.isRequired
 }
-module.exports=RangeSelector;
+module.exports=BookSelector;

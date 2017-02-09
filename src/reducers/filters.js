@@ -14,11 +14,18 @@ module.exports=function articlegroup(state = {} , action = {}) {
 		newstate=Object.assign({},newstate,{[A.corpus]:{hits,exclude}});
 	} else if (UPDATE_EXCLUDE===A.type) {
 		const exclude=newstate[A.corpus].exclude.slice();
-		exclude[A.group]=A.value;
+		if (A.group instanceof Array) {
+				for (var i=0;i<A.group.length;i++) {
+						exclude[A.group[i]]=A.value;
+				}
+		} else {
+				exclude[A.group]=A.value;			
+		}
+
 		while(exclude.length && !exclude[exclude.length-1]) exclude.pop();
 
 		const hits=newstate[A.corpus].hits;
-		newstate=Object.assign({},newstate,{[A.corpus]:{hits,exclude}});		
+		newstate=Object.assign({},newstate,{[A.corpus]:{hits,exclude}});
 	} else if (INCLUDE_ALL===A.type) {
 		const hits=newstate[A.corpus].hits;
 		newstate=Object.assign({},newstate,{[A.corpus]:{hits,exclude:[]}});

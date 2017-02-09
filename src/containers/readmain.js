@@ -5,9 +5,10 @@ const {openCorpus}=require("ksana-corpus");
 const {CorpusView}=require("ksana-corpus-view");
 const {ptr,def,note,link}=require("accelon2016/decorators");
 const figure=require("../decorators/figure");
+const kepan=require("../decorators/kepan");
 const quoteCopy=require("../unit/quotecopy");
 const {_updateParams}=require("../actions/params");
-const {fetchArticleWithHits}=require("ksana-corpus-search");
+const {getExternalField}=require("../unit/fields");
 const TOCNav=require("../components/tocnav");
 
 const fetchArticle=function(cor,address,searchresult,cb){
@@ -15,7 +16,9 @@ const fetchArticle=function(cor,address,searchresult,cb){
   if (article){
   	const articleFields=cor.meta.articleFields||[];
     cor.getArticleTextTag(article.at , articleFields, (res)=>{
-  	    cb({address,article,rawlines:res.text,fields:res.fields});
+    	const externalFields=getExternalField(cor,article);
+    	const fields=Object.assign({},res.fields,externalFields);
+  	  cb({address,article,rawlines:res.text,fields});
     });	
 	}
 }
@@ -48,7 +51,7 @@ class ReadText extends React.Component {
 		this.fetch();
 	}
 	componentWillUnmount(){
-		this._unmounted=false;
+		this._unmounted=true;
 	}
 	updateArticleByAddress(address){
 		const cor=openCorpus(this.props.activeCorpus);
@@ -77,7 +80,7 @@ class ReadText extends React.Component {
 				E("div",{style:styles.nav},E(TOCNav,navprops)))
 
 			,E(CorpusView,{address:this.props.params.a,
-			decorators:{ptr,def,note,link,figure},
+			decorators:{ptr,def,note,link,figure,kepan},
 			corpus:this.props.activeCorpus,
 			article:this.state.article,
 			rawlines:this.state.rawlines,

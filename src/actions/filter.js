@@ -28,7 +28,7 @@ const updateExcerpt=function(dispatch,getState){
 	const ex=packBits(exclude);
 	setParams({ex});
 
-
+	if (!getState().search)return;
 	const matches=getState().search.matches;
 	if (!matches) return;
 	const filtered=_filterMatch(corpus,matches,exclude);

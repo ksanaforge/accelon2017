@@ -6,6 +6,7 @@ body {margin:0px}
 .hl1 {color:lightgreen;}
 .hl2 {color:yellow;}
 
+.kepan {background:#9f9f9f;display: block;white-space: pre}
 .filterhit {color:#ff7f7f;font-size:75%;font-weight:700;cursor:pointer}
 .filterhit:hover {text-decoration:underline;color:red;}
 .disablefilterhit {color:#ff7f7f;font-size:75%}

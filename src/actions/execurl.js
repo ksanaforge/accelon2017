@@ -4,6 +4,7 @@ const {parseRoute}=require("../unit/hashtag");
 const {TOCVIEW,EXCERPTVIEW}=require("./params");
 const {_search}=require("./search");
 const {SET_PARAMS}=require("../actions/params");
+const {setActiveCorpus}=require("../actions/corpus");
 
 const execURL=function() {
 	return (dispatch,getState) =>{
@@ -14,7 +15,13 @@ const execURL=function() {
 		}
 		const params=parseRoute(hash);
 		const p=getState().params;
-		const m=parseInt(params.m);
+		const m=parseInt(params.m)||0;
+
+		const corpus=params.c;
+		if (params.c!==p.corpus) {
+			dispatch(setActiveCorpus(params.c));
+		}
+
 		_search(getState().activeCorpus,params.q||"",dispatch,getState,function(){
 			dispatch(Object.assign({type:SET_PARAMS},params));
 			if (params.ex && params.ex!==p.ex) {

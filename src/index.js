@@ -9,13 +9,12 @@ const store = configureStore();
 const ksanacorpus=require("ksana-corpus");
 require("./localestring");
 
-const openDB=function(cb){
-	const corpus=store.getState().activeCorpus;
+const openDB=function(cb,corpus){
+	corpus=corpus||store.getState().activeCorpus;
 	ksanacorpus.openCorpus(corpus,function(err,db){
 		if (err) {
 			console.error("cannot open "+corpus+".cor");
 		} else {
-			//console.log(db);
 			cb&&cb();
 		}
 	});
@@ -26,5 +25,6 @@ const renderPage=function(){
 	  document.getElementById('root')
 	)
 }
-
-openDB(renderPage);
+openDB(function(){
+	openDB(renderPage,"taisho");	
+},"yinshun");
