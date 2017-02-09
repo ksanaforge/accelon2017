@@ -39,7 +39,7 @@ function setQ(q){
 		dispatch(setParams({q,m}));
 	}
 }
-function setA(a,replace){
+function setA(a,replace){ //replace =true , do not add new item in browser history
 	return (dispatch,getState) =>{
 		const m=getState().params.m||BOOKSELECTOR;
 		dispatch(setParams({a,m},replace));

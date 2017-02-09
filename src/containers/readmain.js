@@ -10,7 +10,7 @@ const quoteCopy=require("../unit/quotecopy");
 const {_updateParams}=require("../actions/params");
 const {getExternalField}=require("../unit/fields");
 const TOCNav=require("../components/tocnav");
-
+const ReadMainmenu=require("./readmainmenu");
 const fetchArticle=function(cor,address,searchresult,cb){
 	const article=cor.articleOf(address);
   if (article){
@@ -24,8 +24,9 @@ const fetchArticle=function(cor,address,searchresult,cb){
 }
 
 const styles={
-	navcontainer:{position:"relative",zIndex:200},
-	nav:{position:"absolute",right:100}
+	abscontainer:{position:"relative",zIndex:200},
+	nav:{position:"absolute",right:100},
+	menu:{position:"absolute",left:10,top:10}
 }
 
 class ReadText extends React.Component {
@@ -76,8 +77,10 @@ class ReadText extends React.Component {
 		const caretpos=this.state.kpos;
 		const navprops={caretpos,corpus:this.props.activeCorpus,onSelectItem:this.updateArticleByAddress.bind(this)};
 		return E("div",{},
-			E("div",{style:styles.navcontainer},
-				E("div",{style:styles.nav},E(TOCNav,navprops)))
+			E("div",{style:styles.abscontainer},
+				E("div",{style:styles.nav},E(TOCNav,navprops))
+			 ,E("div",{style:styles.menu},E(ReadMainmenu,this.props))
+			)
 
 			,E(CorpusView,{address:this.props.params.a,
 			decorators:{ptr,def,note,link,figure,kepan},

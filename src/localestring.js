@@ -20,6 +20,7 @@ const stringtable={
 	["Extra Line","摘要行"],
 	["Prev Fascicle","上卷"],
 	["Next Fascicle","下卷"],
+	["Load Markup","載入外部標記"]
 	]
 }
 for (var locale in stringtable) {
