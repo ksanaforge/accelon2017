@@ -1,9 +1,9 @@
 const SET_PARAMS="SET_PARAMS";
 const {packBits,unpackBits}=require("../unit/bitstr");
 const {setHashTag}=require("../unit/hashtag");
-const BOOKSELECTOR=1;
-const READTEXT=2;
-const TOCVIEW=3;
+const BOOKSELECTOR=3;
+const READTEXT=1;
+const TOCVIEW=2;
 const BOOKRESULT=10;
 const EXCERPTVIEW=11;
 var _updating=false;
