@@ -8,7 +8,7 @@ const parseRoute=function(route){
 	return params;
 }
 
-const setHashTag=function(newparams){
+const setHashTag=function(newparams,replace){
 	var hash=window.location.hash;
 	if (hash.match(/%[0-9A-Fa-f]/)) {
 		hash=decodeURIComponent(hash);
@@ -22,7 +22,11 @@ const setHashTag=function(newparams){
 	for (key in params) {
 		if (params[key]) p.push(key+"="+params[key]);
 	}
-	window.location.hash=p.join("&");
+	if (replace) {
+			history.replaceState(undefined,undefined,"#"+p.join("&"));
+	} else {
+			window.location.hash=p.join("&");
+	}
 }
 
 module.exports={setHashTag,parseRoute};

@@ -97,6 +97,6 @@ const testencode=function(){
 	console.log('passed?',decodeStr(s)==input);
 }
 
-test();
-testencode();
+//test();
+//testencode();
 module.exports={packBits,unpackBits};

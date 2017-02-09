@@ -66,7 +66,7 @@ class ReadText extends React.Component {
 	onCursorActivity(cm,kpos) {		
 		const cor=openCorpus(this.props.activeCorpus);
 		const addressH=cor.stringify(kpos);
-		this.props.setA(addressH);
+		this.props.setA(addressH,true);
 		if (!this._unmounted) this.setState({kpos});
 	}
 	render(){

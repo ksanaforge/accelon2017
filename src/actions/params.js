@@ -1,7 +1,7 @@
 const SET_PARAMS="SET_PARAMS";
 const {packBits,unpackBits}=require("../unit/bitstr");
 const {setHashTag}=require("../unit/hashtag");
-const BOOKSELECTOR=3;
+const BOOKSELECTOR=0;
 const READTEXT=1;
 const TOCVIEW=2;
 const BOOKRESULT=10;
@@ -11,8 +11,8 @@ const isUpdating=function(){
 	return _updating;
 }
 
-function setParams(params){
-	setHashTag(params);
+function setParams(params,replace){
+	setHashTag(params,replace);
 	return Object.assign({type:"SET_PARAMS"},params);
 }
 
@@ -28,7 +28,7 @@ function setMode(m) {
 	return (dispatch,getState) =>{
 		if (!getState().searchresult.q && (m>=BOOKRESULT) )m=0;
 		if (m!==getState().params.m) {
-			dispatch(setParams({m}));	
+			dispatch(setParams({m}));
 		}
 	}
 }
@@ -39,9 +39,10 @@ function setQ(q){
 		dispatch(setParams({q,m}));
 	}
 }
-function setA(a){
+function setA(a,replace){
 	return (dispatch,getState) =>{
-		dispatch(setParams({a}));
+		const m=getState().params.m||BOOKSELECTOR;
+		dispatch(setParams({a,m},replace));
 	}	
 }
 const selectBook=function(){
