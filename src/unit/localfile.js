@@ -7,7 +7,7 @@ const loadJSON=function(file,cb) {
 				//console.log('e readAsText = ', e);
 				//console.log('e readAsText target = ', e.target);
 				try {
-					json = JSON.parse(e.target.result);
+					const json = JSON.parse(e.target.result);
 					//alert('json global var has been set to parsed json of this file here it is unevaled = \n');
 					cb&&cb(json);
 				} catch (ex) {

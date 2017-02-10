@@ -1,9 +1,9 @@
 const createIndent=function(strings){
-	const out=[];
+	var out=[];
 	if (typeof strings=="string") strings=[strings];
 	for (var i=0;i<strings.length;i++) {
-		var indent="";
-		str=strings[i].replace(/^(\d)\t/,function(m,c){
+		var indent="",j;
+		var str=strings[i].replace(/^(\d)\t/,function(m,c){
 			const depth=parseInt(c,10);
 			for (j=0;j<depth;j++){
 				indent+="＞";

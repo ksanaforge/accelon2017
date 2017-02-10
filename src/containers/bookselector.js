@@ -56,6 +56,7 @@ class BookSelector extends React.Component {
 	render(){
 		if (!this.props.activeCorpus) return E("div",{},"no active corpus");
 		const cor=openCorpus(this.props.activeCorpus);
+		if (!cor) return E("div",{},"cannot open corpus");
 		if (cor.meta.groupPrefix) {
 			return E(BookCategorySelector,this.props);
 		}

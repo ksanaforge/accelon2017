@@ -12,7 +12,7 @@ const styles={
 class HomeBar extends React.Component {
 	render(){
 		const cor=openCorpus(this.props.activeCorpus);
-		const title=cor.meta.title;
+		const title=cor?cor.meta.title:"";
 		return E("div",{style:styles.container},
 			E("span",{onClick:this.props.selectDB,style:styles.selectdb},title)
 			,"　"
