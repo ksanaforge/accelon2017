@@ -9,10 +9,10 @@ const {ptr,def,note,link}=require("accelon2016/decorators");
 class ReferenceView extends React.Component {
 	constructor (props) {
 		super(props);
-		this.state={article:null};
+		this.state={article:null,message:"loading"};
 	}
 	shouldComponentUpdate(nextProps,nextState){
-		return this.state.article!=nextState.article;
+		return this.state.article!=nextState.article || nextState.message!==this.state.message;
 	}
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.params.r)return;
@@ -20,8 +20,9 @@ class ReferenceView extends React.Component {
 		const corpus=r[0],address=r[1];
 		const cor=openCorpus(corpus);
 		if (!cor)return;
+		this.setState({message:"loading "+nextProps.params.r});
 		fetchArticle(cor,address,null,null,function(states){
-			this.setState(Object.assign({},states,{address,corpus}));
+			this.setState(Object.assign({},states,{address,corpus,message:null}));
 		}.bind(this));
 	}
 	updateArticleByAddress(address){
@@ -30,8 +31,8 @@ class ReferenceView extends React.Component {
 		this.props.setA(addressH);
 	}	
 	render(){
-		if (!this.state.article) {
-			return E("div",{},"loading",this.props.params.r);
+		if (this.state.message) {
+			return E("div",{},this.state.message);
 		}
 
 		return E(CorpusView,{address:this.state.address,

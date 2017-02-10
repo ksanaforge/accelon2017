@@ -3,7 +3,7 @@ const E=React.createElement;
 const PT=React.PropTypes;
 const {_}=require("ksana-localization");
 const {openCorpus}=require("ksana-corpus");
-const {BOOKSELECTOR,TOCVIEW,READTEXT,BOOKRESULT,EXCERPTVIEW}=require("../actions/params");
+const {DBSELECTOR,BOOKSELECTOR,TOCVIEW,READTEXT,BOOKRESULT,EXCERPTVIEW}=require("../actions/params");
 const GroupNav=require("./groupnav");
 const styles={
 	a:{cursor:"pointer"},

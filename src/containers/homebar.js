@@ -6,14 +6,15 @@ const SearchOptions=require("./searchoptions");
 const ModeSelector=require("./modeselector");
 const {openCorpus}=require("ksana-corpus");
 const styles={
-	container:{background:"#E0E0E0"}
+	container:{background:"#E0E0E0"},
+	selectdb:{cursor:"pointer",borderBottom:"solid 1px blue"}
 }
 class HomeBar extends React.Component {
 	render(){
 		const cor=openCorpus(this.props.activeCorpus);
 		const title=cor.meta.title;
 		return E("div",{style:styles.container},
-			title
+			E("span",{onClick:this.props.selectDB,style:styles.selectdb},title)
 			,"　"
 			,E(SearchBox,this.props)
 			,"　"

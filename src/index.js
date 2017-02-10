@@ -25,6 +25,4 @@ const renderPage=function(){
 	  document.getElementById('root')
 	)
 }
-openDB(function(){
-	openDB(renderPage,"taisho");	
-},"yinshun");
+openDB(renderPage,store.getState().corpora);

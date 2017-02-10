@@ -6,6 +6,7 @@ const activeCorpus=require('./activecorpus');
 const excerpt=require('./excerpt');
 const selection=require('./selection');
 const corpusmarkups=require("./corpusmarkups");
+const corpora=require("./corpora");
 const rootReducer = combineReducers({
   params,
   filters,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   searchresult,
   excerpt,
   selection,
-  corpusmarkups
+  corpusmarkups,
+  corpora
 });
 
 module.exports=rootReducer;

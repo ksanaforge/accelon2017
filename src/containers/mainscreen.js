@@ -3,9 +3,10 @@ const PT=React.PropTypes;
 const E=React.createElement;
 
 const HomeBar=require("./homebar");
+const DBSelector=require("./dbselector");
 const BookSelector=require("./bookselector");
 const BookResult=require("./bookresult");
-const {BOOKSELECTOR,TOCVIEW,BOOKRESULT,READTEXT,EXCERPTVIEW}=require("../actions/params");
+const {DBSELECTOR,BOOKSELECTOR,TOCVIEW,BOOKRESULT,READTEXT,EXCERPTVIEW}=require("../actions/params");
 const ExcerptView=require("./excerptview");
 const TOCView=require("./tocview");
 const {isUpdating}=require("../actions/params");
@@ -38,6 +39,7 @@ class MainScreen extends React.Component{
 		const q=this.props.params.q;
 		mode=parseInt(mode);
 		switch (mode) {
+			case DBSELECTOR: return DBSelector;
 			case BOOKSELECTOR: return BookSelector;
 			case READTEXT: return ReadText;
 			case TOCVIEW: return TOCView;
