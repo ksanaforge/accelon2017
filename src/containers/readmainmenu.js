@@ -3,9 +3,10 @@ const PT=React.PropTypes;
 const E=React.createElement;
 const styles={
 	container:{cursor:"pointer"},
-	menu:{width:200,height:100,background:"silver"},
+	menu:{width:200,height:130,background:"silver",border:"solid 1px gray",borderRadius:"5px",padding:"5px"},
 	inputfile:{opacity:0,zIndex:-1},
 	uploadbutton:{cursor:"pointer",border:"1px solid black",borderRadius:"3px"},
+	closebutton:{cursor:"pointer"},
 	error:{background:"red",color:"yellow"}
 }
 const {_}=require("ksana-localization");
@@ -16,7 +17,7 @@ class ReadMainmenu extends React.Component {
 	}
 	constructor(props){
 		super(props)
-		this.state={opened:true};
+		this.state={opened:false};
 	}
 	closemenu(){
 		this.setState({opened:false});	
@@ -35,6 +36,7 @@ class ReadMainmenu extends React.Component {
 		});
 	}
 	gotofirst(){
+		this.setState({first:null,opened:false});
 		this.props.setA(this.state.first);
 	}
 	renderFirstMarkup(){
@@ -42,11 +44,18 @@ class ReadMainmenu extends React.Component {
 			return E("button",{onClick:this.gotofirst.bind(this)},_("View First Markup"));
 		}
 	}
+	togglelayout(){
+		this.props.setLayout(this.props.params.l?0:1,true);
+	}
 	render(){
+		const layout=this.props.params.l;
 		if (this.state.opened) {
 			return E("div",{style:styles.menu},
-				E("button",{onClick:this.closemenu.bind(this)},"✕"),
+				E("span",{onClick:this.closemenu.bind(this),style:styles.closebutton},"✕"),
+				"　",
+				E("button",{onClick:this.togglelayout.bind(this)},layout?_("Layout Off"):_("Layout On")),
 				E("br"),
+				E("br"),"　",
 				E("label",{htmlFor:"upload",style:styles.uploadbutton},_("Load Markup")),
 				E("input",{type:"file",style:styles.inputfile,accept:".json",
 					id:"upload",onChange:this.loadmarkup.bind(this)}),

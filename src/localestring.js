@@ -21,7 +21,9 @@ const stringtable={
 	["Prev Fascicle","上卷"],
 	["Next Fascicle","下卷"],
 	["Load Markup","載入外部標記"],
-	["View First Markup","跳到第一個標記"]
+	["View First Markup","跳到第一個標記"],
+	["Layout On","原書換行"],
+	["Layout Off","段落重排"]
 	]
 }
 for (var locale in stringtable) {

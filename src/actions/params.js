@@ -11,8 +11,8 @@ const isUpdating=function(){
 	return _updating;
 }
 
-function setParams(params,replace){
-	setHashTag(params,replace);
+function setParams(params,replacehistory){
+	setHashTag(params,replacehistory);
 	return Object.assign({type:"SET_PARAMS"},params);
 }
 
@@ -39,10 +39,22 @@ function setQ(q){
 		dispatch(setParams({q,m}));
 	}
 }
-function setA(a,replace){ //replace =true , do not add new item in browser history
+function setA(a,replacehistory){ //replacehistory =true , do not add new item in browser history
 	return (dispatch,getState) =>{
 		const m=getState().params.m||BOOKSELECTOR;
-		dispatch(setParams({a,m},replace));
+		dispatch(setParams({a,m},replacehistory));
+	}	
+}
+function setRef(corpus,address,replacehistory) {
+	return (dispatch,getState) =>{
+		const m=getState().params.m||BOOKSELECTOR;
+		dispatch(setParams({r:corpus,ra:address,m},replacehistory));
+	}	
+}
+function setLayout(l,replacehistory){
+	return (dispatch,getState) =>{
+		const m=getState().params.m||BOOKSELECTOR;
+		dispatch(setParams({l:l?1:0,m},replacehistory));
 	}	
 }
 const selectBook=function(){
@@ -61,5 +73,12 @@ const groupByBook=function(){
 		dispatch(setParams({m:BOOKRESULT,n:0,g:0}));
 	}		
 }
-module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setA,setMode,selectBook,groupByBook
-,TOCVIEW,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW,readText}
+
+const openLink=function(fulladdress,replacehistory){
+	const r=fulladdress.split("@");
+	const corpus=r[0], address=r[1];
+	if (!address) return {type:"INVALID_LINK"};
+	return setParams({r:fulladdress,m:READTEXT},replacehistory);
+}
+module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setA, setLayout,setMode,selectBook,groupByBook
+,TOCVIEW,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW,readText,openLink}
