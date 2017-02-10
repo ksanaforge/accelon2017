@@ -7,9 +7,8 @@ const loadMarkup=function(cor,json){
 		const article=cor.articleOf(r.start).at;
 		if (!out[article]) out[article]={pos:[],value:[]};	
 		out[article].pos.push(r.start==r.end?r.start:r.kRange);
-		out[article].value.push(json[i].substr(address.length+1));
+		out[article].value.push(json[i].substr(address.length));
 	}
-//	console.timeEnd("loadmarkup");
 	return out;
 }
 module.exports={loadMarkup}

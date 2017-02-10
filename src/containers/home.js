@@ -26,7 +26,7 @@ function mapStateToProps(state) {
   	searchresult:state.searchresult,
   	selection:state.selection,
     corpusmarkups:state.corpusmarkups,
-    markups:state.corpusmarkups[state.activeCorpus]
+    markups:state.corpusmarkups[state.activeCorpus]||{}
   };
 }
 
