@@ -2,6 +2,7 @@ const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
 const {renderHits}=require("../unit/highlight");
+const {groupTitle}=require("../unit/humantext");
 
 const styles={
 	tr:{background:"white",borderBottom:"1px gray solid"},
@@ -26,8 +27,9 @@ class ExcerptLine extends React.Component {
 		var pb=this.props.address||"";
 		pb=pb.substr(pb.indexOf("p")+1).replace(".","-");
 		return E("div",{},
-			this.props.header?E("div",{style:this.props.highlight?styles.highlight:styles.header},
-				this.props.header
+			this.props.header?E("div",{style:this.props.highlight?styles.highlight:styles.header,
+				title:this.props.shorttitle},
+				groupTitle(this.props.header,this.props.corpus)
 				,"("
 				,E("span",{style:styles.grouphit},this.props.grouphit)
 				,")"

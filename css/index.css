@@ -3,8 +3,9 @@ body {margin:0px}
 #root {font-family: "Microsoft JhengHei", Arial}
 .hl {color:#ff7f7f;}
 .hl0 {color:#ff7f7f;}
-.hl1 {color:lightgreen;}
-.hl2 {color:yellow;}
+.hl1 {color:blue;}
+.hl2 {color:green;}
+.hl2 {color:brown;}
 
 .kepan {background:#9f9f9f;display: block;white-space: pre}
 .filterhit {color:#ff7f7f;font-size:75%;font-weight:700;cursor:pointer}
@@ -24,8 +25,27 @@ body {margin:0px}
   cursor:pointer;background: rgba(127,127,255,127)}
 
 .CodeMirror-linewidget {overflow:visible;}
-.pb {border-top:0.5px solid gray; text-align:right; width:95%;height:1px}
+.pb {border-top:0.5px solid gray; text-align:right; width:93%;height:1px}
 .pblabel {position:absolute;color:gray;top:-0.5em;font-size:80%;font-weight: 200;font-family: Arial}
+
+.kepanlevel{color:black;font-weight: bold;border-radius: 5px}
+.kepanlevel0 { background-color:hsl(30,40%,50%);}
+.kepanlevel1 { background-color:hsl(60,40%,50%);}
+.kepanlevel2 { background-color:hsl(90,40%,50%);}
+.kepanlevel3 { background-color:hsl(120,40%,50%);}
+.kepanlevel4 { background-color:hsl(150,40%,50%);}
+.kepanlevel5 { background-color:hsl(180,40%,50%);}
+.kepanlevel6 { background-color:hsl(210,40%,50%);}
+.kepanlevel7 { background-color:hsl(240,40%,50%);}
+.kepanlevel8 { background-color:hsl(270,40%,50%);}
+.kepanlevel9 { background-color:hsl(300,40%,50%);}
+.kepanlevel10 { background-color:hsl(330,40%,50%);}
+.kepanlevel11 { background-color:hsl(0,40%,50%);}
+.kepanlevel12 { background-color:hsl(30,40%,50%);}
+.kepanlevel13 { background-color:hsl(60,40%,50%);}
+.kepanlevel14 { background-color:hsl(90,40%,50%);}
+.kepanlevel15 { background-color:hsl(120,40%,50%);}
+.kepanlevel16 { background-color:hsl(180,40%,50%);}
 
 
 .CodeMirror , .cm-s-ambiance.CodeMirror {
@@ -124,5 +144,6 @@ body {margin:0px}
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
 
 

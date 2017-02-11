@@ -7,6 +7,7 @@ const styles={
 	bookname:{color:"navy",cursor:"pointer"},
 	hit:{color:"red"}
 }
+const {groupTitle}=require("../unit/humantext");
 
 class GroupByBook extends React.Component {
 	gotogroup(n){
@@ -19,16 +20,18 @@ class GroupByBook extends React.Component {
 		
 		this.props.showExcerpt(start);
 	}
+
 	rendergroup(g,key){
 		if (!this.props.searchresult.q||!this.props.searchresult.grouphits)return;
 		const hit=this.props.searchresult.grouphits[key] || 0;
+		const title=g.replace(/;.*/g,"");
 		const hint=g.replace(/.*;/,"");
-		const label=hint;//g.replace(/;.*/,"");
+		const label=groupTitle(hint,this.props.activeCorpus);
 		if (!hit) return null;
 
 		return E("div",{key},
 				"　",
-				E("span",{style:styles.bookname,onClick:this.gotogroup.bind(this,key)},label),
+				E("span",{style:styles.bookname,onClick:this.gotogroup.bind(this,key),title},label),
 				"(",
 				E("span",{style:styles.hit},hit),
 				")"

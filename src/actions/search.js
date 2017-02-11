@@ -26,7 +26,7 @@ function _search(corpus,q,dispatch,getState,cb){
     	const {matches,phrasepostings,timer}=result;
       
       const exclude=(getState().filters[corpus]||{}).exclude;
-      const filtered=_filterMatch(corpus,result.matches,exclude);
+      const filtered=_filterMatch(corpus,result.matches,exclude)||[];
       const grouphits=groupStat(filtered,cor.groupTPoss());
       grouphits.shift();
 

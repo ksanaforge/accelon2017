@@ -7,6 +7,7 @@ const ExcerptLine=require("../components/excerptline");
 const ExcerptNav=require("./excerptnav");
 const ExcerptSetting=require("./excerptsetting");
 
+
 const styles={
 	container:{},
 	table:{width:"100%"}
@@ -50,7 +51,7 @@ class ExcerptView extends React.Component {
 				var {start,end}=cor.toLogicalRange(excerpt.linebreaks,range,getrawline);
 				const absstart=linelengths[start.line]+start.ch +start.line //for linefeed ;
 				const absend=linelengths[end.line]+end.ch + end.line ;
-				hl.push([absstart,absend-absstart,0]);
+				hl.push([absstart,absend-absstart,j]);
 			});
 		}
 		return hl;
@@ -63,7 +64,7 @@ class ExcerptView extends React.Component {
 		const start=this.props.excerpt.batch*this.props.excerpt.hitperbatch;
 		const n=start+key;
 		const first=(this.props.excerpt.now%this.props.excerpt.hitperbatch)==0;
-		const {grouphit,address,title}=this.excerptTitle(cor,n);
+		const {grouphit,address,title,shorttitle}=this.excerptTitle(cor,n);
 		
 
 		const header=(title!==prevtitle)? title:"";
@@ -75,9 +76,9 @@ class ExcerptView extends React.Component {
 		if (scrollto && !first) obj.ref="scrollto"; //no need to scroll if first item is highlighted
 
 		const hits=this.highlights(cor,this.props.excerpt.excerpts[key]);
-		
 		return E(ExcerptLine,Object.assign(obj,item,
-			{openAddress:this.openAddress.bind(this),key,now,n,seq,header,
+			{openAddress:this.openAddress.bind(this),key,now,n,seq,header,shorttitle,
+				corpus:this.props.activeCorpus,
 				address:address||"",grouphit,scrollto,hits}));
 	}
 	excerptTitle(cor,n){
@@ -92,7 +93,8 @@ class ExcerptView extends React.Component {
 			const grouphit=searchresult.grouphits[group];
 
 			const title=cor.getGroupName(address);
-			return {grouphit,title,address:addressH};
+			const shorttitle=cor.getGroupName(address,true);
+			return {grouphit,title,shorttitle,address:addressH};
 		} else {
 			return {grouphit:0,title:"",address:""};
 		}

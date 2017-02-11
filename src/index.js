@@ -20,9 +20,11 @@ const openDB=function(cb,corpus){
 	});
 }
 const renderPage=function(){
-	ReactDOM.render(
-	  E(Provider,{store},E(Home)),
-	  document.getElementById('root')
-	)
+	setTimeout(function(){
+		ReactDOM.render(
+		  E(Provider,{store},E(Home)),
+		  document.getElementById('root')
+		)
+	},100); //don't know why, need some time to fully open all kdb
 }
 openDB(renderPage,store.getState().corpora);
