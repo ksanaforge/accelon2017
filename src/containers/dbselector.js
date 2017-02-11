@@ -8,6 +8,10 @@ const styles={
 	db:{cursor:"pointer",fontSize:"200%",border:"solid 1px black",borderRadius:"5px"}
 }
 class DBSelector extends React.Component {
+	constructor(props){
+		super(props);
+		this.state={corpora:{}};
+	}
 	selectdb(db){
 		if (db==this.props.activeCorpus)return;
 		this.props.setC(db);
@@ -15,9 +19,18 @@ class DBSelector extends React.Component {
 	renderDB(item,key){
 		const active=item==this.props.activeCorpus;
 		const cor=openCorpus(item);
+		var title=item;
+		if (!cor) {
+			openCorpus(item,function(err,db){
+				setTimeout(function(){
+					this.setState({corpora:Object.assign({},this.state.corpora,{[item]:db})});
+				}.bind(this),100);
+			}.bind(this))
+		} else {
+			title=cor.meta.title;
+		}
 		return E("div",{key,style:styles.container},
-
-			E("span",{style:styles[active?"active":"db"],onClick:this.selectdb.bind(this,item)},cor.meta.title||item)
+			E("span",{style:styles[active?"active":"db"],onClick:this.selectdb.bind(this,item)},title)
 			,E("span",{},active?"選取中":null)
 		);
 	}

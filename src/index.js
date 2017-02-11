@@ -9,6 +9,9 @@ const store = configureStore();
 const ksanacorpus=require("ksana-corpus");
 require("./localestring");
 
+/* open db on demand 
+   reducer corpora show available and opened database
+*/
 const openDB=function(cb,corpus){
 	corpus=corpus||store.getState().activeCorpus;
 	ksanacorpus.openCorpus(corpus,function(err,db){
@@ -19,12 +22,7 @@ const openDB=function(cb,corpus){
 		}
 	});
 }
-const renderPage=function(){
-	setTimeout(function(){
-		ReactDOM.render(
-		  E(Provider,{store},E(Home)),
-		  document.getElementById('root')
-		)
-	},100); //don't know why, need some time to fully open all kdb
-}
-openDB(renderPage,store.getState().corpora);
+ReactDOM.render(
+  E(Provider,{store},E(Home)),
+	 document.getElementById('root')
+)
