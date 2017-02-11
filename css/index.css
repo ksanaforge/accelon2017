@@ -16,6 +16,7 @@ body {margin:0px}
 
 .inlinesvg {}
 .toclabel {cursor:pointer}
+.toclabel_selected {border:solid 1px blue;border-radius: 3px}
 .toclabel:hover {border-bottom:1px solid blue}
 
 .dicthandle{position: absolute;right:0;cursor: pointer;top:-1em;}

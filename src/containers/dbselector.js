@@ -5,7 +5,7 @@ const {openCorpus}=require("ksana-corpus");
 const styles={
 	container:{paddingLeft:"20px"},
 	active:{fontSize:"200%",cursor:"pointer"},
-	db:{cursor:"pointer",fontSize:"200%",border:"solid 1px black",borderRadius:"5px"}
+	db:{cursor:"pointer",fontSize:"200%",borderBottom:"solid 1px blue"}
 }
 class DBSelector extends React.Component {
 	constructor(props){
