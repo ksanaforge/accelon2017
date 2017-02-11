@@ -22,16 +22,16 @@ function _search(corpus,q,dispatch,getState,cb){
     dispatch({type:SEARCHING,corpus,q});
     
     kcs.search(cor,q,function(result){
+    	const {matches,phrasepostings,timer}=result;  
+      if (matches) {
+        const exclude=(getState().filters[corpus]||{}).exclude;
+        const filtered=_filterMatch(corpus,result.matches,exclude)||[];
+        const grouphits=groupStat(filtered,cor.groupTPoss());
+        grouphits.shift();
 
-    	const {matches,phrasepostings,timer}=result;
-      
-      const exclude=(getState().filters[corpus]||{}).exclude;
-      const filtered=_filterMatch(corpus,result.matches,exclude)||[];
-      const grouphits=groupStat(filtered,cor.groupTPoss());
-      grouphits.shift();
-
-      dispatch({type:SEARCH_DONE, corpus, q , 
-        matches,phrasepostings,timer, grouphits , filtered});
+        dispatch({type:SEARCH_DONE, corpus, q , 
+          matches,phrasepostings,timer, grouphits , filtered});        
+      }
       searching=false;
       cb&&cb();
     });

@@ -1,11 +1,3 @@
-/*
-	pagination (now batchperpage) , next page , add now
-	show excerpt of one book (set now to beginning of the book) should include following book?
-	highlighting
-
-	readtext with corpusview (move cmview,corpusview to ksana-corpus-view)
-
-*/
 const { bindActionCreators } =require('redux');
 const { connect } = require('react-redux');
 const ParamsActions= require('../actions/params');

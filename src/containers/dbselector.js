@@ -4,7 +4,7 @@ const PT=React.PropTypes;
 const {openCorpus}=require("ksana-corpus");
 const styles={
 	container:{paddingLeft:"20px"},
-	active:{fontSize:"200%"},
+	active:{fontSize:"200%",cursor:"pointer"},
 	db:{cursor:"pointer",fontSize:"200%",border:"solid 1px black",borderRadius:"5px"}
 }
 class DBSelector extends React.Component {
@@ -13,7 +13,6 @@ class DBSelector extends React.Component {
 		this.state={corpora:{}};
 	}
 	selectdb(db){
-		if (db==this.props.activeCorpus)return;
 		this.props.setC(db);
 	}
 	renderDB(item,key){
@@ -30,8 +29,9 @@ class DBSelector extends React.Component {
 			title=cor.meta.title;
 		}
 		return E("div",{key,style:styles.container},
-			E("span",{style:styles[active?"active":"db"],onClick:this.selectdb.bind(this,item)},title)
-			,E("span",{},active?"選取中":null)
+			E("span",{style:styles[active?"active":"db"],onClick:this.selectdb.bind(this,item)},
+				title+(active?"✓":""))
+			
 		);
 	}
 	render(){
