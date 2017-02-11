@@ -2,7 +2,7 @@ const loadMarkup=function(cor,json){
 //	console.time("loadmarkup"); 18K markups take 100ms
 	var out=[];
 	for (var i=0;i<json.length;i++) {
-		const address=json[i].match(/.*?\t/)[0];
+		var address=json[i].match(/.*?\t/)[0];
 		const kpos=parseInt(address,10);
 		if (kpos.toString(10)==address) { //number format
 			address=kpos;

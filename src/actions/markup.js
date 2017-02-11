@@ -7,9 +7,8 @@ const loadExternalMarkup=function(meta,json,corpus){
 		corpus=corpus||getState().activeCorpus;
 		const cor=openCorpus(corpus);
 		if (!cor)return {type:WRONG_CORPUS,corpus};
-
-		const fields=loadMarkup(cor,json);
-		dispatch({type:SET_MARKUPS,corpus, fields, meta});
+		const markups=loadMarkup(cor,json);
+		dispatch({type:SET_MARKUPS, name:meta.type, corpus, markups});
 	}
 }
 module.exports={loadExternalMarkup,SET_MARKUPS};

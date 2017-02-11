@@ -1,8 +1,16 @@
-decorate table of content 
 
-link to taisho
+when taisho is first loaded by ref window.
+  check if other corpus has bilink
+  load markup in other corpus and break into article 
+  call action setMarkups
 
-mahaprajnaparamitasastra
+  promote ref to main window (hamburger for ref window)
 
-extract taisho from mpps_lecture
-compare mpps text with taisho text
+fix readtext article toc didn't update when cursormoved
+
+show quick search result in dbselector screen
+
+dictionary checking architecture (no in contract)
+
+
+rename to accelon2017

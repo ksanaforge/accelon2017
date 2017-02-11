@@ -28,12 +28,12 @@ class TOCView extends React.Component {
 		}
 		return toc;
 	}
-	componentDidMount(){
+	componentDidMount(){		
 		const cor=openCorpus(this.props.activeCorpus);
 		this.cor=cor;
 		const group=cor.groupOf(this.props.params.a);
 		const kpos=this.cor.parseRange(this.props.params.a).start;
-
+		
 		cor.getGroupTOC(group,function(rawtoc){
 			const toc=this.buildToc(rawtoc);
 			this.setState({toc,kpos});
@@ -47,9 +47,11 @@ class TOCView extends React.Component {
 	componentDidUpdate(){ 
 		setTimeout(function(){ //scroll to closest toc node
 			const ref=this.refs.toclabel_selected;
-			if (ref) ref.scrollIntoView(false);
-			const container=this.refs.body.parentElement;
-			container.scrollTop+=window.innerHeight/2;
+			if (ref && this.refs.body){
+				ref.scrollIntoView(false);
+				const container=this.refs.body.parentElement;
+				container.scrollTop+=window.innerHeight/2;
+			} 
 		}.bind(this),100); //need to wait react to update DOM
 	}
 	renderItem(item,key,toc){
@@ -66,6 +68,8 @@ class TOCView extends React.Component {
 	}
 	render(){
 		if (!this.state.toc) return E("div",{},"loading toc");
+		if (!this.state.toc.length) return E("div",{},"Empty TOC");
+
 		const group=this.cor.groupOf(this.props.params.a);
 		const range=this.cor.groupKRange(group);
 		

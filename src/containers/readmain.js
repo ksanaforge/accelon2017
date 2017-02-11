@@ -11,7 +11,7 @@ const {_updateParams}=require("../actions/params");
 //const {getExternalField}=require("../unit/fields");
 const TOCNav=require("../components/tocnav");
 const ReadMainmenu=require("./readmainmenu");
-const {fetchArticle}=require("../unit/article");
+const {fetchArticle,loadArticleMarkup}=require("../unit/article");
 
 const styles={
 	abscontainer:{position:"relative",zIndex:200},
@@ -39,12 +39,8 @@ class ReadText extends React.Component {
   	}
   	if (nextProps.markups != this.props.markups && Object.keys(nextProps.markups).length){
 	  	const article=cor.articleOf(nextProps.params.a);
-	  	const externalFields=nextProps.markups.fields?nextProps.markups.fields[article.at]:null;
-	  	if (externalFields) {
-	  		const type=nextProps.markups.meta.type;
-	  		const fields=Object.assign({},this.state.fields,{[type]:externalFields});
-	  		this.setState({fields});
-	  	}
+	  	const newfields=loadArticleMarkup(this.state.fields,nextProps.markups,article.at);
+	  	if (newfields!==this.state.fields) this.setState({fields:newfields});
   	}
   }
 	componentWillMount(){
