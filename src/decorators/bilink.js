@@ -1,3 +1,13 @@
+
+/*
+  deal with multi target bilink
+  do not replace with dom,
+  because this will affect selection
+  show a clickable target when move into range of link, like a highlight
+  open target corpus and show human readible target name (sutra name)
+
+*/
+
 const onLinkMouseDown=function(e){
 	const target=e.target;
 	const fulladdress=e.target.target;

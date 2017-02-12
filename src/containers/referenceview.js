@@ -4,6 +4,7 @@ const E=React.createElement;
 const {CorpusView}=require("ksana-corpus-view");
 const {fetchArticle}=require("../unit/article");
 const {ptr,def,note,link}=require("accelon2016/decorators");
+const bilink=require("../decorators/bilink");
 
 class ReferenceView extends React.Component {
 	constructor (props) {
@@ -11,7 +12,8 @@ class ReferenceView extends React.Component {
 		this.state={article:null,message:"loading"};
 	}
 	shouldComponentUpdate(nextProps,nextState){
-		return this.state.article!=nextState.article || nextState.message!==this.state.message;
+		return nextProps.params.r&&
+		 (nextProps.params.r!==this.props.params.r || (this.state&&(this.state.article!=nextState.article)));
 	}
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.params.r)return;
@@ -27,7 +29,9 @@ class ReferenceView extends React.Component {
 			address=cor.stringify(address);
 		}
 		this.setState({message:"loading "+nextProps.params.r});
-		fetchArticle(cor,address,null,null,function(states){
+		const markups=nextProps.corpusmarkups[corpus];
+
+		fetchArticle(cor,address,markups,null,function(states){
 			this.setState(Object.assign({},states,{address,corpus,message:null}));
 		}.bind(this));
 	}
@@ -42,7 +46,7 @@ class ReferenceView extends React.Component {
 		}
 
 		return E(CorpusView,{address:this.state.address,
-			decorators:{ptr,def,note,link},
+			decorators:{ptr,def,note,link,bilink},
 			corpus:this.state.corpus,
 			article:this.state.article,
 			rawlines:this.state.rawlines,

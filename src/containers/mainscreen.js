@@ -22,11 +22,13 @@ class MainScreen extends React.Component{
 	componentDidMount(){
 		window.addEventListener('hashchange', () => {
 			if (!isUpdating()) {
+				console.log("exec")
 				this.props.execURL();
 			}
 		})
 	}
 	getBody(mode){
+		console.log("getbody",mode)
 		const q=this.props.params.q;
 		mode=parseInt(mode);
 		switch (mode) {

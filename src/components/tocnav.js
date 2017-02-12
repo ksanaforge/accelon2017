@@ -26,7 +26,6 @@ class TOCNav extends React.Component {
 		this.props.onSelectItem&&this.props.onSelectItem(address);
 	}
 	render(){
-		console.log("toc nav")
 		return E(BreadCrumbTOC,{toc:this.state.toc,pos:this.props.caretpos
 						,buttonStyle:styles.buttonStyle
 						,onSelect:this.onSelect.bind(this)
