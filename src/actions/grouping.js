@@ -1,9 +1,8 @@
 const UPDATE_HITS="UPDATE_HITS";
 const {groupStat}=require("ksana-corpus-search");
-const {openCorpus}=require("ksana-corpus");
 
 const groupHits=function(corpus,query,dispatch){
-  const cor=openCorpus(corpus);
+  const cor=getState().corpora[getState().activeCorpus];
   if (!cor) return;
 	const hits=groupStat(query.matches,cor.groupTPoss());
 	hits.shift();

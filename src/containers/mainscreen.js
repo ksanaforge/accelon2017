@@ -12,18 +12,10 @@ const TOCView=require("./tocview");
 const {isUpdating}=require("../actions/params");
 const ReadText=require("./readtext");
 const Footer=require("../components/footer");
-
 const styles={
 	body:{overflowY:"auto",height:"96%",overflowX:"hidden"}
 }
 class MainScreen extends React.Component{
-  constructor(props) {
-  	super(props);
-    this.state= {}
-  }
-  shouldComponentUpdate(){
-  	return true;
-  }
   componentWillMount(){
 		this.props.execURL();
   }
@@ -34,7 +26,6 @@ class MainScreen extends React.Component{
 			}
 		})
 	}
-
 	getBody(mode){
 		const q=this.props.params.q;
 		mode=parseInt(mode);
@@ -52,17 +43,21 @@ class MainScreen extends React.Component{
 		this.bodyref=ref;
 	}
 	componentDidUpdate(){
-		this.bodyref.scrollTop=0;
+		if (this.bodyref) this.bodyref.scrollTop=0;
 	}
 	showFooter(){
 		const mode=parseInt(this.props.params.m);
 		return (mode!==READTEXT)?E(Footer):null;
 	}
 	render(){
+		const cor=this.props.corpora[this.props.activeCorpus];
+		if (!cor) return E("div",{},"loading "+this.props.activeCorpus);
+
+		const props=Object.assign({},this.props,{cor});
 		return E("div",{}
-			,E(HomeBar,this.props)
+			,E(HomeBar,props)
 			,E("div",{style:styles.body,ref:this.getBodyRef.bind(this)},
-				E(this.getBody(this.props.params.m),this.props)
+				E(this.getBody(this.props.params.m),props)
 				,this.showFooter()
 			)
 			

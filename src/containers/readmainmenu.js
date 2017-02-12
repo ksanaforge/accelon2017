@@ -27,11 +27,11 @@ class ReadMainmenu extends React.Component {
 		loadJSON(e.target.files[0],json=>{
 			const meta=json.shift();
 			
-			if (meta.corpus!==this.props.activeCorpus) {
+			if (meta.corpus!==this.props.cor.id) {
 				this.setState({lasterror:"markup is not for this corpus"});
 			} else {
 				this.setState({lasterror:"",first:meta.first});
-				this.props.loadExternalMarkup(meta,json,this.props.activeCorpus);
+				this.props.loadExternalMarkup(meta,json,this.props.cor.id);
 			}
 		});
 	}

@@ -29,7 +29,7 @@ class ExcerptLine extends React.Component {
 		return E("div",{},
 			this.props.header?E("div",{style:this.props.highlight?styles.highlight:styles.header,
 				title:this.props.shorttitle},
-				groupTitle(this.props.header,this.props.corpus)
+				groupTitle(this.props.header,this.props.cor)
 				,"("
 				,E("span",{style:styles.grouphit},this.props.grouphit)
 				,")"

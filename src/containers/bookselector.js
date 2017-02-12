@@ -1,7 +1,6 @@
 const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
-const {openCorpus}=require("ksana-corpus");
 const filterItem=require("../components/filteritem");
 const {TOCVIEW}=require("../actions/params");
 const {_}=require("ksana-localization");
@@ -10,15 +9,14 @@ const styles={
 	btn:{marginLeft:"10px"}
 }
 const BookCategorySelector=require("./bookcategoryselector");
-
+ 
 class BookSelector extends React.Component {
 	setExclude(group,value){
 		this.props.setExclude(group,value);
 	}
 	goGroup(group){
-		const cor=openCorpus(this.props.activeCorpus);		
-		const r=cor.groupKRange(group);
-		const a=cor.stringify(r[0]);
+		const r=this.props.cor.groupKRange(group);
+		const a=this.props.cor.stringify(r[0]);
 		this.props.setParams({m:TOCVIEW,a});
 	}
 	firstOccurOfGroup(group){
@@ -54,13 +52,10 @@ class BookSelector extends React.Component {
 		this.props.excludeAll();
 	}
 	render(){
-		if (!this.props.activeCorpus) return E("div",{},"no active corpus");
-		const cor=openCorpus(this.props.activeCorpus);
-		if (!cor) return E("div",{},"cannot open corpus");
-		if (cor.meta.groupPrefix) {
+		if (this.props.cor.meta.groupPrefix) {
 			return E(BookCategorySelector,this.props);
 		}
-		const groupNames=cor.groupNames();
+		const groupNames=this.props.cor.groupNames();
 		return E("div",{style:styles.container},
 			E("button",{style:styles.btn,onClick:this.selectall.bind(this)},_("Select All")),
 			E("button",{style:styles.btn,onClick:this.deselectall.bind(this)},_("Deselect All")),
@@ -69,6 +64,6 @@ class BookSelector extends React.Component {
 };
 BookSelector.propTypes={
 		filter:PT.object.isRequired,
-		activeCorpus:PT.string.isRequired
+		cor:PT.object.isRequired
 }
 module.exports=BookSelector;

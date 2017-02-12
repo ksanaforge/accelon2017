@@ -4,7 +4,6 @@ const SHOW_EXCERPT="SHOW_EXCERPT";
 const SET_EXCERPT_LINE="SET_EXCERPT_LINE";
 const {fetchExcerpts}=require("ksana-corpus-search/excerpt");
 
-const {openCorpus}=require("ksana-corpus");
 const kcs=require("ksana-corpus-search");
 
 const hitperbatch=20;
@@ -19,7 +18,7 @@ const showExcerpt=function(now,extra){
 }
 
 const _showExcerpt=function(now,extra,dispatch,getState){ //line = 1,3,5
- 	const cor=openCorpus(getState().activeCorpus);
+ 	const cor=getState().corpora[getState().activeCorpus];
 	const searchstate=getState().searchresult;
 	const hits=searchstate.matches;
 	const excerptstate=getState().excerpt;

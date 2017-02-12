@@ -1,7 +1,6 @@
 const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
-const {openCorpus}=require("ksana-corpus");
 const filterItem=require("../components/filteritem");
 const {TOCVIEW}=require("../actions/params");
 const {_}=require("ksana-localization");
@@ -21,8 +20,7 @@ class BookCategorySelector extends React.Component {
 	}
 	buildCategory(props){
 		props=props||this.props;
-		const cor=openCorpus(props.activeCorpus);		
-		const rawgroupNames=cor.groupNames();
+		const rawgroupNames=this.props.cor.groupNames();
 		var allOfCat=[],selOfCat=[],groupNames=[],id=[];
 		for (var i=0;i<rawgroupNames.length;i++) {
 			const r=rawgroupNames[i].split(";");
@@ -37,7 +35,7 @@ class BookCategorySelector extends React.Component {
 				selOfCat[prefix]++;
 			}			
 		}
-		return {allOfCat,selOfCat,groupNames,id,categoryNames:cor.meta.groupPrefix};
+		return {allOfCat,selOfCat,groupNames,id,categoryNames:this.props.cor.meta.groupPrefix};
 	}
 	componentWillReceiveProps(nextProps){
 		if (nextProps.filter.exclude!==this.props.filter.exclude ) {
@@ -48,9 +46,8 @@ class BookCategorySelector extends React.Component {
 		this.props.setExclude(group,value);
 	}
 	goGroup(group){
-		const cor=openCorpus(this.props.activeCorpus);		
-		const r=cor.groupKRange(group);
-		const a=cor.stringify(r[0]);
+		const r=this.props.cor.groupKRange(group);
+		const a=this.props.cor.stringify(r[0]);
 		this.props.setParams({m:TOCVIEW,a});
 	}
 	firstOccurOfGroup(group){
@@ -115,9 +112,6 @@ class BookCategorySelector extends React.Component {
 		this.props.excludeAll();
 	}
 	render(){
-		if (!this.props.activeCorpus) return E("div",{},"no active corpus");
-		const cor=openCorpus(this.props.activeCorpus);		
-
 		return E("div",{style:styles.container},
 			E("button",{style:styles.btn,onClick:this.selectall.bind(this)},_("Select All")),
 			E("button",{style:styles.btn,onClick:this.deselectall.bind(this)},_("Deselect All")),
@@ -125,7 +119,6 @@ class BookCategorySelector extends React.Component {
 	}
 };
 BookCategorySelector.propTypes={
-		filter:PT.object.isRequired,
-		activeCorpus:PT.string.isRequired
+		filter:PT.object.isRequired
 }
 module.exports=BookCategorySelector;

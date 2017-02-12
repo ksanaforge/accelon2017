@@ -8,6 +8,7 @@ const ExcerptActions=require('../actions/excerpt');
 const ExecURLActions=require('../actions/execurl');
 const SelectionActions=require('../actions/selection');
 const MarkupActions=require('../actions/markup');
+const CorpusActions=require('../actions/corpus');
 function mapStateToProps(state) {
   return {
   	activeCorpus:state.activeCorpus,
@@ -32,9 +33,10 @@ function mapDispatchToProps(dispatch) {
   const boundexecurl= bindActionCreators(ExecURLActions, dispatch);
   const boundselection=bindActionCreators(SelectionActions, dispatch);
   const boundmarkup=bindActionCreators(MarkupActions, dispatch);
+  const boundcorpus=bindActionCreators(CorpusActions, dispatch);
 
 	const bound=Object.assign({},boundsearch,boundparams,boundgrouping,
-		boundfilter,boundexcerpt,boundexecurl,boundselection,boundmarkup);
+		boundfilter,boundexcerpt,boundexecurl,boundselection,boundmarkup,boundcorpus);
 	return bound;  
 }
 

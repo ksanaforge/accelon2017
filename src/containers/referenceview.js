@@ -1,7 +1,6 @@
 const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
-const {openCorpus}=require("ksana-corpus");
 const {CorpusView}=require("ksana-corpus-view");
 const {fetchArticle}=require("../unit/article");
 const {ptr,def,note,link}=require("accelon2016/decorators");
@@ -18,7 +17,7 @@ class ReferenceView extends React.Component {
 		if (!nextProps.params.r)return;
 		const r=nextProps.params.r.split("@");
 		const corpus=r[0],address=r[1];
-		const cor=openCorpus(corpus);
+		const cor=this.props.corpora[corpus];
 		if (!cor)return;
 		this.setState({message:"loading "+nextProps.params.r});
 		fetchArticle(cor,address,null,null,function(states){
@@ -26,7 +25,7 @@ class ReferenceView extends React.Component {
 		}.bind(this));
 	}
 	updateArticleByAddress(address){
-		const cor=openCorpus(this.props.activeCorpus);
+		const cor=this.props.corpora[corpus];
 		const addressH=cor.stringify(address);
 		this.props.setA(addressH);
 	}	

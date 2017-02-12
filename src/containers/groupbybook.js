@@ -1,7 +1,6 @@
 const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
-const {openCorpus}=require("ksana-corpus");
 const styles={
 	container:{overflowY:"auto"},
 	bookname:{color:"navy",cursor:"pointer"},
@@ -26,7 +25,7 @@ class GroupByBook extends React.Component {
 		const hit=this.props.searchresult.grouphits[key] || 0;
 		const title=g.replace(/;.*/g,"");
 		const hint=g.replace(/.*;/,"");
-		const label=groupTitle(hint,this.props.activeCorpus);
+		const label=groupTitle(hint,this.props.cor);
 		if (!hit) return null;
 
 		return E("div",{key},
@@ -38,9 +37,7 @@ class GroupByBook extends React.Component {
 		);
 	}
 	render(){
-		if (!this.props.activeCorpus) return E("div",{},"searching");
-		const cor=openCorpus(this.props.activeCorpus);
-		const groupNames=cor.groupNames();
+		const groupNames=this.props.cor.groupNames();
 		return E("div",{style:styles.container},
 			groupNames.map(this.rendergroup.bind(this)));	
 	}

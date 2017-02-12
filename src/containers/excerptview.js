@@ -2,7 +2,6 @@ const React =require('react');
 const ReactDOM =require('react-dom');
 const PT=React.PropTypes;
 const E=React.createElement;
-const {openCorpus}=require("ksana-corpus");
 const ExcerptLine=require("../components/excerptline");
 const ExcerptNav=require("./excerptnav");
 const ExcerptSetting=require("./excerptsetting");
@@ -33,7 +32,7 @@ class ExcerptView extends React.Component {
 		linelengths.push(acc);
 		return linelengths;
 	}
-	highlights(cor,excerpt){
+	highlights(excerpt){
 		if (!this.props.searchresult.phrasepostings) return [];
 		const linebreaks=excerpt.linebreaks;
 		const getrawline=(line)=>excerpt.rawtext[line] ;
@@ -46,9 +45,9 @@ class ExcerptView extends React.Component {
 			const linecharr=hits.map((hit,idx)=>{
 
 				const phraselength=phraselengths[idx]||phraselengths;//should be kpos width
-				const range=cor.makeKRange(hit,hit+phraselength);
+				const range=this.props.cor.makeKRange(hit,hit+phraselength);
 
-				var {start,end}=cor.toLogicalRange(excerpt.linebreaks,range,getrawline);
+				var {start,end}=this.props.cor.toLogicalRange(excerpt.linebreaks,range,getrawline);
 				const absstart=linelengths[start.line]+start.ch +start.line //for linefeed ;
 				const absend=linelengths[end.line]+end.ch + end.line ;
 				hl.push([absstart,absend-absstart,j]);
@@ -60,11 +59,10 @@ class ExcerptView extends React.Component {
 		this.props.readText(addr,now);
 	}
 	renderItem(item,key){
-		const cor=openCorpus(this.props.activeCorpus);
 		const start=this.props.excerpt.batch*this.props.excerpt.hitperbatch;
 		const n=start+key;
 		const first=(this.props.excerpt.now%this.props.excerpt.hitperbatch)==0;
-		const {grouphit,address,title,shorttitle}=this.excerptTitle(cor,n);
+		const {grouphit,address,title,shorttitle}=this.excerptTitle(n);
 		
 
 		const header=(title!==prevtitle)? title:"";
@@ -75,25 +73,25 @@ class ExcerptView extends React.Component {
 		var obj={};
 		if (scrollto && !first) obj.ref="scrollto"; //no need to scroll if first item is highlighted
 
-		const hits=this.highlights(cor,this.props.excerpt.excerpts[key]);
+		const hits=this.highlights(this.props.excerpt.excerpts[key]);
 		return E(ExcerptLine,Object.assign(obj,item,
 			{openAddress:this.openAddress.bind(this),key,now,n,seq,header,shorttitle,
-				corpus:this.props.activeCorpus,
+				cor:this.props.cor,
 				address:address||"",grouphit,scrollto,hits}));
 	}
-	excerptTitle(cor,n){
+	excerptTitle(n){
 		const searchresult=this.props.searchresult;
 		if (!searchresult.matches)return {};
 		const tpos=searchresult.matches[n];
-		const address=cor.fromTPos(tpos).kpos[0];
+		const address=this.props.cor.fromTPos(tpos).kpos[0];
 		if (address) {
-			var addressH=cor.stringify(address);
+			var addressH=this.props.cor.stringify(address);
 			addressH=addressH.substr(0,addressH.length-2);
-			const group=cor.groupOf(address);
+			const group=this.props.cor.groupOf(address);
 			const grouphit=searchresult.grouphits[group];
 
-			const title=cor.getGroupName(address);
-			const shorttitle=cor.getGroupName(address,true);
+			const title=this.props.cor.getGroupName(address);
+			const shorttitle=this.props.cor.getGroupName(address,true);
 			return {grouphit,title,shorttitle,address:addressH};
 		} else {
 			return {grouphit:0,title:"",address:""};

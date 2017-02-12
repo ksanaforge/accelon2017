@@ -2,7 +2,6 @@ const React=require("react");
 const E=React.createElement;
 const PT=React.PropTypes;
 const BreadCrumbTOC=require("ksana2015-breadcrumbtoc").Component;
-const {openCorpus}=require("ksana-corpus");
 
 class TOCNav extends React.Component {
 	constructor (props) {
@@ -11,9 +10,7 @@ class TOCNav extends React.Component {
 	}
 	loadTOC(kpos){
 		if (!this.props.corpus)return;
-		const cor=openCorpus(this.props.corpus);
-		if (!cor)return;
-		cor.getSubTOC(kpos,function(tocs){
+		this.props.cor.getSubTOC(kpos,function(tocs){
 			this.setState({toc:tocs[0]||[]});
 		}.bind(this));
 	}
@@ -39,7 +36,7 @@ class TOCNav extends React.Component {
 };
 
 TOCNav.propTypes={
-	corpus:PT.string.isRequired,
+	cor:PT.object.isRequired,
 	caretpos:PT.number.isRequired,
 	onSelectItem:PT.func
 }

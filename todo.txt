@@ -6,11 +6,11 @@ when taisho is first loaded by ref window.
 
   promote ref to main window (hamburger for ref window)
 
-fix readtext article toc didn't update when cursormoved
+fix readtext article toc didn't update on cursor activity
 
 show quick search result in dbselector screen
 
 dictionary checking architecture (no in contract)
 
-
+remove openCorpus call in components, pass down cor instead of using activeCorpus
 rename to accelon2017

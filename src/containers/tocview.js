@@ -2,7 +2,6 @@ const React =require('react');
 const ReactDOM =require('react-dom');
 const PT=React.PropTypes;
 const E=React.createElement;
-const {openCorpus}=require("ksana-corpus");
 const GoPage=require("../components/gopage");
 
 class TOCView extends React.Component {
@@ -29,19 +28,17 @@ class TOCView extends React.Component {
 		return toc;
 	}
 	componentDidMount(){		
-		const cor=openCorpus(this.props.activeCorpus);
-		this.cor=cor;
-		const group=cor.groupOf(this.props.params.a);
-		const kpos=this.cor.parseRange(this.props.params.a).start;
+		const group=this.props.cor.groupOf(this.props.params.a);
+		const kpos=this.props.cor.parseRange(this.props.params.a).start;
 		
-		cor.getGroupTOC(group,function(rawtoc){
+		this.props.cor.getGroupTOC(group,function(rawtoc){
 			const toc=this.buildToc(rawtoc);
 			this.setState({toc,kpos});
 		}.bind(this));
 	}
 	gotocitem(e) {
 		const kpos=parseInt(e.target.dataset.kpos);
-		const address=this.cor.stringify(kpos);
+		const address=this.props.cor.stringify(kpos);
 		this.props.readText(address);
 	}
 	componentDidUpdate(){ 
@@ -56,7 +53,7 @@ class TOCView extends React.Component {
 	}
 	renderItem(item,key,toc){
 		const kpos=item[0], indent=this.state.indents[item[1]], label=item[2];
-		const pg=this.cor.pageOf(kpos)+1;
+		const pg=this.props.cor.pageOf(kpos)+1;
 		var extra="";
 
 		if (this.state.kpos>=kpos && key<toc.length-1 && this.state.kpos<toc[key+1][0]) {
@@ -70,12 +67,12 @@ class TOCView extends React.Component {
 		if (!this.state.toc) return E("div",{},"loading toc");
 		if (!this.state.toc.length) return E("div",{},"Empty TOC");
 
-		const group=this.cor.groupOf(this.props.params.a);
-		const range=this.cor.groupKRange(group);
+		const group=this.props.cor.groupOf(this.props.params.a);
+		const range=this.props.cor.groupKRange(group);
 		
 		
 		return E("div",{ref:"body"},
-			E(GoPage,{corpus:this.props.activeCorpus, range, readText:this.props.readText}),
+			E(GoPage,{cor:this.props.cor, range, readText:this.props.readText}),
 			this.state.toc.map(this.renderItem.bind(this))
 		);
 	}

@@ -2,16 +2,13 @@ const UPDATE_EXCLUDE = 'UPDATE_EXCLUDE';
 const EXCLUDE = 'EXCLUDE';
 const INCLUDE_ALL = 'INCLUDE_ALL';
 const SET_FILTERED = 'SET_FILTERED';
-const {openCorpus}=require("ksana-corpus");
 const {setParams}=require("./params");
 
 const kcs=require("ksana-corpus-search")
 //const {updateResultView}=require("./occur");
 const {packBits,unpackBits}=require("../unit/bitstr");
 
-const _filterMatch=function(corpus,matches,excludegroup){
-	const cor=openCorpus(corpus)
-	if (!cor)return;
+const _filterMatch=function(cor,matches,excludegroup){
 	return kcs.filterMatch(cor,matches,excludegroup);
 }
 
@@ -31,7 +28,8 @@ const updateExcerpt=function(dispatch,getState){
 	if (!getState().search)return;
 	const matches=getState().search.matches;
 	if (!matches) return;
-	const filtered=_filterMatch(corpus,matches,exclude);
+	const cor=getState().corpora[corpus];
+	const filtered=_filterMatch(cor,matches,exclude);
 
 	dispatch({type:SET_FILTERED, filtered , grouphits});
 }
@@ -44,7 +42,7 @@ const setExclude=(group,value)=>(dispatch,getState)=>{
 }
 const excludeAll=()=>(dispatch,getState)=>{
 	const corpus=getState().activeCorpus;
-	const cor=openCorpus(corpus)
+	const cor=getState().corpora[getState().activeCorpus];
 	if (!cor)return;
 	const groups=cor.groupNames().map(()=>1);
 	dispatch({type:EXCLUDE,corpus,groups});

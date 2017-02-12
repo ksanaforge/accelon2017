@@ -2,7 +2,6 @@ const SEARCHING = 'SEARCHING';
 const SEARCH_DONE = 'SEARCH_DONE';
 
 const {groupStat}=require("ksana-corpus-search");
-const {openCorpus}=require("ksana-corpus");
 const {_filterMatch}=require("./filter");
 
 const kcs=require("ksana-corpus-search");
@@ -11,7 +10,7 @@ function _search(corpus,q,dispatch,getState,cb){
   if (!corpus)return;
   var searchtimer=setInterval(()=>{
 
-  	const cor=openCorpus(corpus);
+  	const cor=getState().corpora[getState().activeCorpus];
   	if (!cor) return;
 
     if (searching) {
@@ -25,7 +24,7 @@ function _search(corpus,q,dispatch,getState,cb){
     	const {matches,phrasepostings,timer}=result;  
       if (matches) {
         const exclude=(getState().filters[corpus]||{}).exclude;
-        const filtered=_filterMatch(corpus,result.matches,exclude)||[];
+        const filtered=_filterMatch(cor,result.matches,exclude)||[];
         const grouphits=groupStat(filtered,cor.groupTPoss());
         grouphits.shift();
 

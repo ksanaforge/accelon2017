@@ -1,4 +1,4 @@
-const initialState="yinshun";
+const initialState="";
 const {SET_ACTIVE_CORPUS}=require("../actions/corpus");
 module.exports=function(state=initialState,action={}){
 	if (action.type==SET_ACTIVE_CORPUS) {

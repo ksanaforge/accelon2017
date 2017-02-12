@@ -1,7 +1,6 @@
 const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
-const {openCorpus}=require("ksana-corpus");
 const {CorpusView}=require("ksana-corpus-view");
 const {ptr,def,note,link}=require("accelon2016/decorators");
 const figure=require("../decorators/figure");
@@ -27,42 +26,36 @@ class ReadText extends React.Component {
   }
   fetch(props){
   	props=props||this.props;
-		const cor=openCorpus(props.activeCorpus);
-		fetchArticle(cor,props.params.a,props.markups,props.searchresult,(states)=>{
+		fetchArticle(this.props.cor,props.params.a,props.markups,props.searchresult,(states)=>{
 			if (!this._unmounted) this.setState(states);
 		})  	
   }
   componentWillReceiveProps(nextProps) {
-		const cor=openCorpus(this.props.activeCorpus);
-  	if(cor.articleOf(this.props.params.a).at!==cor.articleOf(nextProps.params.a).at ) {
+  	if(this.props.cor.articleOf(this.props.params.a).at!==this.props.cor.articleOf(nextProps.params.a).at ) {
   		this.fetch(nextProps);
   	}
   	if (nextProps.markups != this.props.markups && Object.keys(nextProps.markups).length){
-	  	const article=cor.articleOf(nextProps.params.a);
+	  	const article=this.props.cor.articleOf(nextProps.params.a);
 	  	const newfields=loadArticleMarkup(this.state.fields,nextProps.markups,article.at);
 	  	if (newfields!==this.state.fields) this.setState({fields:newfields});
   	}
   }
 	componentWillMount(){
-		const cor=openCorpus(this.props.activeCorpus);
 		this.fetch(this.props);
 	}
 	componentWillUnmount(){
 		this._unmounted=true;
 	}
 	updateArticleByAddress(address){
-		const cor=openCorpus(this.props.activeCorpus);
-		const addressH=cor.stringify(address);
+		const addressH=this.props.cor.stringify(address);
 		this.props.setA(addressH);
 	}
 	getCaretKPos(){
-		const cor=openCorpus(this.props.activeCorpus);
-		const r=cor.parseRange(this.props.params.a);
+		const r=this.props.cor.parseRange(this.props.params.a);
 		return r.start;
 	}
 	onCursorActivity(cm,kpos) {
-		const cor=openCorpus(this.props.activeCorpus);
-		const addressH=cor.stringify(kpos);
+		const addressH=this.props.cor.stringify(kpos);
 		if (kpos>1) {
 			this.props.setA(addressH,true);
 		}
@@ -72,7 +65,7 @@ class ReadText extends React.Component {
 			return E("div",{},"loading");
 		}
 		const caretpos=this.state.kpos;
-		const navprops={caretpos,corpus:this.props.activeCorpus,
+		const navprops={caretpos,cor:this.props.cor,
 			onSelectItem:this.updateArticleByAddress.bind(this)};
 		return E("div",{},
 			E("div",{style:styles.abscontainer},
@@ -81,7 +74,7 @@ class ReadText extends React.Component {
 			)
 			,E(CorpusView,{address:this.props.params.a,
 			decorators:{ptr,def,note,link,figure,kepan},
-			corpus:this.props.activeCorpus,
+			cor:this.props.cor,
 			article:this.state.article,
 			rawlines:this.state.rawlines,
 			layout:!!this.props.params.l,
