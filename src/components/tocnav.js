@@ -9,7 +9,7 @@ class TOCNav extends React.Component {
 		this.state={toc:[]};
 	}
 	loadTOC(kpos){
-		if (!this.props.corpus)return;
+		if (!this.props.cor)return;
 		this.props.cor.getSubTOC(kpos,function(tocs){
 			this.setState({toc:tocs[0]||[]});
 		}.bind(this));
@@ -26,6 +26,7 @@ class TOCNav extends React.Component {
 		this.props.onSelectItem&&this.props.onSelectItem(address);
 	}
 	render(){
+		console.log("toc nav")
 		return E(BreadCrumbTOC,{toc:this.state.toc,pos:this.props.caretpos
 						,buttonStyle:styles.buttonStyle
 						,onSelect:this.onSelect.bind(this)

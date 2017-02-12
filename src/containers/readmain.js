@@ -65,7 +65,7 @@ class ReadMain extends React.Component {
 		if (!this.state.article) {
 			return E("div",{},"loading");
 		}
-		const caretpos=this.state.kpos;
+		const caretpos=this.getCaretKPos();
 		const navprops={caretpos,cor:this.props.cor,
 			onSelectItem:this.updateArticleByAddress.bind(this)};
 		return E("div",{},
