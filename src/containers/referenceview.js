@@ -16,9 +16,16 @@ class ReferenceView extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.params.r)return;
 		const r=nextProps.params.r.split("@");
-		const corpus=r[0],address=r[1];
+		const corpus=r[0];
+		var address=r[1];
 		const cor=this.props.corpora[corpus];
-		if (!cor)return;
+		if (!cor) {
+			this.props.openCorpus(corpus);
+			return;
+		}
+		if ( parseInt(address,10).toString(10)==address) {
+			address=cor.stringify(address);
+		}
 		this.setState({message:"loading "+nextProps.params.r});
 		fetchArticle(cor,address,null,null,function(states){
 			this.setState(Object.assign({},states,{address,corpus,message:null}));

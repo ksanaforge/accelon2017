@@ -11,7 +11,7 @@ const fetchArticle=function(cor,address,markups,searchresult,cb){
 }
 const loadArticleMarkup=function(oldfields,markups,article){
   var fields=oldfields||{};
-  if (Object.keys(markups).length) {
+  if (markups && Object.keys(markups).length) {
     for (var type in markups) {
       if (markups[type][article]) {
         fields=Object.assign({},fields,{[type]:markups[type][article]});

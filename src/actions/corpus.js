@@ -33,7 +33,6 @@ const setActiveCorpus=function(corpus){
 const _openCorpus=function(corpus,setActive,params,dispatch,getState){
 	const switchCorpus=function(){
 		if (params) dispatch(Object.assign({type:SET_PARAMS},params));
-		if (params) console.log('search',params.q)
 		searchq(corpus,params||{},dispatch,getState);
 		if (setActive) {
 			dispatch(setActiveCorpus(corpus));

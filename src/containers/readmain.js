@@ -5,6 +5,7 @@ const {CorpusView}=require("ksana-corpus-view");
 const {ptr,def,note,link}=require("accelon2016/decorators");
 const figure=require("../decorators/figure");
 const kepan=require("../decorators/kepan");
+const bilink=require("../decorators/bilink");
 const quoteCopy=require("../unit/quotecopy");
 const {_updateParams}=require("../actions/params");
 //const {getExternalField}=require("../unit/fields");
@@ -18,7 +19,7 @@ const styles={
 	menu:{position:"absolute",left:10,top:10}
 }
 
-class ReadText extends React.Component {
+class ReadMain extends React.Component {
   constructor(props) {
   	super(props);
   	const kpos=this.getCaretKPos();
@@ -73,7 +74,7 @@ class ReadText extends React.Component {
 			 ,E("div",{style:styles.menu},E(ReadMainmenu,this.props))
 			)
 			,E(CorpusView,{address:this.props.params.a,
-			decorators:{ptr,def,note,link,figure,kepan},
+			decorators:{ptr,def,note,link,figure,kepan,bilink},
 			cor:this.props.cor,
 			article:this.state.article,
 			rawlines:this.state.rawlines,
@@ -92,4 +93,4 @@ class ReadText extends React.Component {
 	}
 }
 
-module.exports=ReadText;
+module.exports=ReadMain;
