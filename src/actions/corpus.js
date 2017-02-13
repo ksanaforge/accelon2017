@@ -59,4 +59,4 @@ const openCorpus=function(corpus,setActive,params){
 		return _openCorpus(corpus,setActive,params,dispatch,getState);
 	}
 }
-module.exports={SET_ACTIVE_CORPUS,setActiveCorpus,openCorpus,_openCorpus,CORPUS_FAIL,CORPUS_OPEN};
+module.exports={SET_ACTIVE_CORPUS,setActiveCorpus,openCorpus,_openCorpus,CORPUS_FAIL,CORPUS_OPEN,searchq};

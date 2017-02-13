@@ -76,6 +76,7 @@ class ReadMain extends React.Component {
 			,E(CorpusView,{address:this.props.params.a,
 			decorators:{ptr,def,note,link,figure,kepan,bilink},
 			cor:this.props.cor,
+			corpora:this.props.corpora,
 			article:this.state.article,
 			rawlines:this.state.rawlines,
 			layout:!!this.props.params.l,

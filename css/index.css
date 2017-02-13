@@ -13,11 +13,18 @@ body {margin:0px}
 .disablefilterhit {color:#ff7f7f;font-size:75%}
 .filterlabel {color:lightblue;cursor:pointer}
 .filterlabel:hover {text-decoration:underline;}
-
+.bilink {border-bottom:dotted 1px blue;}
 .inlinesvg {}
 .toclabel {cursor:pointer}
 .toclabel_selected {border:solid 1px blue;border-radius: 3px}
 .toclabel:hover {border-bottom:1px solid blue}
+.highlight{background: #afcfff}
+
+.followbuttongroup {position:absolute;cursor:pointer;color:red;
+ z-index: 300;top:-1.1em;line-height:1em}
+.followbutton {font-size:0.8em;cursor:pointer;background:gray;
+  z-index: 300;font-weight: 600;color:blue;margin:2px;border-radius: 3px;display:inline-block}
+
 
 .dicthandle{position: absolute;right:0;cursor: pointer;top:-1em;}
 
@@ -57,9 +64,9 @@ body {margin:0px}
 }
 
 .CodeMirror{
-  background:#cfcfcf;
+  background:#bfbfbf;
 }
-.CodeMirror-activeline-background {background: #bfbfbf}
+.CodeMirror-activeline-background {background: #cfcfcf}
 
 .cm-s-ambiance .CodeMirror-activeline-background {
   background: none repeat scroll 0% 0% rgba(255, 255, 255, 0.131);

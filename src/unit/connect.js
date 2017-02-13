@@ -6,7 +6,7 @@ const connect=function(cor1,cor2, output, links){
 	if (cor1===cor2)return;
 	var lastfield=null;
 	if (cor2.meta.linkTo) {
-		for (field in cor2.meta.linkTo) {
+		for (var field in cor2.meta.linkTo) {
 			if (field.indexOf("@"+cor1.id)==-1) continue;
 			const articles=cor2.meta.linkTo[field];
 			const keys=articles.map(a=>["afields",a,field]);

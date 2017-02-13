@@ -12,8 +12,9 @@ class ReferenceView extends React.Component {
 		this.state={article:null,message:"loading"};
 	}
 	shouldComponentUpdate(nextProps,nextState){
-		return nextProps.params.r&&
+		const r= nextProps.params.r&&
 		 (nextProps.params.r!==this.props.params.r || (this.state&&(this.state.article!=nextState.article)));
+		 return !!r;
 	}
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.params.r)return;
@@ -40,6 +41,10 @@ class ReferenceView extends React.Component {
 		const addressH=cor.stringify(address);
 		this.props.setA(addressH);
 	}	
+	updateMainText(fulladdress){
+		const r=fulladdress.split("@");
+		this.props.setParams({c:r[0],a:r[1]});
+	}
 	render(){
 		if (this.state.message) {
 			return E("div",{},this.state.message);
@@ -48,12 +53,13 @@ class ReferenceView extends React.Component {
 		return E(CorpusView,{address:this.state.address,
 			decorators:{ptr,def,note,link,bilink},
 			corpus:this.state.corpus,
+			corpora:this.props.corpora,
 			article:this.state.article,
 			rawlines:this.state.rawlines,
 			fields:this.state.fields,
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
-			openLink:this.props.openLink,
-			showPageStart:true,
+			openLink:this.updateMainText.bind(this),
+			aux:true//open Link will update main text
 			})
 		
 	}

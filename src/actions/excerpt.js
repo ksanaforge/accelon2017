@@ -12,8 +12,8 @@ const hitperbatch=20;
 const showExcerpt=function(now,extra){
 	return (dispatch,getState) =>{
 		if (typeof now!=="number") now=getState().params.n||0; //use n in url
-		if (typeof extra!=="number") line=getState().params.e||0; //use n in url
-		_showExcerpt(now,line,dispatch,getState);
+		if (typeof extra!=="number") extra=getState().params.e||0; //use n in url
+		_showExcerpt(now,extra,dispatch,getState);
 	}
 }
 

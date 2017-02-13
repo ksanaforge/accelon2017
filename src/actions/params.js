@@ -91,5 +91,6 @@ const openLink=function(fulladdress,replacehistory){
 	if (!address) return {type:"INVALID_LINK"};
 	return setParams({r:fulladdress,m:READTEXT},replacehistory);
 }
+
 module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setA, setC,selectDB,setLayout,setMode,selectBook,groupByBook
 ,TOCVIEW,DBSELECTOR,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW,readText,openLink}

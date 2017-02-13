@@ -17,6 +17,7 @@ const execURL=function() {
 			_openCorpus(params.c||defaultCorpus,setActive,params,dispatch,getState);
 		} else {
 			dispatch(Object.assign({type:SET_PARAMS},params));
+			searchq(corpus,params||{},dispatch,getState);
 		}
 	}
 }
