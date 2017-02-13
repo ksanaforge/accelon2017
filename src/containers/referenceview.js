@@ -5,6 +5,7 @@ const {CorpusView}=require("ksana-corpus-view");
 const {fetchArticle}=require("../unit/article");
 const {ptr,def,note,link}=require("accelon2016/decorators");
 const bilink=require("../decorators/bilink");
+const quoteCopy=require("../unit/quotecopy");
 
 class ReferenceView extends React.Component {
 	constructor (props) {
@@ -57,6 +58,7 @@ class ReferenceView extends React.Component {
 			article:this.state.article,
 			rawlines:this.state.rawlines,
 			fields:this.state.fields,
+			copyText:quoteCopy,
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
 			openLink:this.updateMainText.bind(this),
 			aux:true//open Link will update main text
