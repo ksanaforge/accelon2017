@@ -85,6 +85,14 @@ const groupByBook=function(){
 	}		
 }
 
+const openNewWindow=function(address,corpus){
+	return (dispatch,getState) =>{
+		if (!corpus) corpus=getState().activeCorpus;
+		var url=window.location.origin+window.location.pathname+"#c="+corpus+"&m="+READTEXT+"&a="+address;
+		const win=window.open(url,'_blank');
+		win.focus();
+	}		
+}
 const openLink=function(fulladdress,replacehistory){
 	const r=fulladdress.split("@");
 	const corpus=r[0], address=r[1];
@@ -93,4 +101,4 @@ const openLink=function(fulladdress,replacehistory){
 }
 
 module.exports={SET_PARAMS,isUpdating,setParams,_updateParams,setQ, setA, setC,selectDB,setLayout,setMode,selectBook,groupByBook
-,TOCVIEW,DBSELECTOR,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW,readText,openLink}
+,TOCVIEW,DBSELECTOR,BOOKRESULT,BOOKSELECTOR,READTEXT,EXCERPTVIEW,readText,openLink,openNewWindow}

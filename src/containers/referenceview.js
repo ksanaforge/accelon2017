@@ -7,10 +7,17 @@ const {ptr,def,note,link}=require("accelon2016/decorators");
 const bilink=require("../decorators/bilink");
 const quoteCopy=require("../unit/quotecopy");
 const {notarget2address}=require("../unit/taisho");
+const AuxMainmenu=require("./auxmainmenu");
+const styles={
+	abscontainer:{position:"relative",zIndex:200},
+	nav:{position:"absolute",right:100},
+	menu:{position:"absolute",left:10,top:10}
+}
+
 class ReferenceView extends React.Component {
 	constructor (props) {
 		super(props);
-		this.state={article:null,message:"loading",cor:null};
+		this.state={article:null,message:"",cor:null};
 	}
 	/*
 	shouldComponentUpdate(nextProps,nextState){
@@ -20,7 +27,7 @@ class ReferenceView extends React.Component {
 	}
 	*/
 	fetchAddress(cor,address,markups){
-		this.setState({message:"loading "+address});
+		if (address) this.setState({message:"loading "+address});
 
 		if ( parseInt(address,10).toString(10)==address) {
 			address=cor.stringify(address);
@@ -72,10 +79,15 @@ class ReferenceView extends React.Component {
 		this.props.setParams({c:r[0],a:r[1]});
 	}
 	render(){
-		if (this.state.message) {
+		if (this.state.message || !this.state.article) {
 			return E("div",{},this.state.message);
 		}
-		return E(CorpusView,{address:this.state.address,
+		return E("div",{},
+			E("div",{style:styles.abscontainer},
+			 E("div",{style:styles.menu},E(AuxMainmenu,this.props))
+			)
+
+			, E(CorpusView,{address:this.state.address,
 			decorators:{ptr,def,note,link,bilink},
 			cor:this.state.cor,
 			corpora:this.props.corpora,
@@ -87,7 +99,7 @@ class ReferenceView extends React.Component {
 			openLink:this.updateMainText.bind(this),
 			aux:true//open Link will update main text
 			})
-		
+		);
 	}
 }
 module.exports=ReferenceView;

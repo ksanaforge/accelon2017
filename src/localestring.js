@@ -24,7 +24,8 @@ const stringtable={
 	["Load Markup","載入外部標記"],
 	["View First Markup","跳到第一個標記"],
 	["Layout On","原書換行"],
-	["Layout Off","段落重排"]
+	["Layout Off","段落重排"],
+	["Open New Window","以新視窗開啟"]
 	]
 }
 for (var locale in stringtable) {
