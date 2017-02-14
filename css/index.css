@@ -83,7 +83,7 @@ body {margin:0px}
 .link {border-bottom:solid 1px blue;cursor:pointer;}
 
 .note {font-size:0.6em;cursor:pointer;
-	top:-1.1em;color:black;position:absolute;}
+	top:-1.1em;color:red;position:absolute;}
 .ptr {font-size:0.6em;cursor:pointer;
 	top:-1.1em;color:black;position:absolute;}
 

@@ -6,40 +6,66 @@ const {fetchArticle}=require("../unit/article");
 const {ptr,def,note,link}=require("accelon2016/decorators");
 const bilink=require("../decorators/bilink");
 const quoteCopy=require("../unit/quotecopy");
-
+const {notarget2address}=require("../unit/taisho");
 class ReferenceView extends React.Component {
 	constructor (props) {
 		super(props);
-		this.state={article:null,message:"loading"};
+		this.state={article:null,message:"loading",cor:null};
 	}
+	/*
 	shouldComponentUpdate(nextProps,nextState){
 		const r= nextProps.params.r&&
-		 (nextProps.params.r!==this.props.params.r || (this.state&&(this.state.article!=nextState.article)));
+		 (nextProps.params.r!==this.props.params.r || (this.state.article&&(this.state.article.at!=nextState.article.at)));
 		 return !!r;
 	}
-	componentWillReceiveProps(nextProps) {
-		if (!nextProps.params.r)return;
-		const r=nextProps.params.r.split("@");
-		const corpus=r[0];
-		var address=r[1];
-		const cor=this.props.corpora[corpus];
-		if (!cor) {
-			this.props.openCorpus(corpus);
-			return;
-		}
+	*/
+	fetchAddress(cor,address,markups){
+		this.setState({message:"loading "+address});
+
 		if ( parseInt(address,10).toString(10)==address) {
 			address=cor.stringify(address);
 		}
-		this.setState({message:"loading "+nextProps.params.r});
-		const markups=nextProps.corpusmarkups[corpus];
-
 		fetchArticle(cor,address,markups,null,function(states){
-			this.setState(Object.assign({},states,{address,corpus,message:null}));
+			const r=this.props.params.r;
+			this.setState(Object.assign({},states,{address,cor,message:null,r}));
 		}.bind(this));
 	}
+	componentDidMount(){
+		this.loadtext(this.props);
+	}
+	loadtext(props){
+		props=props||this.props;
+		if (!props.corpora)return;
+		if (!props.params.r)return ;
+		const r=props.params.r.split("@");
+		const corpus=r[0].toLowerCase(); //Taisho ==> taisho
+		var address=r[1];
+		const cor=props.corpora[corpus];
+		if (!cor) {
+			props.openCorpus(corpus);
+			return;
+		}
+		const markups=props.corpusmarkups[corpus];
+		if (r[0]=="Taisho") { //not page number, sutra id with optional i
+			notarget2address(cor,address,newaddress=>{
+				if (this.state.address!=newaddress) {
+					this.fetchAddress(cor,newaddress,markups);
+				}
+			});
+			return;
+		}
+
+		this.fetchAddress(cor,address,markups);
+	}
+	componentWillReceiveProps(nextProps) {
+		if (!nextProps.params.r)return;
+
+		if (this.state.r!==nextProps.params.r || nextProps.markups!==this.props.markups){
+			this.loadtext(nextProps);
+		} 
+	}
 	updateArticleByAddress(address){
-		const cor=this.props.corpora[corpus];
-		const addressH=cor.stringify(address);
+		const addressH=this.state.cor.stringify(address);
 		this.props.setA(addressH);
 	}	
 	updateMainText(fulladdress){
@@ -50,10 +76,9 @@ class ReferenceView extends React.Component {
 		if (this.state.message) {
 			return E("div",{},this.state.message);
 		}
-
 		return E(CorpusView,{address:this.state.address,
 			decorators:{ptr,def,note,link,bilink},
-			corpus:this.state.corpus,
+			cor:this.state.cor,
 			corpora:this.props.corpora,
 			article:this.state.article,
 			rawlines:this.state.rawlines,

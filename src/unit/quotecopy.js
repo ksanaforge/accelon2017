@@ -1,6 +1,24 @@
+const calFascicle=function(cor,krange){
+	const group=cor.groupOf(krange);
+	const grange=cor.groupKRange(group)
+	const r=cor.parseRange(grange[0]);
+	const a=cor.articleOf(krange).at;
+	const b=cor.articleOf(r.start).at;
+	return (a-b+1);
+}
 const quoteCopy_taisho=function({cor,value,krange}){
 	const group=cor.getGroupName(krange).replace(/.*@/,"");
-	return "「"+value.replace(/\r?\n/g,"")+"」"+"《"+group+"》T"+cor.stringify(krange);
+	const address=cor.stringify(krange);
+	const vol=address.replace(/p.*/,"");
+	var shortaddress=address.replace(/.*p/,"").replace(/\d\d-/,"-");
+
+	if (shortaddress.replace(/.*-/,"").length>=4) {
+		shortaddress=shortaddress.substr(0,shortaddress.length-2);		
+	} else { //same line
+		shortaddress=shortaddress.replace(/-.*/,"");
+	}
+	var fascicle=calFascicle(cor,krange);
+	return "《"+group+"》卷"+fascicle+"：「"+value.replace(/\r?\n/g,"")+"」（大正"+vol+"，"+shortaddress+"）";
 }
 const quoteCopy=function({cor,value,krange}){
 	if (cor.id=="taisho") return quoteCopy_taisho({cor,value,krange});

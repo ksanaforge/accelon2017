@@ -1,16 +1,28 @@
 
-when taisho is first loaded by ref window.
-  check if other corpus has bilink
-  load markup in other corpus and break into article 
-  call action setMarkups
-
-  promote ref to main window (hamburger for ref window)
-
-fix readtext article toc didn't update on cursor activity
-
-show quick search result in dbselector screen
-
-dictionary checking architecture (no in contract)
-
-remove openCorpus call in components, pass down cor instead of using activeCorpus
 rename to accelon2017
+
+change inline node to display full text
+browserify bundle corpus builder for node.js 
+
+fix cannot jump to def area (may be cross article)
+http://ya.ksana.tw/yinshun/#c=yinshun&m=1&a=25p88.0129&r=Taisho@99p1118
+
+fix cannot link to SA, AA , DA , MA (with sub sutra id) capital Taisho (taisho normal sid)
+
+add quick jump address input box in dbselector (accept number or human format)
+
+mouse hover on note , stay longer for user to click on taisho link in note.
+
+promote ref to main window (hamburger for ref window)
+
+
+
+
+dictionary checking architecture (not in contract)
+
+
+
+Fix maps taisho mulu goes to next corpus line
+ When outline if crlf in between,
+Break into lines, add tpos before putting new texts line
+And update previews texts line

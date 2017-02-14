@@ -5,6 +5,7 @@ const fetchArticle=function(cor,address,markups,searchresult,cb){
 
     cor.getArticleTextTag(article.at , articleFields, (res)=>{
       const fields=loadArticleMarkup(res.fields,markups,article.at);
+
   	  cb({address,article,rawlines:res.text,fields,kpos:article.start});
     });	
 	}
