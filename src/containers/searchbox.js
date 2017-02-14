@@ -12,9 +12,24 @@ class SearchBox extends React.Component {
 			this.setState({q:nextProps.params.q||""});
 		}
 	}
+	tryAddress(q){
+		var address=false;
+		const r=this.props.cor.parseRange(q);
+		if (r.start) {
+			address=q;
+		}
+		
+		return address;
+	}
 	search(){
-		this.props.setQ(this.state.q);
-		this.input.focus();
+		const a=this.tryAddress(this.state.q);
+		if (a) {
+			this.props.setQ("");
+			this.props.readText(a);
+		} else {
+			this.props.setQ(this.state.q);
+				this.input.focus();
+		}
 	}
 	setRef(ref){
 		this.input=ref;

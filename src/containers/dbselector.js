@@ -10,6 +10,9 @@ class DBSelector extends React.Component {
 	selectdb(db){
 		this.props.setC(db);
 	}
+	onInputKeypress(e){
+
+	}
 	renderDB(item,key){
 		const active=item==this.props.activeCorpus;
 		const cor=this.props.corpora[item];
