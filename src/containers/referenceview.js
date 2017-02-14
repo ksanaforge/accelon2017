@@ -59,8 +59,7 @@ class ReferenceView extends React.Component {
 	}
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.params.r)return;
-
-		if (this.state.r!==nextProps.params.r || nextProps.markups!==this.props.markups){
+		if (this.state.r!==nextProps.params.r || nextProps.markups!==this.props.markups && nextProps.markups){
 			this.loadtext(nextProps);
 		} 
 	}

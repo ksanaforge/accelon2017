@@ -35,7 +35,7 @@ class ReadMain extends React.Component {
   	if(this.props.cor.articleOf(this.props.params.a).at!==this.props.cor.articleOf(nextProps.params.a).at ) {
   		this.fetch(nextProps);
   	}
-  	if (nextProps.markups != this.props.markups && Object.keys(nextProps.markups).length){
+  	if (nextProps.markups != this.props.markups && nextProps.markups){
 	  	const article=this.props.cor.articleOf(nextProps.params.a);
 	  	const newfields=loadArticleMarkup(this.state.fields,nextProps.markups,article.at);
 	  	if (newfields!==this.state.fields) this.setState({fields:newfields});
