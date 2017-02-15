@@ -81,8 +81,8 @@ class ExcerptView extends React.Component {
 	}
 	excerptTitle(n){
 		const searchresult=this.props.searchresult;
-		if (!searchresult.matches)return {};
-		const tpos=searchresult.matches[n];
+		if (!searchresult.filtered)return {};
+		const tpos=searchresult.filtered[n];
 		const address=this.props.cor.fromTPos(tpos).kpos[0];
 		if (address) {
 			var addressH=this.props.cor.stringify(address);

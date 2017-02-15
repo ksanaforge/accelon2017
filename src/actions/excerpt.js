@@ -20,7 +20,7 @@ const showExcerpt=function(now,extra){
 const _showExcerpt=function(now,extra,dispatch,getState){ //line = 1,3,5
  	const cor=getState().corpora[getState().activeCorpus];
 	const searchstate=getState().searchresult;
-	const hits=searchstate.matches;
+	const hits=searchstate.filtered;
 	const excerptstate=getState().excerpt;
 	var tpos=[];
 	const batch=Math.floor(now/hitperbatch);
