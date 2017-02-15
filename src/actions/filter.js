@@ -30,7 +30,6 @@ const updateExcerpt=function(dispatch,getState){
 	if (!matches) return;
 	const cor=getState().corpora[corpus];
 	const filtered=_filterMatch(cor,matches,exclude);
-
 	dispatch({type:SET_FILTERED, filtered , grouphits});
 }
 

@@ -9,8 +9,12 @@ const {_search}=require("./search");
 const {SET_PARAMS}=require("../actions/params");
 const {setExcludeByStr}=require("./filter");
 const {_showExcerpt}=require("./excerpt");
-
-const searchq=function(corpus,params,dispatch,getState){
+const searchq=function(corpus,params,dispatch,getState,cb){
+	const p=getState().params;
+	if (params.ex && params.ex!==p.ex) {
+		setExcludeByStr(params.ex,dispatch,getState);
+	}
+			
 	_search(corpus,params.q||"",dispatch,getState,function(){
 			const m=parseInt(params.m)||0;
 			const p=getState().params;
@@ -20,7 +24,8 @@ const searchq=function(corpus,params,dispatch,getState){
 			if (m===EXCERPTVIEW) {
 				_showExcerpt(parseInt(params.n)||0,parseInt(params.e)||0,dispatch,getState);
 			}
-	});	
+			cb&&cb();
+	});
 }	
 
 const setActiveCorpus=function(corpus){
@@ -32,11 +37,12 @@ const setActiveCorpus=function(corpus){
 }
 const _openCorpus=function(corpus,setActive,params,dispatch,getState){
 	const switchCorpus=function(){
-		if (params) dispatch(Object.assign({type:SET_PARAMS},params));
-		searchq(corpus,params||{},dispatch,getState);
 		if (setActive) {
 			dispatch(setActiveCorpus(corpus));
 		}
+		searchq(corpus,params||{},dispatch,getState,function(){
+			if (params) dispatch(Object.assign({type:SET_PARAMS},params));
+		});
 	}
 	if (getState().corpora[corpus]==undefined) {
 		ksanaCorpus.openCorpus(corpus,function(err,cor){

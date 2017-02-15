@@ -14,7 +14,7 @@ function _search(corpus,q,dispatch,getState,cb){
   	if (!cor) return;
 
     if (searching) {
-      console.log("wait searching",getState().searchresult.q);
+      console.log("wait searching",q);
       return;
     }
     clearInterval(searchtimer);
@@ -27,7 +27,6 @@ function _search(corpus,q,dispatch,getState,cb){
         const filtered=_filterMatch(cor,result.matches,exclude)||[];
         const grouphits=groupStat(filtered,cor.groupTPoss());
         grouphits.shift();
-
         dispatch({type:SEARCH_DONE, corpus, q , 
           matches,phrasepostings,timer, grouphits , filtered});        
       }

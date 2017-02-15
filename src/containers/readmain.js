@@ -1,7 +1,7 @@
 const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
-const {CorpusView}=require("ksana-corpus-view");
+const {CorpusView}=window.KsanaCorpusView||require("ksana-corpus-view");
 const {ptr,def,note,link}=require("accelon2016/decorators");
 const figure=require("../decorators/figure");
 const kepan=require("../decorators/kepan");
