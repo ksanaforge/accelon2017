@@ -45,7 +45,7 @@ class ExcerptView extends React.Component {
 			const linecharr=hits.map((hit,idx)=>{
 
 				const phraselength=phraselengths[idx]||phraselengths;//should be kpos width
-				const range=this.props.cor.makeKRange(hit,hit+phraselength);
+				const range=this.props.cor.makeRange(hit,hit+phraselength);
 
 				var {start,end}=this.props.cor.toLogicalRange(excerpt.linebreaks,range,getrawline);
 				const absstart=linelengths[start.line]+start.ch +start.line //for linefeed ;

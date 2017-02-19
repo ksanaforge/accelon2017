@@ -9,7 +9,7 @@ const ExecURLActions=require('../actions/execurl');
 const SelectionActions=require('../actions/selection');
 const MarkupActions=require('../actions/markup');
 const CorpusActions=require('../actions/corpus');
-function mapStateToProps(state) {
+function mapStateToProps(state,ownProps) {
   return {
   	activeCorpus:state.activeCorpus,
   	params:state.params,
@@ -20,7 +20,8 @@ function mapStateToProps(state) {
   	selection:state.selection,
     corpusmarkups:state.corpusmarkups,
     corpora:state.corpora,
-    markups:state.corpusmarkups[state.activeCorpus]
+    markups:state.corpusmarkups[state.activeCorpus],
+    appOpts:ownProps,
   };
 }
 

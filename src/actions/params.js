@@ -51,12 +51,7 @@ function setC(corpus,replacehistory){
 		dispatch(setParams({c:corpus,m:BOOKSELECTOR},replacehistory));
 	}	
 }
-function setRef(corpus,address,replacehistory) {
-	return (dispatch,getState) =>{
-		const m=getState().params.m||BOOKSELECTOR;
-		dispatch(setParams({r:corpus,ra:address,m},replacehistory));
-	}	
-}
+
 function setLayout(l,replacehistory){
 	return (dispatch,getState) =>{
 		const m=getState().params.m||BOOKSELECTOR;

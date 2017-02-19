@@ -8,7 +8,7 @@ const  {SHOW_EXCERPT,SET_EXCERPT_LINE,hitperbatch} = require('../actions/excerpt
 */
 const initialState={
 	excerpts:[]
-	,excerptline:parseInt(localStorage.getItem("yinshun_excerptline"),10)||3
+	,excerptline:3
 	,query:{count:0}
   ,batch:0
   ,now:0

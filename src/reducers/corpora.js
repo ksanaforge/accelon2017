@@ -1,8 +1,8 @@
-const {CORPUS_OPEN,CORPUS_FAIL}=require("../actions/corpus");
+const {CORPUS_OPEN,CORPUS_FAIL,SET_CORPORA}=require("../actions/corpus");
 
-const initialstate={"yinshun":undefined,"taisho":undefined};
+const initialstate={};//"yinshun":undefined,"taisho":undefined};
 
-module.exports=function counter(state = initialstate , action = {}) {
+module.exports=function corpora(state = {} , action = {}) {
 	if (action.type===CORPUS_OPEN) {
 		if (action.cor==state[action.corpus])return state;
 		const newstate=Object.assign({},state,{[action.corpus]:action.cor});
@@ -11,6 +11,8 @@ module.exports=function counter(state = initialstate , action = {}) {
 	} else if (action.type===CORPUS_FAIL) {
 		const newstate=Object.assign({},state,{[action.corpus]:null});
 		return newstate;
+	} else if (action.type===SET_CORPORA) {
+		return action.corpora || state;
 	}
 	return state;
 }

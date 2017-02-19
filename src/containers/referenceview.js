@@ -3,10 +3,9 @@ const PT=React.PropTypes;
 const E=React.createElement;
 const {CorpusView}=require("ksana-corpus-view");
 const {fetchArticle}=require("../unit/article");
-const {ptr,def,note,link}=require("accelon2016/decorators");
-const bilink=require("../decorators/bilink");
 const quoteCopy=require("../unit/quotecopy");
 const {notarget2address}=require("../unit/taisho");
+const decorators=require("../decorators");
 const AuxMainmenu=require("./auxmainmenu");
 const styles={
 	abscontainer:{position:"relative",zIndex:200},
@@ -82,18 +81,22 @@ class ReferenceView extends React.Component {
 		if (this.state.message || !this.state.article) {
 			return E("div",{},this.state.message);
 		}
+		const menuprops=Object.assign({},this.props,{
+			cor:this.state.cor,
+			address:this.state.address});
 		return E("div",{},
 			E("div",{style:styles.abscontainer},
-			 E("div",{style:styles.menu},E(AuxMainmenu,this.props))
+			 E("div",{style:styles.menu},E(AuxMainmenu,menuprops))
 			)
 
 			, E(CorpusView,{address:this.state.address,
-			decorators:{ptr,def,note,link,bilink},
+			decorators,
 			cor:this.state.cor,
 			corpora:this.props.corpora,
 			article:this.state.article,
 			rawlines:this.state.rawlines,
 			fields:this.state.fields,
+			showNotePopup:this.props.showNotePopup,
 			copyText:quoteCopy,
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
 			openLink:this.updateMainText.bind(this),

@@ -35,6 +35,9 @@ class ReadMainmenu extends React.Component {
 			return E("div",{style:styles.menu},
 				E("span",{onClick:this.closemenu.bind(this),style:styles.closebutton},"✕"),
 				"　",
+				E("span",{},this.props.address),
+				E("br"),
+				E("span",{},this.props.cor.getTitle(this.props.address)),
 				E("button",{onClick:this.opennew.bind(this)},_("Open New Window"))
 			)
 		}

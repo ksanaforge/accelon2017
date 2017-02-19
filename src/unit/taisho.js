@@ -1,3 +1,4 @@
+/*轉 大正  阿含部 子經號 為  冊頁碼 */
 const notarget2address=function(cor,no_target,cb){
 	var n=parseInt(no_target,10);
 	if (n.toString(10)==no_target && n>=cor.parseRange("1p1a0100").start) {

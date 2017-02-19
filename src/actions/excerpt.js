@@ -2,7 +2,7 @@ const {EXCERPTVIEW,setMode,_updateParams}=require("./params");
 //const {packBits,unpackBits}=require("../unit/bitstr");
 const SHOW_EXCERPT="SHOW_EXCERPT";
 const SET_EXCERPT_LINE="SET_EXCERPT_LINE";
-const {fetchExcerpts}=require("ksana-corpus-search/excerpt");
+const {fetchExcerpts}=require("ksana-corpus-search").excerpt;
 
 const kcs=require("ksana-corpus-search");
 

@@ -2,10 +2,7 @@ const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
 const {CorpusView}=window.KsanaCorpusView||require("ksana-corpus-view");
-const {ptr,def,note,link}=require("accelon2016/decorators");
-const figure=require("../decorators/figure");
-const kepan=require("../decorators/kepan");
-const bilink=require("../decorators/bilink");
+const decorators=require("../decorators");
 const quoteCopy=require("../unit/quotecopy");
 const {_updateParams}=require("../actions/params");
 //const {getExternalField}=require("../unit/fields");
@@ -74,7 +71,7 @@ class ReadMain extends React.Component {
 			 ,E("div",{style:styles.menu},E(ReadMainmenu,this.props))
 			)
 			,E(CorpusView,{address:this.props.params.a,
-			decorators:{ptr,def,note,link,figure,kepan,bilink},
+			decorators,
 			cor:this.props.cor,
 			corpora:this.props.corpora,
 			article:this.state.article,
@@ -85,6 +82,7 @@ class ReadMain extends React.Component {
 			fields:this.state.fields,
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
 			openLink:this.props.openLink,
+			showNotePopup:this.props.showNotePopup,
 			showPageStart:true,
 			setSelection:this.props.setSelection.bind(this),
 			searchresult:this.props.searchresult,

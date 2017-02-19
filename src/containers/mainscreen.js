@@ -15,11 +15,16 @@ const Footer=require("../components/footer");
 const styles={
 	body:{overflowY:"auto",height:"96%",overflowX:"hidden"}
 }
+const initApps=function(opts){
+	if (!opts)return;
+	if (opts.corpora) this.props.setCorpora(opts.corpora);
+}
 class MainScreen extends React.Component{
   componentWillMount(){
-		this.props.execURL();
+  	initApps.call(this,this.props.appOpts);
   }
 	componentDidMount(){
+		this.props.execURL();
 		window.addEventListener('hashchange', () => {
 			if (!isUpdating()) {
 				this.props.execURL();

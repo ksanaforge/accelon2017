@@ -1,4 +1,5 @@
 const SET_ACTIVE_CORPUS="SET_ACTIVE_CORPUS";
+const SET_CORPORA="SET_CORPORA";
 const CORPUS_OPEN="CORPUS_OPEN";
 const CORPUS_FAIL="CORPUS_FAIL";
 const ksanaCorpus=require("ksana-corpus");
@@ -51,8 +52,6 @@ const _openCorpus=function(corpus,setActive,params,dispatch,getState){
 				dispatch({type:CORPUS_OPEN,corpus,cor});
 				connectCorpus(cor,getState().corpora,dispatch);
 				switchCorpus();
-			} else {
-				dispatch({type:CORPUS_FAIL,corpus});
 			}
 		})
 	} else {
@@ -65,4 +64,8 @@ const openCorpus=function(corpus,setActive,params){
 		return _openCorpus(corpus,setActive,params,dispatch,getState);
 	}
 }
-module.exports={SET_ACTIVE_CORPUS,setActiveCorpus,openCorpus,_openCorpus,CORPUS_FAIL,CORPUS_OPEN,searchq};
+const setCorpora=function(corpora){
+	return {type:SET_CORPORA,corpora}
+}
+module.exports={SET_ACTIVE_CORPUS,SET_CORPORA,CORPUS_FAIL,CORPUS_OPEN,
+	setActiveCorpus,openCorpus,_openCorpus,searchq,setCorpora};

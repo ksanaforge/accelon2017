@@ -11,7 +11,7 @@ const loadMarkup=function(cor,json){
 		
 		const article=cor.articleOf(r.start).at;
 		if (!out[article]) out[article]={pos:[],value:[]};	
-		out[article].pos.push(r.start==r.end?r.start:r.kRange);
+		out[article].pos.push(r.start==r.end?r.start:r.range);
 		out[article].value.push(json[i].substr(address.length));
 	}
 	return out;

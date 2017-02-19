@@ -6,6 +6,9 @@ const Home=require('./containers/home');
 const store = require('./store/configurestore')();
 require("./localestring");
 
-ReactDOM.render(
-  E(Provider,{store},E(Home)), document.getElementById('root')
-)
+const Main=function(appopts){
+	ReactDOM.render(
+	  E(Provider,{store},E(Home,appopts)), document.getElementById('root')
+	)	
+}
+module.exports=Main;
