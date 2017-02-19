@@ -1,11 +1,22 @@
-const onLinkMouseDown=function(e){
+var popuptimer;
+const onLinkMouseOver=function(e){
+	e.target.leave=false;
 	const text=e.target.dataset.text;
-	e.target.action({title:e.target.innerHTML,text,x:e.pageX,y:e.pageY});
+	const title=e.target.innerHTML;
+	const x=e.pageX,y=e.pageY;
+	const action=e.target.action;
+	popuptimer=setTimeout(function(){
+		action({title,text,x,y});
+	},500);
+}
+const onLinkMouseLeave=function(e){
+	clearTimeout(popuptimer);
 }
 const createMppsNote=function({cm,cor,corpus,start,end,id,tabid,target,actions,fields}){
 	const dom=document.createElement("span");
 	dom.className="notelink";
-	dom.onmousedown=onLinkMouseDown;
+	dom.onmouseover=onLinkMouseOver;
+	dom.onmouseleave=onLinkMouseLeave;
 	dom.action=actions.showNotePopup;
 	dom.cor=cor;
 	if (target instanceof Array) {
