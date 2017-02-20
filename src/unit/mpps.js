@@ -3,7 +3,7 @@ var patterns={
  kai:/\{k(.+?)k\}/g,
  taisho:/@t(\d+p\d+[a-c\-0-9]*)/g,
  taisho_full:/@t(\d+p\d+[a-c][0-9]+)/g,
- yinshun_note:/y([A-Z][0-9]+)#([0-9]+)/g
+ yinshun_note:/@y([A-Z][0-9]+)#([0-9]+)/g
 }
 const markLine=function(doc,i,visitlink){
 	if (i>doc.lineCount())return;
@@ -49,7 +49,7 @@ const markLine=function(doc,i,visitlink){
 	});
 }
 
-var markLines=function(doc,from,to,openLink){
+var markNoteLines=function(doc,from,to,openLink){
 	const visitlink=function(e){
 		const url=e.target.dataset.target;
 		if (url.substr(0,7)==="http://") {
@@ -65,4 +65,4 @@ var markLines=function(doc,from,to,openLink){
 		markLine(doc, i, visitlink);
 	}
 }
-module.exports={markLines};
+module.exports={markNoteLines};

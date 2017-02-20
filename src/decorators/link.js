@@ -14,9 +14,10 @@ const createLink=function({cm,cor,start,end,id,target,active,actions}){
 		const dom=document.createElement("span");
 		dom.className="notelink";
 		dom.onmousedown=onLinkMouseDown;
-		dom.action=actions.updateArticleByAddress;
+		dom.action=actions.openLink;
 		dom.cor=cor;
 		dom.innerHTML=target;
+		dom.target=target;
 		return cm.setBookmark(start,{widget:dom,handleMouseEvents:true});
 	} else {
 		const dom=document.createElement("span");

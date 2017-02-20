@@ -2,7 +2,6 @@ var linktimer;
 const onKepanMouseOver=function(e){
 	const action=e.target.action;
 	const go=e.target.dataset.go;
-	console.log("goto",go);
 	popuptimer=setTimeout(function(){
 		action(go);
 	},400);

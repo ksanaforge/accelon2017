@@ -16,13 +16,14 @@ class ReadText extends React.Component {
 		this.state={popupX:0,popupY:0,text:"",title:""};
 	}
 	showNotePopup(opts){
-		this.setState({popupX:opts.x,popupY:opts.y,text:opts.text,title:opts.title});
+		this.setState({popupX:opts.x,popupY:opts.y,text:opts.text,title:opts.title,tagname:opts.tagname});
 	}	
+	
 	render(){
 		const props=Object.assign({},this.props,{showNotePopup:this.showNotePopup.bind(this)});
 		return E("div",{style:styles.container},
 			E(NotePopup,{x:this.state.popupX,y:this.state.popupY,openLink:this.props.openLink,
-				text:this.state.text,title:this.state.title,markLines:mpps.markLines}),
+				text:this.state.text,title:this.state.title,tagname:this.state.tagname}),
 			E("div",{style:styles.left},E(ReadMain,props))
 			,E("div",{style:styles.right},E(ReadAux,props))
 		);

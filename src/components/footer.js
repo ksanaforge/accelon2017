@@ -12,7 +12,7 @@ class Footer extends React.Component{
 			,E("div",{style:styles.terminator},"　")
 			,E("div",{},"Powered By Ksana Search Engine")
 			,E("div",{},E("a",{target:"_new",href:"http://www.ksana.tw"},"www.ksana.tw"))
-			,E("div",{},"Version: 2017.2.14")
+			,E("div",{},"Version: 2017.2.20")
 			,E("div",{},"　")
 		)
 	}
