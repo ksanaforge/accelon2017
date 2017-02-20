@@ -91,6 +91,7 @@ class ReferenceView extends React.Component {
 
 			, E(CorpusView,{address:this.state.address,
 			decorators,
+			id:"aux",
 			cor:this.state.cor,
 			corpora:this.props.corpora,
 			article:this.state.article,
