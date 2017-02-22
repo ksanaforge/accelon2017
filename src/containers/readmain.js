@@ -58,17 +58,23 @@ class ReadMain extends React.Component {
 			this.props.setA(addressH,true);
 		}
 	}
+
 	render(){
 		if (!this.state.article) {
 			return E("div",{},"loading");
 		}
+
+
 		const caretpos=this.getCaretKPos();
 		const navprops={caretpos,cor:this.props.cor,
 			onSelectItem:this.updateArticleByAddress.bind(this)};
+		const menuprops=Object.assign({},this.props,{
+			fields:this.state.fields,hidefields:this.props.hidefields,
+			setField:this.props.setField});
 		return E("div",{},
 			E("div",{style:styles.abscontainer},
 				E("div",{style:styles.nav},E(TOCNav,navprops))
-			 ,E("div",{style:styles.menu},E(ReadMainmenu,this.props))
+			 ,E("div",{style:styles.menu},E(ReadMainmenu,menuprops))
 			)
 			,E(CorpusView,{address:this.props.params.a,
 			decorators,
@@ -79,7 +85,7 @@ class ReadMain extends React.Component {
 			layout:!!this.props.params.l,
 			onCursorActivity:this.onCursorActivity.bind(this),
 			copyText:quoteCopy,
-			fields:this.state.fields,
+			fields:this.props.displayField(this.state.fields),
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
 			openLink:this.props.openLink,
 			showNotePopup:this.props.showNotePopup,

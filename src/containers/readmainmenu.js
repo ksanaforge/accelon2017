@@ -1,6 +1,7 @@
 const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
+const FieldSelector=require("../components/fieldselector");
 const styles={
 	container:{cursor:"pointer"},
 	menu:{width:200,height:130,background:"silver",border:"solid 1px gray",borderRadius:"5px",padding:"5px"},
@@ -47,7 +48,9 @@ class ReadMainmenu extends React.Component {
 	togglelayout(){
 		this.props.setLayout(this.props.params.l?0:1,true);
 	}
+
 	render(){
+	
 		const layout=this.props.params.l;
 		if (this.state.opened) {
 			return E("div",{style:styles.menu},
@@ -55,6 +58,7 @@ class ReadMainmenu extends React.Component {
 				"　",
 				E("button",{onClick:this.togglelayout.bind(this)},layout?_("Layout Off"):_("Layout On")),
 				E("br"),
+				E(FieldSelector,{fields:this.props.fields,hidefields:this.props.hidefields,setField:this.props.setField}),
 				E("br"),"　",
 				E("label",{htmlFor:"upload",style:styles.uploadbutton},_("Load Markup")),
 				E("input",{type:"file",style:styles.inputfile,accept:".json",

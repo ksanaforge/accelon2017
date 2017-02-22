@@ -96,7 +96,7 @@ class ReferenceView extends React.Component {
 			corpora:this.props.corpora,
 			article:this.state.article,
 			rawlines:this.state.rawlines,
-			fields:this.state.fields,
+			fields:this.props.displayField(this.state.fields),
 			showNotePopup:this.props.showNotePopup,
 			copyText:quoteCopy,
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
