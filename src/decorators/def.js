@@ -10,7 +10,9 @@ const onDefMouseDown=function(e){
 const createDef=function({cm,cor,corpus,start,end,id,tabid,target,actions,fields}){
 	const dom=document.createElement("span");
 	dom.className="def";
-	dom.innerHTML=fields.noteid.value[id].replace(/.+\./,"").replace(/^0+/,"");
+	const label=fields.noteid.value[id].replace(/.+\./,"").replace(/^0+/,"");
+	dom.innerHTML=label;
+	if (label=="1") dom.className+=" defgroup";
 	dom.dataset.target=target;
 	dom.onmousedown=onDefMouseDown;
 	dom.action=actions.updateArticleByAddress;

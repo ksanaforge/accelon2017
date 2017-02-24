@@ -25,6 +25,8 @@ class ReadMain extends React.Component {
   fetch(props){
   	props=props||this.props;
 		fetchArticle(this.props.cor,props.params.a,props.markups,props.searchresult,(states)=>{
+			console.log(states.fields)
+
 			if (!this._unmounted) this.setState(states);
 		})  	
   }
@@ -71,6 +73,8 @@ class ReadMain extends React.Component {
 		const menuprops=Object.assign({},this.props,{
 			fields:this.state.fields,hidefields:this.props.hidefields,
 			setField:this.props.setField});
+
+		const layout=(this.props.params.l && this.state.fields.p)?this.state.fields.p.pos:null;
 		return E("div",{},
 			E("div",{style:styles.abscontainer},
 				E("div",{style:styles.nav},E(TOCNav,navprops))
@@ -82,7 +86,7 @@ class ReadMain extends React.Component {
 			corpora:this.props.corpora,
 			article:this.state.article,
 			rawlines:this.state.rawlines,
-			layout:!!this.props.params.l,
+			layout,
 			onCursorActivity:this.onCursorActivity.bind(this),
 			copyText:quoteCopy,
 			fields:this.props.displayField(this.state.fields),

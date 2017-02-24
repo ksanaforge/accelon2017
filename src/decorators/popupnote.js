@@ -26,11 +26,13 @@ const createPopupNote=function({cm,cor,corpus,field,start,end,id,tabid,target,ac
 		for (var i=0;i<target.length;i++) {
 			const parts=target[i].split("\t");
 			if (parts.length>1) {
-				const noteid=parts.shift().replace(/.*\./,""), notetext=parts.join("\n").trim();
-				idarr.push(noteid);
+				const noteid=parts.shift().match(/^[\d\.]+/), 
+				notetext=parts.join("\n").trim();
+				idarr.push(noteid?noteid[0]:id);
 				textarr.push(noteid+"\n"+notetext);
 			} else {
-				idarr.push(id);
+				const noteid=target[i].match(/^[\d\.]+/);
+				idarr.push(noteid?noteid[0]:id);
 				textarr.push(target[i]);
 			}
 		}
@@ -39,11 +41,13 @@ const createPopupNote=function({cm,cor,corpus,field,start,end,id,tabid,target,ac
 	} else {
 		const parts=target.split("\t");
 		if (parts.length>1) {
-			const noteid=parts[0].replace(/.*\./,""),notetext=parts[1].trim();
-			dom.innerHTML=noteid;
+			const noteid=parts[0].match(/^[\d\.]+/),notetext=parts[1].trim();
+
+			dom.innerHTML=noteid?noteid[0]:id;
 			dom.dataset.text=notetext;
 		} else {
-			dom.innerHTML=id;
+			const nid=target.match(/^[\d\.]+/);
+			dom.innerHTML=nid?nid[0]:id;
 			dom.dataset.text=target;
 		}
 	}

@@ -4,7 +4,7 @@ const E=React.createElement;
 const FieldSelector=require("../components/fieldselector");
 const styles={
 	container:{cursor:"pointer"},
-	menu:{width:200,height:130,background:"silver",border:"solid 1px gray",borderRadius:"5px",padding:"5px"},
+	menu:{width:250,height:200,background:"silver",border:"solid 1px gray",borderRadius:"5px",padding:"5px"},
 	inputfile:{opacity:0,zIndex:-1},
 	uploadbutton:{cursor:"pointer",border:"1px solid black",borderRadius:"3px"},
 	closebutton:{cursor:"pointer"},

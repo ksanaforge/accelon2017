@@ -1,6 +1,21 @@
 const localization=require("ksana-localization");
 const stringtable={
 "zh.tw":[
+	["inlinenote","內文夾注"],
+	["q","引文"],
+	["p","段落"],
+	["table","表"],
+	["figure","圖"],
+	["link","連結"],
+	["bilink@yinshun","出處"],
+	["bilink@taisho","出處"],
+	["jin","經文"],
+	["ptr","注釋號"],
+	["def","注釋"],
+	["head","標題"],
+	["mppsnote","夾注"],
+	["yinshunnote","注解"],
+	["kepan","科判"],
 	["Search","搜尋"],
 	["toc","目錄"],
 	["dictionary","詞典"],
