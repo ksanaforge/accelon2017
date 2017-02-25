@@ -26,11 +26,11 @@ class GroupByBook extends React.Component {
 		const label=groupTitle(hint,this.props.cor);
 		if (!hit) return null;
 
-		return E("div",{key},
+		return E("div",{key,className:"bookresult"},
 				"　",
-				E("span",{className:"bookresult bookname",onClick:this.gotogroup.bind(this,key),title},label),
+				E("span",{className:"bookname",onClick:this.gotogroup.bind(this,key),title},label),
 				"(",
-				E("span",{className:"bookresult hit"},hit),
+				E("span",{className:"hit"},hit),
 				")"
 		);
 	}

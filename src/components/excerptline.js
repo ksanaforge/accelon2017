@@ -14,22 +14,22 @@ class ExcerptLine extends React.Component {
 	render() {
 		var pb=this.props.address||"";
 		pb=pb.substr(pb.indexOf("p")+1).replace(".","-");
-		return E("div",{},
-			this.props.header?E("div",{className:"excerpt groupheader",
+		return E("div",{className:"excerpt"},
+			this.props.header?E("div",{className:"groupheader",
 				title:this.props.shorttitle},
 				groupTitle(this.props.header,this.props.cor)
 				,"("
-				,E("span",{className:"excerpt hitcount"},this.props.grouphit)
+				,E("span",{className:"hitcount"},this.props.grouphit)
 				,")"
 			)
 			:null
-			,E("table",{className:"excerpt excerpttable"},
+			,E("table",{className:"table"},
 				E("tbody",{},
-				E("tr",{className:"excerpt group"},
-					E("td",{},E("span",{className:"excerpt seq"},this.props.seq+1)),
+				E("tr",{className:"group"},
+					E("td",{},E("span",{className:"seq"},this.props.seq+1)),
 					E("td",{},E("a",{onClick:this.openAddress.bind(this)},
-						E("span",{className:"excerpt "+(this.props.n==this.props.now?"pb_now":"excerptpb")},pb))),
-					E("td",{className:"excerpt excerptline"}, this.highlightText(this.props.text,this.props.hits))
+						E("span",{className:(this.props.n==this.props.now?"pb_now":"excerptpb")},pb))),
+					E("td",{className:"excerptline"}, this.highlightText(this.props.text,this.props.hits))
 				)
 				)
 			)

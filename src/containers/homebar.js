@@ -7,8 +7,9 @@ const ModeSelector=require("./modeselector");
 class HomeBar extends React.Component {
 	render(){
 		const title=this.props.cor.meta.title;
-		return E("div",{className:"homebar"},
-			E("span",{onClick:this.props.selectDB,className:"homebar activedb"},title)
+		return E("div",{className:"homebar homebarbox"}
+			,"　"
+			,E("span",{onClick:this.props.selectDB,className:"activedb"},title)
 			,"　"
 			,E(SearchBox,this.props)
 			,"　"

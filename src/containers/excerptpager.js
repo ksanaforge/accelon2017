@@ -1,16 +1,9 @@
 const React=require("react");
 const E=React.createElement;
 const PT=React.PropTypes;
-const styles={
-	container:{fontSize:14},//textAlign: "right",
-	pager:{textAlign:"center",marginLeft:3,cursor:"pointer",color:"#AfAfAf",
-	background:"#2f2f2f",borderRadius:"50%",height:"1.5em",width:"1.5em",display:"inline-block"},
 
-	selected:{textAlign:"center",marginLeft:3,color:"red",background:"silver",
-	borderRadius:"50%",height:"1.5em",width:"1.5em",display:"inline-block"}
-}
 const maxbutton=10;
-class ExcerptNav extends React.Component {
+class ExcerptPager extends React.Component {
 	calbatch(){
 		if(!this.props.count) return null;
 
@@ -33,24 +26,24 @@ class ExcerptNav extends React.Component {
 	renderPager(){
 		const B=this.calbatch();
 		if (!B)return;
-		var out=[],style={};
+		var out=[],className=null;
 		for (let i=B.start;i<B.end;i++) {
-			style=this.props.batch==i?styles.selected:styles.pager;
-			out.push( E("span",{style,key:i,"data-idx":i,onClick:this.onClick.bind(this)}, (i+1) ));
+			className=this.props.batch==i?"selectedpager":"pager";
+			out.push( E("span",{className,key:i,"data-idx":i,onClick:this.onClick.bind(this)}, (i+1) ));
 		}
 		return out;
 	}
 	render(){
-		return E("span",{style:styles.container},
+		return E("span",{className:"excerptpager"},
 			this.renderPager()
 		);
 	}
 }
-ExcerptNav.propTypes={
+ExcerptPager.propTypes={
 		count:PT.number.isRequired,
 		hitperbatch:PT.number.isRequired,
 		batch:PT.number.isRequired,
 		gobatch:PT.func.isRequired
 }
 
-module.exports=ExcerptNav;
+module.exports=ExcerptPager;

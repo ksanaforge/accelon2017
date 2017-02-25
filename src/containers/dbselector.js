@@ -3,8 +3,6 @@ const E=React.createElement;
 const PT=React.PropTypes;
 const styles={
 	container:{paddingLeft:"20px"},
-	active:{fontSize:"200%",cursor:"pointer"},
-	db:{cursor:"pointer",fontSize:"200%",borderBottom:"solid 1px blue"}
 }
 class DBSelector extends React.Component {
 	selectdb(db){
@@ -22,8 +20,9 @@ class DBSelector extends React.Component {
 		} else {
 			title=cor.meta.title;
 		}
-		return E("div",{key,style:styles.container},
-			E("span",{style:styles[active?"active":"db"],onClick:this.selectdb.bind(this,item)},
+		return E("div",{key,className:"dbselector"},
+			E("span",{className:active?"activedbname":"dbname",
+				onClick:this.selectdb.bind(this,item)},
 				title+(active?"✓":""))
 		);
 	}

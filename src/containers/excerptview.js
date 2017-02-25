@@ -3,7 +3,7 @@ const ReactDOM =require('react-dom');
 const PT=React.PropTypes;
 const E=React.createElement;
 const ExcerptLine=require("../components/excerptline");
-const ExcerptNav=require("./excerptnav");
+const ExcerptPager=require("./excerptpager");
 const ExcerptSetting=require("./excerptsetting");
 
 
@@ -120,11 +120,11 @@ class ExcerptView extends React.Component {
 		}.bind(this),100)
 
 		return E("div",{style:styles.container},
-				E(ExcerptNav,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
+				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
 				E(ExcerptSetting,{setExtra:this.setExtra.bind(this),
 					extraline:parseInt(this.props.params.e,10)||0}),
 				excerpts.map(this.renderItem.bind(this)),
-				E(ExcerptNav,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)})
+				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)})
 		)
 	}
 }

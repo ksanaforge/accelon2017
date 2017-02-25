@@ -58,7 +58,7 @@ class ReadMainmenu extends React.Component {
 				E("br"),
 				E(FieldSelector,{fields:this.props.fields,hidefields:this.props.hidefields,setField:this.props.setField}),
 				E("br"),"　",
-				E("label",{htmlFor:"upload",className:"readmainmenu uploadmarkupbutton"},_("Load Markup")),
+				E("label",{htmlFor:"upload",className:"uploadmarkupbutton"},_("Load Markup")),
 				E("input",{type:"file",style:styles.inputfile,accept:".json",
 					id:"upload",onChange:this.loadmarkup.bind(this)}),
 				this.renderFirstMarkup(),
