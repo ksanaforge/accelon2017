@@ -9,7 +9,6 @@ const styles={
 	btn:{marginLeft:"10px"},
 	cat:{cursor:"pointer"},
 	selectedcat:{cursor:"pointer",background:"lightblue"}
-
 }
 
 class BookCategorySelector extends React.Component {

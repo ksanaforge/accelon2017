@@ -17,13 +17,13 @@ class ModelSelector extends React.Component{
 		const hasQ=this.props.searchresult.filtered && this.props.params.q;
 
 		return E("span",{},
-			E("a",{style:m==BOOKSELECTOR?styles.b:styles.a,onClick:this.props.selectBook},_("Select Book")),
+			E("a",{className:"homebar "+(m==BOOKSELECTOR?"activemodelink":"modelink"),onClick:this.props.selectBook},_("Select Book")),
 			" ",
-			E("a",{style:m==TOCVIEW?styles.b:styles.a,onClick:this.tocView.bind(this)},_("TOC View")),
+			E("a",{className:"homebar "+(m==TOCVIEW?"activemodelink":"modelink"),onClick:this.tocView.bind(this)},_("TOC View")),
 			" ",
-			hasQ?E("a",{style:m==BOOKRESULT?styles.b:styles.a,onClick:this.props.groupByBook},_("Group By Book")):null,
+			hasQ?E("a",{className:"homebar "+(m==BOOKRESULT?"activemodelink":"modelink"),onClick:this.props.groupByBook},_("Group By Book")):null,
 			" ",
-			hasQ?E("a",{style:m==EXCERPTVIEW?styles.b:styles.a,onClick:this.props.showExcerpt},_("Excerpt")):null,
+			hasQ?E("a",{className:"homebar "+(m==EXCERPTVIEW?"activemodelink":"modelink"),onClick:this.props.showExcerpt},_("Excerpt")):null,
 			" ",
 			m==READTEXT?E(GroupNav,{setA:this.props.setA,address:this.props.params.a,cor:this.props.cor}):null
 		)

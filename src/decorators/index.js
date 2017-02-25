@@ -10,9 +10,11 @@ const translation=require("./translation");
 const head=require("./head");
 const mppsnote=require("./popupnote");
 const yinshunnote=require("./popupnote");
+
+/* might be simplified to maketext with className same as type */
 const inlinenote=require("./inlinenote");
 const jin=require("./jin");
 const p=require("./p");
-const q=require("./q");
+const span=require("./span");
 module.exports={ptr,def,note,link,bilink,figure,table,kepan,translation,head,
-	mppsnote,yinshunnote,inlinenote,jin,p,q}
+	mppsnote,yinshunnote,inlinenote,jin,p,span}

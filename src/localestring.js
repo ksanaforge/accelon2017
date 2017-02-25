@@ -2,7 +2,7 @@ const localization=require("ksana-localization");
 const stringtable={
 "zh.tw":[
 	["inlinenote","內文夾注"],
-	["q","引文"],
+	["span","其他樣式"],
 	["p","段落"],
 	["table","表"],
 	["figure","圖"],

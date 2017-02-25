@@ -6,10 +6,13 @@ const {TOCVIEW}=require("../actions/params");
 const {_}=require("ksana-localization");
 const styles={
 	container:{overflowY:"auto"},
-	btn:{marginLeft:"10px"}
+	btn:{marginLeft:"10px"},
+	columncontainer:{display:"flex"},
+	column:{flex:1}
 }
 const BookCategorySelector=require("./bookcategoryselector");
- 
+
+
 class BookSelector extends React.Component {
 	setExclude(group,value){
 		this.props.setExclude(group,value);
@@ -28,6 +31,24 @@ class BookSelector extends React.Component {
 		}
 		return first;
 	}
+	rendergroups(groups){
+		const columns=this.props.cor.meta.displayOptions.groupColumn;
+		if (!columns) {
+			return groups.map(this.rendergroup.bind(this));
+		} else {
+			var out=[],items=[],now=0;
+			for (var i=0;i<groups.length;i++) {
+				if (now<columns.length && i==columns[now]) {
+					out.push(E("div",{key:i,style:styles.column},items));
+					items=[];
+					now++;
+				}
+				items.push(this.rendergroup(groups[i],i));
+			}
+			out.push(E("div",{key:i,style:styles.column},items));
+			return E("div",{style:styles.columncontainer},out);
+		}
+	}	
 	rendergroup(g,key){
 		var hit=0;
 		if (this.props.showHit) {
@@ -51,6 +72,7 @@ class BookSelector extends React.Component {
 	deselectall(){
 		this.props.excludeAll();
 	}
+
 	render(){
 		if (this.props.cor.meta.groupPrefix) {
 			return E(BookCategorySelector,this.props);
@@ -59,7 +81,7 @@ class BookSelector extends React.Component {
 		return E("div",{style:styles.container},
 			E("button",{style:styles.btn,onClick:this.selectall.bind(this)},_("Select All")),
 			E("button",{style:styles.btn,onClick:this.deselectall.bind(this)},_("Deselect All")),
-			groupNames.map(this.rendergroup.bind(this)));	
+			this.rendergroups(groupNames));	
 	}
 };
 BookSelector.propTypes={

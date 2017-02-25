@@ -42,9 +42,9 @@ class SearchBox extends React.Component {
 	}
 	render(){
 		return E("span",{},
-			E("input",{ref:this.setRef.bind(this),value:this.state.q,
+			E("input",{className:"searchbox input",ref:this.setRef.bind(this),value:this.state.q,
 				onChange:this.onChange.bind(this),onKeyPress:this.onKeyPress.bind(this)})
-			,E("button",{onClick:this.search.bind(this)},_("Search"))
+			,E("button",{className:"searchbox button",onClick:this.search.bind(this)},_("Search"))
 		)
 	}
 };

@@ -2,9 +2,7 @@ const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
 const styles={
-	container:{overflowY:"auto"},
-	bookname:{color:"navy",cursor:"pointer"},
-	hit:{color:"red"}
+	container:{overflowY:"auto"}
 }
 const {groupTitle}=require("../unit/humantext");
 
@@ -30,9 +28,9 @@ class GroupByBook extends React.Component {
 
 		return E("div",{key},
 				"　",
-				E("span",{style:styles.bookname,onClick:this.gotogroup.bind(this,key),title},label),
+				E("span",{className:"bookresult bookname",onClick:this.gotogroup.bind(this,key),title},label),
 				"(",
-				E("span",{style:styles.hit},hit),
+				E("span",{className:"bookresult hit"},hit),
 				")"
 		);
 	}

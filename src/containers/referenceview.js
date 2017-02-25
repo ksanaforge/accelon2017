@@ -99,6 +99,7 @@ class ReferenceView extends React.Component {
 			fields:this.props.displayField(this.state.fields),
 			showNotePopup:this.props.showNotePopup,
 			copyText:quoteCopy,
+			showPageStart:true,
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
 			openLink:this.updateMainText.bind(this),
 			aux:true//open Link will update main text

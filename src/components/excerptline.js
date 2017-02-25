@@ -4,18 +4,6 @@ const E=React.createElement;
 const {renderHits}=require("../unit/highlight");
 const {groupTitle}=require("../unit/humantext");
 
-const styles={
-	tr:{background:"white",borderBottom:"1px gray solid"},
-	text:{whiteSpace:"pre",display:"block"},
-	hl:{color:"red"},
-	table:{width:"100%"},
-	grouphit:{color:"red"},
-	seq:{marginLeft:3},
-	pbnow:{backgroundColor:"yellow"},
-	pb:{cursor:"pointer"},
-	highlight:{background:"pink"},
-	header:{background:"lightblue"}
-}
 class ExcerptLine extends React.Component {
 	highlightText(text,hits){
     return renderHits(text,hits, (o,t)=> E("span",o,t) )
@@ -27,21 +15,21 @@ class ExcerptLine extends React.Component {
 		var pb=this.props.address||"";
 		pb=pb.substr(pb.indexOf("p")+1).replace(".","-");
 		return E("div",{},
-			this.props.header?E("div",{style:this.props.highlight?styles.highlight:styles.header,
+			this.props.header?E("div",{className:"excerpt groupheader",
 				title:this.props.shorttitle},
 				groupTitle(this.props.header,this.props.cor)
 				,"("
-				,E("span",{style:styles.grouphit},this.props.grouphit)
+				,E("span",{className:"excerpt hitcount"},this.props.grouphit)
 				,")"
 			)
 			:null
-			,E("table",{style:styles.table},
+			,E("table",{className:"excerpt excerpttable"},
 				E("tbody",{},
-				E("tr",{style:styles.tr},
-					E("td",{},E("span",{style:styles.seq},this.props.seq+1)),
+				E("tr",{className:"excerpt group"},
+					E("td",{},E("span",{className:"excerpt seq"},this.props.seq+1)),
 					E("td",{},E("a",{onClick:this.openAddress.bind(this)},
-						E("span",{style:this.props.n==this.props.now?styles.pbnow:styles.pb},pb))),
-					E("td",{style:styles.text}, this.highlightText(this.props.text,this.props.hits))
+						E("span",{className:"excerpt "+(this.props.n==this.props.now?"pb_now":"excerptpb")},pb))),
+					E("td",{className:"excerpt excerptline"}, this.highlightText(this.props.text,this.props.hits))
 				)
 				)
 			)

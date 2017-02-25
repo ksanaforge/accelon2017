@@ -4,9 +4,7 @@ const E=React.createElement;
 const FieldSelector=require("../components/fieldselector");
 const styles={
 	container:{cursor:"pointer"},
-	menu:{width:250,height:200,background:"silver",border:"solid 1px gray",borderRadius:"5px",padding:"5px"},
-	inputfile:{opacity:0,zIndex:-1},
-	uploadbutton:{cursor:"pointer",border:"1px solid black",borderRadius:"3px"},
+	inputfile:{opacity:0,zIndex:-1},	
 	closebutton:{cursor:"pointer"},
 	error:{background:"red",color:"yellow"}
 }
@@ -53,14 +51,14 @@ class ReadMainmenu extends React.Component {
 	
 		const layout=this.props.params.l;
 		if (this.state.opened) {
-			return E("div",{style:styles.menu},
+			return E("div",{className:"readmainmenu"},
 				E("span",{onClick:this.closemenu.bind(this),style:styles.closebutton},"✕"),
 				"　",
 				E("button",{onClick:this.togglelayout.bind(this)},layout?_("Layout Off"):_("Layout On")),
 				E("br"),
 				E(FieldSelector,{fields:this.props.fields,hidefields:this.props.hidefields,setField:this.props.setField}),
 				E("br"),"　",
-				E("label",{htmlFor:"upload",style:styles.uploadbutton},_("Load Markup")),
+				E("label",{htmlFor:"upload",className:"readmainmenu uploadmarkupbutton"},_("Load Markup")),
 				E("input",{type:"file",style:styles.inputfile,accept:".json",
 					id:"upload",onChange:this.loadmarkup.bind(this)}),
 				this.renderFirstMarkup(),
