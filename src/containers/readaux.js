@@ -6,7 +6,7 @@ const DictView=require("./dictview");
 const styles={
 	container:{display:"flex",flexDirection:"column",height:"100%"},
 	dictionary:{flex:2,overflowY:"auto"},
-	reference:{height:"85%"},
+	reference:{height:"90%"},
 }
 class ReadAux extends React.Component {
 	render(){

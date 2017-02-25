@@ -11,7 +11,7 @@ class DictView extends React.Component{
 		this.state={site:0}
 	}
 	componentWillMount(){
-		const o=window.onlineSearch;
+		const o=window.accelon2017&&window.accelon2017.sites;
 		if (o) {
 			for (var i=0;i<o.length;i++) {
 				urls.push(o[i]);
@@ -35,9 +35,10 @@ class DictView extends React.Component{
 	render(){
 		const s=this.props.selection;
 		var q=s.selectionText?s.selectionText:s.caretText;
+		const maxChar=urls[this.state.site].max;
 		if (q.length>20) q=q.substr(0,20);
 		return E("div",{},
-			E(QSelector,{q,onSelect:this.onSelect.bind(this)}),
+			E(QSelector,{q,maxChar,onSelect:this.onSelect.bind(this)}),
 			E("br"),
 			urls.map(this.renderExternalSite.bind(this))
 		)
