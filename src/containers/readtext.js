@@ -17,7 +17,7 @@ class ReadText extends React.Component {
 	}
 	showNotePopup(opts){
 		this.setState({popupX:opts.x,popupY:opts.y,text:opts.text,
-			title:opts.title,tagname:opts.tagname});
+			title:opts.title,tagname:opts.tagname,popuptimestamp:new Date()});
 	}	
 	setField(field,on){
 		var hidefields=this.state.hidefields;
@@ -43,7 +43,8 @@ class ReadText extends React.Component {
 			setField:this.setField.bind(this)});
 		return E("div",{style:styles.container},
 			E(NotePopup,{x:this.state.popupX,y:this.state.popupY,openLink:this.props.openLink,
-				text:this.state.text,title:this.state.title,tagname:this.state.tagname}),
+				text:this.state.text,title:this.state.title,tagname:this.state.tagname,
+				timestamp:this.state.popuptimestamp}),
 			E("div",{style:styles.left},E(ReadMain,props))
 			,E("div",{style:styles.right},E(ReadAux,props))
 		);

@@ -23,7 +23,9 @@ var NotePopup=React.createClass({
 		this.setState({close:true});
 	},
 	componentWillReceiveProps:function(nextProps){
-		this.setState({close:false});
+		if (nextProps.timestamp!==this.props.timestamp) {
+			this.setState({close:false});
+		}
 	},
 	componentDidUpdate:function(){
 		var cm=this.refs.cm;
