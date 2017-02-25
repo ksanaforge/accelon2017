@@ -18,7 +18,7 @@ class QSelector extends React.Component{
 		this.state={selectTo:-1};
 	}
 	renderToken(t,key){
-		const className="dictbox "+(key<=this.state.selectTo?"selected":"selection");
+		const className=(key<=this.state.selectTo?"selected":"selection");
 		return E("span",{key,className,
 			onMouseDown:this.onMouseDown.bind(this,key),
 			onMouseEnter:this.onMouseEnter.bind(this,key),
@@ -48,7 +48,7 @@ class QSelector extends React.Component{
 	}
 	render(){
 		const q=this.props.q||"";
-		return E("span",{},this.toToken(q).map(this.renderToken.bind(this)));
+		return E("span",{className:"dictbox"},this.toToken(q).map(this.renderToken.bind(this)));
 	}
 }
 

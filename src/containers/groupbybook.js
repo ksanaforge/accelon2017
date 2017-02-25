@@ -14,30 +14,46 @@ class GroupByBook extends React.Component {
 			start+=grouphits[g++];
 			n--;
 		}
-		
 		this.props.showExcerpt(start);
 	}
+	sortResult(sort){
+		const groupNames=this.props.cor.groupNames();
+		if (!sort) {
+			return groupNames.map((i,idx)=>idx);
+		}
+		if (!this.props.searchresult.q||!this.props.searchresult.grouphits)return [];
 
+		var out=[]; //group id,hit
+
+		
+		for (var i=0;i<groupNames.length;i++) {
+			const hit=this.props.searchresult.grouphits[i] || 0;
+			out.push([i,hit]);
+		}
+		out.sort((a,b)=>b[1]-a[1]);
+		return out.map(a=>a[0]);
+	}
 	rendergroup(g,key){
 		if (!this.props.searchresult.q||!this.props.searchresult.grouphits)return;
-		const hit=this.props.searchresult.grouphits[key] || 0;
-		const title=g.replace(/;.*/g,"");
-		const hint=g.replace(/.*;/,"");
+		const hit=this.props.searchresult.grouphits[g] || 0;
+		const gname=this.props.cor.groupNames()[g];
+		const title=gname.replace(/;.*/g,"");
+		const hint=gname.replace(/.*;/,"");
 		const label=groupTitle(hint,this.props.cor);
 		if (!hit) return null;
 
 		return E("div",{key,className:"bookresult"},
 				"　",
-				E("span",{className:"bookname",onClick:this.gotogroup.bind(this,key),title},label),
+				E("span",{className:"bookname",onClick:this.gotogroup.bind(this,g),title},label),
 				"(",
 				E("span",{className:"hit"},hit),
 				")"
 		);
 	}
 	render(){
-		const groupNames=this.props.cor.groupNames();
+		const groups=this.sortResult(this.props.sort);
 		return E("div",{style:styles.container},
-			groupNames.map(this.rendergroup.bind(this)));	
+			groups.map(this.rendergroup.bind(this)));	
 	}
 };
 

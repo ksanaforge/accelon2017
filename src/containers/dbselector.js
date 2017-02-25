@@ -1,9 +1,7 @@
 const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
-const styles={
-	container:{paddingLeft:"20px"},
-}
+
 class DBSelector extends React.Component {
 	selectdb(db){
 		this.props.setC(db);

@@ -29,6 +29,7 @@ const stringtable={
 	["Excerpt","摘要"],
 	["Read Text","閱讀內文"],
 	["Matches","筆數"],
+	["Sort by hit","高頻優先"],
 	["Prev Hit","上一個"],
 	["Next Hit","下一個"],
 	["Page Number","頁碼"],
