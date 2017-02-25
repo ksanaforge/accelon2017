@@ -34,6 +34,7 @@ class TOCNav extends React.Component {
 	render(){
 		return E(BreadCrumbTOC,{toc:this.state.toc,pos:this.props.caretpos
 						,buttonStyle:styles.buttonStyle
+						,buttonClass:"head"
 						,onSelect:this.onSelect.bind(this)
 						,activeButtonStyle:styles.activeButtonStyle
 						,untrimDepth:2//last two level is visible
@@ -48,8 +49,7 @@ TOCNav.propTypes={
 }
 
 const styles={
-	activeButtonStyle:{opacity:0.9,fontWeight:700},
-	buttonStyle:{opacity:0.7,fontWeight:700,color:"blue"},	
-	selectedButton:{background:"blue",color:"white"}
+	activeButtonStyle:{opacity:0.9},
+	buttonStyle:{opacity:0.6}
 }
 module.exports=TOCNav;
