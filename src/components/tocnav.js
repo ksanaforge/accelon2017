@@ -35,6 +35,7 @@ class TOCNav extends React.Component {
 		return E(BreadCrumbTOC,{toc:this.state.toc,pos:this.props.caretpos
 						,buttonStyle:styles.buttonStyle
 						,buttonClass:"head"
+						,buttonClassOffset:1
 						,onSelect:this.onSelect.bind(this)
 						,activeButtonStyle:styles.activeButtonStyle
 						,untrimDepth:2//last two level is visible

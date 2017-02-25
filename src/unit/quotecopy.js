@@ -21,6 +21,9 @@ const quoteCopy_taisho=function({cor,value,krange}){
 	return "《"+group+"》卷"+fascicle+"：「"+value.replace(/\r?\n/g,"")+"」（大正"+vol+"，"+shortaddress+"）";
 }
 const quoteCopy=function({cor,value,krange}){
+	if (value.length<10) {
+		return value;
+	}
 	if (cor.id=="taisho") return quoteCopy_taisho({cor,value,krange});
 	const r=cor.parseRange(krange);
 	const sp=cor.pageOf(r.start)+1;

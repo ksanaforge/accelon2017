@@ -22,12 +22,12 @@ class GroupNav extends React.Component{
 
 		return E("span",{}
 			,article.at?
-				E("a",{style:styles.a,onClick:this.prev.bind(this)},_("Prev Fascicle")):null
+				E("a",{className:"homebar fasciclelink",onClick:this.prev.bind(this)},_("Prev Fascicle")):null
 			," "
-			,groupname
+			,E("span",{className:"homebar activegroup"},groupname)
 			," "
 			,(article.at+1<this.props.cor.articleCount())?
-				E("a",{style:styles.a,onClick:this.next.bind(this)},_("Next Fascicle")):null
+				E("a",{className:"homebar fasciclelink",onClick:this.next.bind(this)},_("Next Fascicle")):null
 			);
 	}
 }

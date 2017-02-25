@@ -16,7 +16,7 @@ class fieldSelector  extends React.Component {
 			defaultChecked:!this.props.hidefields[item],
 			onChange:this.setItem.bind(this,key)}),
 
-			E("span",{htmlFor:"cb"+key},
+			E("span",{htmlFor:"cb"+key,title:item},
 				_(item)));
 	}
 	render(){
