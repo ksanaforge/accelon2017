@@ -1,6 +1,5 @@
 var popuptimer;
 const onLinkMouseOver=function(e){
-	e.target.leave=false;
 	const text=e.target.dataset.text;
 	const title=e.target.innerHTML;
 	const x=e.pageX,y=e.pageY;

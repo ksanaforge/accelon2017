@@ -8,8 +8,9 @@ const onNoteEnter=function(e){
 	const target=e.target;
 	entertimer=setTimeout(function(){
 		target.innerHTML=target.dataset.target;	
-	},100);
+	},400);
 }
+
 const onNoteLeave=function(e){
 	clearTimeout(entertimer);
 	clearTimeout(leavetimer);

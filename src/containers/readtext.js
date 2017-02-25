@@ -16,7 +16,8 @@ class ReadText extends React.Component {
 		this.state={popupX:0,popupY:0,text:"",title:"",hidefields:{}};
 	}
 	showNotePopup(opts){
-		this.setState({popupX:opts.x,popupY:opts.y,text:opts.text,title:opts.title,tagname:opts.tagname});
+		this.setState({popupX:opts.x,popupY:opts.y,text:opts.text,
+			title:opts.title,tagname:opts.tagname});
 	}	
 	setField(field,on){
 		var hidefields=this.state.hidefields;

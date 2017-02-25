@@ -25,8 +25,6 @@ class ReadMain extends React.Component {
   fetch(props){
   	props=props||this.props;
 		fetchArticle(this.props.cor,props.params.a,props.markups,props.searchresult,(states)=>{
-			console.log(states.fields)
-
 			if (!this._unmounted) this.setState(states);
 		})  	
   }
