@@ -73,6 +73,8 @@ class TOCView extends React.Component {
 		
 		return E("div",{ref:"body"},
 			E(GoPage,{cor:this.props.cor, range, readText:this.props.readText}),
+			E("br"),
+			E("br"),
 			this.state.toc.map(this.renderItem.bind(this))
 		);
 	}

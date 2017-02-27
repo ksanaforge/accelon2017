@@ -44,10 +44,11 @@ class GroupByBook extends React.Component {
 
 		return E("div",{key,className:"bookresult"},
 				"　",
-				E("span",{className:"bookname",onClick:this.gotogroup.bind(this,g),title},label),
 				"(",
 				E("span",{className:"hit"},hit),
-				")"
+				")",
+				E("span",{className:"bookname",onClick:this.gotogroup.bind(this,g),title},label)
+				
 		);
 	}
 	render(){

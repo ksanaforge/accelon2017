@@ -13,7 +13,9 @@ class GoPage extends React.Component {
 		const endbook=this.props.cor.bookOf(this.props.range[1]);
 		const pg=(parseInt(this.state.page,10)-1)||0;
 
-		const kpos=this.props.cor.makeKPos([endbook-1,pg,0,0]);
+		const r=this.props.cor.parseRange(endbook+"p"+this.state.page);
+		const kpos=r?r.start:this.props.cor.makeKPos([endbook-1,pg,0,0]);
+
 		const article=this.props.cor.articleOf(kpos);
 		if (!article)return;
 		const address=this.props.cor.stringify(kpos);
@@ -29,7 +31,7 @@ class GoPage extends React.Component {
 		if (e.key==="Enter") this.gopage();
 	}
 	render(){
-		return E("span",{},
+		return E("span",{className:"gotopage"},
 			E("button",{onClick:this.gopage.bind(this)},_("Page Number"))
 			,E("input",{ref:this.setRef.bind(this),value:this.state.page,size:5,
 				onChange:this.onChange.bind(this),onKeyPress:this.onKeyPress.bind(this)})

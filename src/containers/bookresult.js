@@ -7,7 +7,7 @@ const {_}=require("ksana-localization");
 class BookResult extends React.Component {
 	constructor(props){
 		super(props);
-		this.state={sort:false};
+		this.state={sort:true};
 	}
 	setSort(e){
 		this.setState({sort:!this.state.sort});
@@ -22,7 +22,9 @@ class BookResult extends React.Component {
 				,checked:this.state.sort}),
 				_("Sort by hit")),
 
-			E(GroupByBook,{cor:this.props.cor,searchresult:this.props.searchresult,sort:this.state.sort})
+			E(GroupByBook,{cor:this.props.cor,
+				showExcerpt:this.props.showExcerpt,
+				searchresult:this.props.searchresult,sort:this.state.sort})
 		)
 	}
 };
