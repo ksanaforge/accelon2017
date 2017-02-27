@@ -13,7 +13,7 @@ class GoPage extends React.Component {
 		const endbook=this.props.cor.bookOf(this.props.range[1]);
 		const pg=(parseInt(this.state.page,10)-1)||0;
 
-		const r=this.props.cor.parseRange(endbook+"p"+this.state.page);
+		const r=this.props.cor.parseRange((endbook-1)+"p"+this.state.page);
 		const kpos=r?r.start:this.props.cor.makeKPos([endbook-1,pg,0,0]);
 
 		const article=this.props.cor.articleOf(kpos);
