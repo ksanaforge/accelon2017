@@ -42,7 +42,7 @@ var NotePopup=React.createClass({
 		style.left=this.props.x;
 		style.top=this.props.y;
 		style.height=170;
-		style.width=350;
+		style.width=550;
 
 		if (style.left+style.width>window.innerWidth) {
 			style.left=window.innerWidth-style.width;
