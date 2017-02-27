@@ -2,7 +2,6 @@ const React =require('react');
 const ReactDOM =require('react-dom');
 const PT=React.PropTypes;
 const E=React.createElement;
-const GoPage=require("../components/gopage");
 
 class TOCView extends React.Component {
 	constructor(props){
@@ -72,9 +71,6 @@ class TOCView extends React.Component {
 		
 		
 		return E("div",{ref:"body"},
-			E(GoPage,{cor:this.props.cor, range, readText:this.props.readText}),
-			E("br"),
-			E("br"),
 			this.state.toc.map(this.renderItem.bind(this))
 		);
 	}

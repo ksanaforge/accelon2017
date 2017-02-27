@@ -4,10 +4,16 @@ const PT=React.PropTypes;
 const {_}=require("ksana-localization");
 const {DBSELECTOR,BOOKSELECTOR,TOCVIEW,READTEXT,BOOKRESULT,EXCERPTVIEW}=require("../actions/params");
 const GroupNav=require("./groupnav");
-
+const GoPage=require("../components/gopage");
 class ModelSelector extends React.Component{
 	tocView(){
 		this.props.setParams({m:TOCVIEW});
+	}
+	gotopage(){
+		const group=this.props.cor.groupOf(this.props.params.a);
+		const range=this.props.cor.groupKRange(group);
+		
+		return E(GoPage,{cor:this.props.cor, range, readText:this.props.readText});
 	}
 	render(){
 		const m=this.props.params.m;
@@ -22,7 +28,11 @@ class ModelSelector extends React.Component{
 			" ",
 			hasQ?E("a",{className:(m==EXCERPTVIEW?"activemodelink":"modelink"),onClick:this.props.showExcerpt},_("Excerpt")):null,
 			" ",
-			m==READTEXT?E(GroupNav,{setA:this.props.setA,address:this.props.params.a,cor:this.props.cor}):null
+			m==READTEXT?E(GroupNav,{setA:this.props.setA,address:this.props.params.a,cor:this.props.cor}):null,
+			" ",
+			(m==READTEXT||m==TOCVIEW)?this.gotopage():null
+
+
 		)
 	}
 }
