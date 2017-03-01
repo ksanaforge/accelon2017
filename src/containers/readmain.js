@@ -51,7 +51,7 @@ class ReadMain extends React.Component {
 	}
 	getCaretKPos(){
 		const r=this.props.cor.parseRange(this.props.params.a);
-		return r.start;
+		return r.start||0;
 	}
 	onCursorActivity(cm,kpos) {
 		const addressH=this.props.cor.stringify(kpos);
