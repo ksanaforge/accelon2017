@@ -1,4 +1,11 @@
-const _fetch=function(cor,address,markups,cb){
+const {getAnchorAddress}=require("../unit/anchor");
+
+const fetchArticle=function(cor,address,markups,cb){
+  const range=cor.parseRange(address);
+
+  if (!range.start) {
+    address=getAnchorAddress(cor,address);
+  }
   const article=cor.articleOf(address);
   if (article){
     const articleFields=cor.meta.articleFields||[];
@@ -8,21 +15,6 @@ const _fetch=function(cor,address,markups,cb){
 
       cb&&cb({address,article,rawlines:res.text,fields,kpos:article.start});
     }); 
-  }
-}
-const fetchArticle=function(cor,address,markups,cb){
-  const range=cor.parseRange(address);
-
-  if (!range.start) {
-    cor.getField("a",function(anchors){
-      address=address.replace(/~.+/,"");
-      const at=anchors.value.indexOf(address);
-      if (at>-1) {
-        _fetch(cor,anchors.pos[at],markups,cb);
-      }
-    }.bind(this));
-  } else {
-    _fetch(cor,address,markups,cb);
   }
 }
 const loadArticleMarkup=function(oldfields,markups,article){

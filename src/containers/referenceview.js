@@ -5,6 +5,7 @@ const {CorpusView}=require("ksana-corpus-view");
 const {fetchArticle}=require("../unit/article");
 const quoteCopy=require("../unit/quotecopy");
 const {notarget2address}=require("../unit/taisho");
+const {getAnchorAddress}=require("../unit/anchor");
 const decorators=require("../decorators");
 const AuxMainmenu=require("./auxmainmenu");
 const styles={
@@ -53,18 +54,12 @@ class ReferenceView extends React.Component {
 		}
 
 		const range=cor.parseRange(address);
+		const markups=props.corpusmarkups[corpus];
 
 		if (!range.start) {
-			cor.getField("a",function(anchors){
-				const markups=props.corpusmarkups[corpus];
-				address=address.replace(/~.+/,"");
-				const at=anchors.value.indexOf(address);
-				if (at>-1) {
-					this.fetchAddress(cor,anchors.pos[at],markups);
-				}
-			}.bind(this));
+			const a=getAnchorAddress(cor,address);
+			if (a) this.fetchAddress(cor,a,markups);
 		} else {
-			const markups=props.corpusmarkups[corpus];
 			if (corpus=="Taisho") { //not page number, sutra id with optional i
 				notarget2address(cor,address,newaddress=>{
 					if (this.state.address!=newaddress) {
@@ -88,7 +83,14 @@ class ReferenceView extends React.Component {
 	}	
 	updateMainText(fulladdress){
 		const r=fulladdress.split("@");
-		this.props.setParams({c:r[0],a:r[1]});
+		const cor=this.props.corpora[r[0]];
+		var a=r[1];
+		if (cor) {
+
+			const range=cor.parseRange(a);
+			if (!range.start) a=cor.stringify(getAnchorAddress(cor,a));
+		}
+		this.props.setParams({c:r[0],a});
 	}
 	render(){
 		if (this.state.message || !this.state.article) {

@@ -79,7 +79,7 @@ class ReadMain extends React.Component {
 				E("div",{style:styles.nav},E(TOCNav,navprops))
 			 ,E("div",{style:styles.menu},E(ReadMainmenu,menuprops))
 			)
-			,E(CorpusView,{address:this.state.address,
+			,E(CorpusView,{address:this.props.params.a,
 			decorators,
 			cor:this.props.cor,
 			corpora:this.props.corpora,
