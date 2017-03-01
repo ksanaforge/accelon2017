@@ -2,24 +2,27 @@ const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
 const QSelector=require("../components/qselector");
-const urls=[
+const stockurls=[
 	{name:"Google",url:"https://www.google.com.tw/search?q=$$"}
 ]
 class DictView extends React.Component{
 	constructor(props){
 		super(props);
-		this.state={site:0}
-	}
-	componentWillMount(){
+
+		const urls=stockurls.slice();
 		const o=window.accelon2017&&window.accelon2017.sites;
 		if (o) {
 			for (var i=0;i<o.length;i++) {
 				urls.push(o[i]);
 			}
 		}
+
+		this.state={site:0,urls}
+	}
+	componentWillMount(){
 	}
 	onSelect(t){
-		var url=urls[this.state.site].url;
+		var url=this.state.urls[this.state.site].url;
 		window.open( url.replace("$$",t));
 	}
 	setExternalSite(idx){
@@ -35,12 +38,12 @@ class DictView extends React.Component{
 	render(){
 		const s=this.props.selection;
 		var q=s.selectionText?s.selectionText:s.caretText;
-		const maxChar=urls[this.state.site].max;
+		const maxChar=this.state.urls[this.state.site].max;
 		if (q.length>20) q=q.substr(0,20);
 		return E("div",{},
 			E(QSelector,{q,maxChar,onSelect:this.onSelect.bind(this)}),
 			E("br"),
-			urls.map(this.renderExternalSite.bind(this))
+			this.state.urls.map(this.renderExternalSite.bind(this))
 		)
 	}
 }

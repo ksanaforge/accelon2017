@@ -3,6 +3,7 @@ const stringtable={
 "zh.tw":[
 	["inlinenote","內文夾注"],
 	["span","其他樣式"],
+	["rend","其他樣式"],
 	["p","段落"],
 	["table","表"],
 	["figure","圖"],

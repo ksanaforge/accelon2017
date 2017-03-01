@@ -16,5 +16,6 @@ const inlinenote=require("./inlinenote");
 const jin=require("./jin");
 const p=require("./p");
 const span=require("./span");
+const rend=require("./rend"); //same as span for TEI rend
 module.exports={ptr,def,note,link,bilink,figure,table,kepan,translation,head,
-	mppsnote,yinshunnote,inlinenote,jin,p,span}
+	mppsnote,yinshunnote,inlinenote,jin,p,span,rend}

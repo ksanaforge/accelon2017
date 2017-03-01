@@ -6,6 +6,16 @@ const calFascicle=function(cor,krange){
 	const b=cor.articleOf(r.start).at;
 	return (a-b+1);
 }
+const quoteCopy_mpps=function({cor,value,krange}){
+	const r=cor.parseRange(krange);
+	const sp=cor.pageOf(r.start)+1;
+	const ep=cor.pageOf(r.end)+1;
+	var pagerange="p."+sp;
+	if (ep!==sp) pagerange="p"+pagerange+'-'+ep;
+	var gn=cor.getGroupName(krange);
+	gn=gn.replace(/(.*?) (卷\d+$)/,function(m,m1,m2){return m1+"》"+m2});
+	return "「"+value+"」（《"+gn+"，"+pagerange+"）";
+}
 const quoteCopy_taisho=function({cor,value,krange}){
 	const group=cor.getGroupName(krange).replace(/.*@/,"");
 	const address=cor.stringify(krange);
@@ -25,6 +35,7 @@ const quoteCopy=function({cor,value,krange}){
 		return value;
 	}
 	if (cor.id=="taisho") return quoteCopy_taisho({cor,value,krange});
+	if (cor.id=="mpps") return quoteCopy_mpps({cor,value,krange});
 	const r=cor.parseRange(krange);
 	const sp=cor.pageOf(r.start)+1;
 	const ep=cor.pageOf(r.end)+1;

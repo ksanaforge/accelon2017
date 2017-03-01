@@ -25,6 +25,7 @@ function _search(corpus,q,dispatch,getState,cb){
       if (matches) {
         const exclude=(getState().filters[corpus]||{}).exclude;
         const filtered=_filterMatch(cor,result.matches,exclude)||[];
+
         const grouphits=groupStat(filtered,cor.groupTPoss());
         grouphits.shift();
         dispatch({type:SEARCH_DONE, corpus, q , 

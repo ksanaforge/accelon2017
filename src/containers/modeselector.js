@@ -18,6 +18,7 @@ class ModelSelector extends React.Component{
 	render(){
 		const m=this.props.params.m;
 		const hasQ=this.props.searchresult.filtered && this.props.params.q;
+		const hasExcerpt=this.props.searchresult.filtered&&this.props.searchresult.filtered.length;
 
 		return E("span",{},
 			E("a",{className:(m==BOOKSELECTOR?"activemodelink":"modelink"),onClick:this.props.selectBook},_("Select Book")),
@@ -26,7 +27,7 @@ class ModelSelector extends React.Component{
 			" ",
 			hasQ?E("a",{className:(m==BOOKRESULT?"activemodelink":"modelink"),onClick:this.props.groupByBook},_("Group By Book")):null,
 			" ",
-			hasQ?E("a",{className:(m==EXCERPTVIEW?"activemodelink":"modelink"),onClick:this.props.showExcerpt},_("Excerpt")):null,
+			hasExcerpt?E("a",{className:(m==EXCERPTVIEW?"activemodelink":"modelink"),onClick:this.props.showExcerpt},_("Excerpt")):null,
 			" ",
 			m==READTEXT?E(GroupNav,{setA:this.props.setA,address:this.props.params.a,cor:this.props.cor}):null,
 			" ",
