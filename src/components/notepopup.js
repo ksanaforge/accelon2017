@@ -4,7 +4,8 @@ const PT=React.PropTypes;
 const CodeMirror=require("ksana-codemirror").Component;
 const LinesMarkers={
 	mppsnote:require("../unit/mpps").markNoteLines,
-	yinshunnote:require("../unit/yinshun").markNoteLines
+	yinshunnote:require("../unit/yinshun").markNoteLines,
+	footnote:require("../unit/mpps").markNoteLines
 }
 var NotePopup=React.createClass({
 	getInitialState:function(){

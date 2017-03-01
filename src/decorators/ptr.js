@@ -17,6 +17,7 @@ const onPtrEnter=function(e){
 	clearTimeout(leavetimer);
 	entertimer=setTimeout(function(){
 		//+1 to include tailing puncuation
+		target.className="ptr_popup"
 		const text=target.cor.getText(parseInt(target.dataset.target,10)+1,function(data){
 			target.innerHTML=data;
 		});
@@ -28,6 +29,7 @@ const onPtrLeave=function(e){
 	clearTimeout(leavetimer);
 
 	const target=e.target;
+	target.className="ptr";
 	leavetimer=setTimeout(function(){
 		e.target.innerHTML=e.target.dataset.id;
 	},50);
@@ -42,8 +44,8 @@ const createPtr=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	dom.cor=cor;
 	dom.tabid=tabid;
 	dom.action=actions.updateArticleByAddress;
-	dom.onmouseenter=onPtrEnter;
-	dom.onmouseleave=onPtrLeave;
+	//dom.onmouseenter=onPtrEnter; //problematic for position:absolute
+	//dom.onmouseleave=onPtrLeave;
 	return cm.setBookmark(start,{widget:dom,handleMouseEvents:true});
 }
 module.exports=createPtr;

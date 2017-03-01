@@ -24,7 +24,7 @@ class ReadMain extends React.Component {
   }
   fetch(props){
   	props=props||this.props;
-		fetchArticle(this.props.cor,props.params.a,props.markups,props.searchresult,(states)=>{
+		fetchArticle(this.props.cor,props.params.a,props.markups,(states)=>{
 			console.log(states.fields)
 			if (!this._unmounted) this.setState(states);
 		})  	
@@ -79,7 +79,7 @@ class ReadMain extends React.Component {
 				E("div",{style:styles.nav},E(TOCNav,navprops))
 			 ,E("div",{style:styles.menu},E(ReadMainmenu,menuprops))
 			)
-			,E(CorpusView,{address:this.props.params.a,
+			,E(CorpusView,{address:this.state.address,
 			decorators,
 			cor:this.props.cor,
 			corpora:this.props.corpora,

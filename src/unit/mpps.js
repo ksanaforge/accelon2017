@@ -3,7 +3,8 @@ var patterns={
  kai:/\{k(.+?)k\}/g,
  taisho:/@t(\d+p\d+[a-c\-0-9]*)/g,
  taisho_full:/@t(\d+p\d+[a-c][0-9]+)/g,
- yinshun_note:/@y([A-Z][0-9]+)#([0-9]+)/g
+ yinshun_note:/@y([A-Z][0-9]+)#([0-9]+)/g,
+ taisho_app:/@a(\d+p.+)/g
 }
 const markLine=function(doc,i,visitlink){
 	if (i>doc.lineCount())return;
@@ -19,6 +20,15 @@ const markLine=function(doc,i,visitlink){
 		link.innerHTML="大正"+taisho;
 		link.className="link"
 		link.onclick=visitlink;
+		link.dataset.target=target;
+		doc.markText({line:i,ch:idx},{line:i,ch:idx+m.length+1},{replacedWith:link});
+	})
+
+	line.replace(patterns.taisho_app,function(m,taisho,idx){
+		const link=document.createElement("span");
+		var target=taisho;
+		link.innerHTML=taisho;
+		link.className="taisho_app";
 		link.dataset.target=target;
 		doc.markText({line:i,ch:idx},{line:i,ch:idx+m.length+1},{replacedWith:link});
 	})

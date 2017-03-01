@@ -1,8 +1,12 @@
 const createFigure=function({cm,cor,start,end,id,tabid,target,actions,fields}){
-	const dom=document.createElement("span");
-	dom.innerHTML=target;
-	dom.className="inlinesvg";
+	const replacedWith=document.createElement("div");
+	var svg=target.replace(/ height=".*?"/,'height="100%"');
+	svg=svg.replace(/ width=".*?"/,'width="100%"');
+	replacedWith.innerHTML=svg.trim().replace(/\r?\n/g,"");
+	replacedWith.className="inlinesvg";
 	const ch=end.ch+99; //cover entire line
-	return cm.markText(start,{line:end.line,ch},{replacedWith:dom,handleMouseEvents:true});
+	console.log(replacedWith.innerHTML)
+	return cm.markText({line:start.line,ch:start.ch},{line:end.line,ch},{replacedWith,handleMouseEvents:true});
 }
 module.exports=createFigure;
+

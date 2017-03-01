@@ -31,7 +31,7 @@ class ReferenceView extends React.Component {
 		if ( parseInt(address,10).toString(10)==address) {
 			address=cor.stringify(address);
 		}
-		fetchArticle(cor,address,markups,null,function(states){
+		fetchArticle(cor,address,markups,function(states){
 			const r=this.props.params.r;
 			this.setState(Object.assign({},states,{address,cor,message:null,r}));
 		}.bind(this));
@@ -51,17 +51,30 @@ class ReferenceView extends React.Component {
 			props.openCorpus(corpus);
 			return;
 		}
-		const markups=props.corpusmarkups[corpus];
-		if (r[0]=="Taisho") { //not page number, sutra id with optional i
-			notarget2address(cor,address,newaddress=>{
-				if (this.state.address!=newaddress) {
-					this.fetchAddress(cor,newaddress,markups);
-				}
-			});
-			return;
-		}
 
-		this.fetchAddress(cor,address,markups);
+		const range=cor.parseRange(address);
+
+		if (!range.start) {
+			cor.getField("a",function(anchors){
+				const markups=props.corpusmarkups[corpus];
+				address=address.replace(/~.+/,"");
+				const at=anchors.value.indexOf(address);
+				if (at>-1) {
+					this.fetchAddress(cor,anchors.pos[at],markups);
+				}
+			}.bind(this));
+		} else {
+			const markups=props.corpusmarkups[corpus];
+			if (corpus=="Taisho") { //not page number, sutra id with optional i
+				notarget2address(cor,address,newaddress=>{
+					if (this.state.address!=newaddress) {
+						this.fetchAddress(cor,newaddress,markups);
+					}
+				});
+				return;
+			}
+			this.fetchAddress(cor,address,markups);
+		}
 	}
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.params.r)return;

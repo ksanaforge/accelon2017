@@ -14,7 +14,7 @@ const onLinkMouseLeave=function(e){
 }
 const createPopupNote=function({cm,cor,corpus,field,start,end,id,tabid,target,actions,fields}){
 	const dom=document.createElement("span");
-	dom.className="notelink";
+	dom.className=field;
 	dom.onmouseover=onLinkMouseOver;
 	dom.onmouseleave=onLinkMouseLeave;
 	dom.action=actions.showNotePopup;
@@ -40,7 +40,8 @@ const createPopupNote=function({cm,cor,corpus,field,start,end,id,tabid,target,ac
 	} else {
 		const parts=target.split("\t");
 		if (parts.length>1) {
-			const noteid=parts[0].match(/^[\d\.]+/),notetext=parts[1].trim();
+			const noteid=parts.shift().match(/^[\d\.]+/),
+			notetext=parts.join("\t").trim();
 
 			dom.innerHTML=noteid?noteid[0]:id;
 			dom.dataset.text=notetext;

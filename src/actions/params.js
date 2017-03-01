@@ -91,6 +91,7 @@ const openNewWindow=function(address,corpus){
 const openLink=function(fulladdress,replacehistory){
 	const r=fulladdress.split("@");
 	const corpus=r[0], address=r[1];
+	
 	if (!address) return {type:"INVALID_LINK"};
 	return setParams({r:fulladdress,m:READTEXT},replacehistory);
 }
