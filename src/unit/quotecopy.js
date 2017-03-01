@@ -13,8 +13,8 @@ const quoteCopy_mpps=function({cor,value,krange}){
 	var pagerange="p."+sp;
 	if (ep!==sp) pagerange="p"+pagerange+'-'+ep;
 	var gn=cor.getGroupName(krange);
-	gn=gn.replace(/(.*?) (卷\d+$)/,function(m,m1,m2){return m1+"》"+m2});
-	return "「"+value+"」（《"+gn+"，"+pagerange+"）";
+	gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
+	return "「"+value+"」（《大智度論講義》"+gn+"，"+pagerange+"）";
 }
 const quoteCopy_taisho=function({cor,value,krange}){
 	const group=cor.getGroupName(krange).replace(/.*@/,"");
