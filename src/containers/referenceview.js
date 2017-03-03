@@ -49,10 +49,13 @@ class ReferenceView extends React.Component {
 		var address=r[1];
 		const cor=props.corpora[corpus];
 		if (!cor) {
+			//this will cause not loading bilink for the first time
 			props.openCorpus(corpus);
 			return;
 		}
-
+		if (parseInt(address,10).toString(10)==address) {
+			address=cor.stringify(address);
+		}
 		const range=cor.parseRange(address);
 		const markups=props.corpusmarkups[corpus];
 
