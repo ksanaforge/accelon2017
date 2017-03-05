@@ -5,7 +5,8 @@ const styles={
 	container:{overflowY:"auto"}
 }
 const {groupTitle}=require("../unit/humantext");
-
+const mode=require("../model/mode");
+const excerpt=require("../model/excerpt");
 class GroupByBook extends React.Component {
 	gotogroup(n){
 		const grouphits=this.props.searchresult.grouphits;
@@ -14,7 +15,8 @@ class GroupByBook extends React.Component {
 			start+=grouphits[g++];
 			n--;
 		}
-		this.props.showExcerpt(start);
+		mode.excertView();
+		excerpt.showExcerpt(start);
 	}
 	sortResult(sort){
 		const groupNames=this.props.cor.groupNames();

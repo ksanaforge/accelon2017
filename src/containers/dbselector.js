@@ -1,22 +1,28 @@
 const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
+const mode=require("../model/mode");
+const corpora=require("../model/corpora");
 
 class DBSelector extends React.Component {
 	selectdb(db){
-		this.props.setC(db);
+		corpora.setActive(db);
+		mode.selectBook();
 	}
 	onInputKeypress(e){
 
 	}
 	renderDB(item,key){
-		const active=item==this.props.activeCorpus;
-		const cor=this.props.corpora[item];
+		const active=item==corpora.store.active;
+		const cor=corpora.store.corpora[item];
+
 		var title=item;
-		if (!cor) {
-			this.props.openCorpus(item);
-		} else {
+		if (cor) {
 			title=cor.meta.title;
+		} else {
+			setTimeout(function(){
+				corpora.open(item);	
+			},0);
 		}
 		return E("div",{key,className:"dbselector"},
 			E("span",{className:active?"activedbname":"dbname",
@@ -25,8 +31,8 @@ class DBSelector extends React.Component {
 		);
 	}
 	render(){
-		const corpora=Object.keys(this.props.corpora);
-		return E("div",{},corpora.map(this.renderDB.bind(this)));
+		const items=Object.keys(corpora.store.corpora);
+		return E("div",{},items.map(this.renderDB.bind(this)));
 	}
 }
 

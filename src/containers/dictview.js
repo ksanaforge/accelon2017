@@ -5,6 +5,8 @@ const QSelector=require("../components/qselector");
 const stockurls=[
 	{name:"Google",url:"https://www.google.com.tw/search?q=$$"}
 ]
+const selection=require("../model/selection");
+const {observer}=require("mobx-react");
 class DictView extends React.Component{
 	constructor(props){
 		super(props);
@@ -36,7 +38,7 @@ class DictView extends React.Component{
 			}) ,item.name," ");
 	}
 	render(){
-		const s=this.props.selection;
+		const s=selection.store;
 		var q=s.selectionText?s.selectionText:s.caretText;
 		const maxChar=this.state.urls[this.state.site].max;
 		if (q.length>20) q=q.substr(0,20);
@@ -47,4 +49,4 @@ class DictView extends React.Component{
 		)
 	}
 }
-module.exports=DictView;
+module.exports=observer(DictView);

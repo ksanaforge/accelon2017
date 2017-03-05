@@ -10,24 +10,6 @@ const {_search}=require("./search");
 const {SET_PARAMS}=require("../actions/params");
 const {setExcludeByStr}=require("./filter");
 const {_showExcerpt}=require("./excerpt");
-const searchq=function(corpus,params,dispatch,getState,cb){
-	const p=getState().params;
-	if (params.ex && params.ex!==p.ex) {
-		setExcludeByStr(params.ex,dispatch,getState);
-	}
-			
-	_search(corpus,params.q||"",dispatch,getState,function(){
-			const m=parseInt(params.m)||0;
-			const p=getState().params;
-			if (params.ex && params.ex!==p.ex) {
-				setExcludeByStr(params.ex,dispatch,getState);
-			}
-			if (m===EXCERPTVIEW) {
-				_showExcerpt(parseInt(params.n)||0,parseInt(params.e)||0,dispatch,getState);
-			}
-			cb&&cb();
-	});
-}	
 
 const setActiveCorpus=function(corpus){
 	return (dispatch,getState)=>{

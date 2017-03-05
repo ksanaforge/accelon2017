@@ -9,12 +9,12 @@ class GroupNav extends React.Component{
 	next(){
 		const article=this.props.cor.articleOf(this.props.address);
 		const next=this.props.cor.getArticle(article.at+1);
-		this.props.setA(next.startH);
+		this.props.setAddress(next.startH);
 	}
 	prev(){
 		const article=this.props.cor.articleOf(this.props.address);
 		const prev=this.props.cor.getArticle(article.at-1);
-		this.props.setA(prev.startH);
+		this.props.setAddress(prev.startH);
 	}
 	render(){
 		const groupname=this.props.cor.getGroupName(this.props.address);

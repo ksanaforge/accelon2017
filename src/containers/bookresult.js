@@ -4,6 +4,10 @@ const PT=React.PropTypes;
 const GroupByBook=require("./groupbybook");
 const ModeSelector=require("./modeselector");
 const {_}=require("ksana-localization");
+const {showExcerpt}=require("../model/excerpt");
+const searchresult=require("../model/searchresult");
+
+
 class BookResult extends React.Component {
 	constructor(props){
 		super(props);
@@ -13,7 +17,7 @@ class BookResult extends React.Component {
 		this.setState({sort:!this.state.sort});
 	}
 	render(){
-		const mcount=this.props.searchresult.filtered?this.props.searchresult.filtered.length:0;
+		const mcount=searchresult.store.filtered?searchresult.store.filtered.length:0;
 
 		return E("div",{},
 			E("span",{},_("Matches"),":",mcount),
@@ -23,8 +27,8 @@ class BookResult extends React.Component {
 				_("Sort by hit")),
 
 			E(GroupByBook,{cor:this.props.cor,
-				showExcerpt:this.props.showExcerpt,
-				searchresult:this.props.searchresult,sort:this.state.sort})
+				showExcerpt,
+				searchresult:searchresult.store,sort:this.state.sort})
 		)
 	}
 };

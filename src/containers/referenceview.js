@@ -8,6 +8,10 @@ const {notarget2address}=require("../unit/taisho");
 const {getAnchorAddress}=require("../unit/anchor");
 const decorators=require("../decorators");
 const AuxMainmenu=require("./auxmainmenu");
+const mode=require("../model/mode");
+const address=require("../model/address");
+const corpora=require("../model/corpora");
+
 const styles={
 	abscontainer:{position:"relative",zIndex:200},
 	nav:{position:"absolute",right:100},
@@ -22,7 +26,7 @@ class ReferenceView extends React.Component {
 	/*
 	shouldComponentUpdate(nextProps,nextState){
 		const r= nextProps.params.r&&
-		 (nextProps.params.r!==this.props.params.r || (this.state.article&&(this.state.article.at!=nextState.article.at)));
+		 (nextProps.params.r!==params.store.r || (this.state.article&&(this.state.article.at!=nextState.article.at)));
 		 return !!r;
 	}
 	*/
@@ -33,7 +37,7 @@ class ReferenceView extends React.Component {
 			address=cor.stringify(address);
 		}
 		fetchArticle(cor,address,markups,function(states){
-			const r=this.props.params.r;
+			const r=address.store.aux;
 			this.setState(Object.assign({},states,{address,cor,message:null,r}));
 		}.bind(this));
 	}
@@ -42,9 +46,9 @@ class ReferenceView extends React.Component {
 	}
 	loadtext(props){
 		props=props||this.props;
-		if (!props.corpora)return;
-		if (!props.params.r)return ;
-		const r=props.params.r.split("@");
+		if (!corpora.store.corpora)return;
+		if (!address.store.aux)return ;
+		const r=address.store.aux.split("@");
 		const corpus=r[0].toLowerCase(); //Taisho ==> taisho
 		var address=r[1];
 		const cor=props.corpora[corpus];
@@ -74,26 +78,21 @@ class ReferenceView extends React.Component {
 			this.fetchAddress(cor,address,markups);
 		}
 	}
-	componentWillReceiveProps(nextProps) {
-		if (!nextProps.params.r)return;
-		if (this.state.r!==nextProps.params.r || nextProps.markups!==this.props.markups && nextProps.markups){
-			this.loadtext(nextProps);
-		} 
-	}
 	updateArticleByAddress(address){
 		const addressH=this.state.cor.stringify(address);
-		this.props.setA(addressH);
+		address.setMain(addressH);
 	}	
 	updateMainText(fulladdress){
 		const r=fulladdress.split("@");
-		const cor=this.props.corpora[r[0]];
+		const cor=corpora.store.corpora[r[0]];
 		var a=r[1];
 		if (cor) {
 
 			const range=cor.parseRange(a);
 			if (!range.start) a=cor.stringify(getAnchorAddress(cor,a));
 		}
-		this.props.setParams({c:r[0],a});
+		corpora.setActive(r[0]);
+		address.setMain(a);
 	}
 	render(){
 		if (this.state.message || !this.state.article) {
@@ -111,7 +110,7 @@ class ReferenceView extends React.Component {
 			decorators,
 			id:"aux",
 			cor:this.state.cor,
-			corpora:this.props.corpora,
+			corpora:corpora.store.corpora,
 			article:this.state.article,
 			rawlines:this.state.rawlines,
 			fields:this.props.displayField(this.state.fields),
