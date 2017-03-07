@@ -1,5 +1,6 @@
 const React =require('react');
 const ReactDOM =require('react-dom');
+const {observer}=require("mobx-react");
 const PT=React.PropTypes;
 const E=React.createElement;
 const ExcerptLine=require("../components/excerptline");
@@ -15,6 +16,9 @@ const styles={
 }
 var prevtitle="";
 class ExcerptView extends React.Component {
+	shouldComponentUpdate(){
+		console.log("excerpview scu")
+	}
 	getSeqOfBook(grouphits,now){
 		if (!grouphits)return 0;
 		var remain=now,acc=0, g=0;
@@ -105,7 +109,7 @@ class ExcerptView extends React.Component {
 		excerpt.showExcerpt(batch*hitperbatch);
 	}	
 	setExtra(extra){
-		mode.setExtraLine(extra);
+		excerpt.setExtraLine(extra);
 	}
 	render(){
 		prevtitle="";
@@ -116,6 +120,7 @@ class ExcerptView extends React.Component {
 		const count=(sr.filtered||{}).length||0;
 		const hitperbatch=excerpt.store.hitperbatch;
 		const batch=excerpt.store.batch;
+		console.log('batch',batch)
 
 		setTimeout(function(){ //componentDidUpdate only triggered once, don't know why
 			const w=ReactDOM.findDOMNode(this.refs.scrollto);
@@ -125,11 +130,11 @@ class ExcerptView extends React.Component {
 		return E("div",{style:styles.container},
 				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
 				E(ExcerptSetting,{setExtra:this.setExtra.bind(this),
-					extraline:parseInt(mode.store.extraline,10)||0}),
+					extraline:parseInt(mode.store.extra,10)||0}),
 				excerpts.map(this.renderItem.bind(this)),
 				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)})
 		)
 	}
 }
 
-module.exports=ExcerptView;
+module.exports=observer(ExcerptView);

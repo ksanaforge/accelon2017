@@ -36,13 +36,11 @@ const tocView=action(()=>{
 	store.mode=TOCVIEW;
 });
 
-const setExtraLine=action((l)=>{
-	store.extraline=l;
-});
+
 const excertView=action(()=>{
 	store.mode=EXCERPTVIEW;
 })
-module.exports={store,setMode,setLayout,groupByBook,setExtraLine,
+module.exports={store,setMode,setLayout,groupByBook,
 	readText,selectDB,selectBook,tocView,excertView,
 	BOOKSELECTOR, READTEXT,TOCVIEW,DBSELECTOR,
 	BOOKRESULT,EXCERPTVIEW

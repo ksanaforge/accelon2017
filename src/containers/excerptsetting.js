@@ -7,7 +7,7 @@ class ExcerptSetting extends React.Component {
 		this.props.setExtra(parseInt(e.target.value,10));
 	}
 	render(){
-		const extraline=this.props.extraline;
+		const extraline=this.props.extra;
 		return E("span",{}," ",E("span",{},_("Extra Line")),
 			E("label",{},E("input",{onClick:this.setExtra.bind(this),
 				defaultChecked:extraline==1,name:"extra",type:"radio",value:1}),_("1")),
