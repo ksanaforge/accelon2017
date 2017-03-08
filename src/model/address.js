@@ -23,6 +23,6 @@ const openNewWindow=action((address,corpus)=>{
 	win.focus();	
 });
 autorun(()=>{
-	console.log('main address change',store.main);
+	//console.log('main address change',store.main,store.aux);
 });
 module.exports={store,setMain,setAux,openLink,openNewWindow};

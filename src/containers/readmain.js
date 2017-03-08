@@ -30,11 +30,17 @@ class ReadMain extends React.Component {
 	this.state= {article:{at:-1},kpos};
 	}
 	fetch(props){
+		if (this.state.address==address.store.main) {
+			return;
+		}
 		props=props||this.props;
 		fetchArticle(this.props.cor,address.store.main,markups.store,(states)=>{
 			console.log(states.fields)
 			if (!this._unmounted) this.setState(states);
 		})  	
+	}
+	componentWillUpdate(){
+		if (!this._unmounted) this.fetch(this.props);
 	}
 	componentWillMount(){
 		this.fetch(this.props);
@@ -56,7 +62,6 @@ class ReadMain extends React.Component {
 			address.setMain(addressH,true);
 		}
 	}
-
 	render(){
 		if (!this.state.article || this.state.article==-1) {
 			return E("div",{},"loading");
@@ -80,7 +85,7 @@ class ReadMain extends React.Component {
 			cor:this.props.cor,
 			corpora:corpora.store.corpora,
 			article:this.state.article,
-			rawlines:this.state.rawlines,
+			rawlines:this.state.rawlines||[],
 			layout,
 			onCursorActivity:this.onCursorActivity.bind(this),
 			copyText:quoteCopy,

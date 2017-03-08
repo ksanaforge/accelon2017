@@ -11,6 +11,8 @@ const AuxMainmenu=require("./auxmainmenu");
 const mode=require("../model/mode");
 const address=require("../model/address");
 const corpora=require("../model/corpora");
+const {observer}=require("mobx-react");
+const {autorun}=require("mobx");
 
 const styles={
 	abscontainer:{position:"relative",zIndex:200},
@@ -30,18 +32,21 @@ class ReferenceView extends React.Component {
 		 return !!r;
 	}
 	*/
-	fetchAddress(cor,address,markups){
-		if (address) this.setState({message:"loading "+address});
+	fetchAddress(cor,addr,markups){
+		if (addr) this.setState({message:"loaaddrng "+addr});
 
-		if ( parseInt(address,10).toString(10)==address) {
-			address=cor.stringify(address);
+		if ( parseInt(addr,10).toString(10)==addr) {
+			addr=cor.stringify(addr);
 		}
-		fetchArticle(cor,address,markups,function(states){
+		fetchArticle(cor,addr,markups,function(states){
 			const r=address.store.aux;
-			this.setState(Object.assign({},states,{address,cor,message:null,r}));
+			this.setState(Object.assign({},states,{addr,cor,message:null,r}));
 		}.bind(this));
 	}
 	componentDidMount(){
+		autorun(()=>{
+			console.log("aux",address.store.aux)
+		})
 		this.loadtext(this.props);
 	}
 	loadtext(props){
@@ -50,36 +55,36 @@ class ReferenceView extends React.Component {
 		if (!address.store.aux)return ;
 		const r=address.store.aux.split("@");
 		const corpus=r[0].toLowerCase(); //Taisho ==> taisho
-		var address=r[1];
+		var addr=r[1];
 		const cor=props.corpora[corpus];
 		if (!cor) {
 			//this will cause not loading bilink for the first time
-			props.openCorpus(corpus);
+			//props.openCorpus(corpus);
 			return;
 		}
-		if (parseInt(address,10).toString(10)==address) {
-			address=cor.stringify(address);
+		if (parseInt(addr,10).toString(10)==addr) {
+			addr=cor.stringify(addr);
 		}
-		const range=cor.parseRange(address);
+		const range=cor.parseRange(addr);
 		const markups=props.corpusmarkups[corpus];
 
 		if (!range.start) {
-			const a=getAnchorAddress(cor,address);
+			const a=getAnchorAddress(cor,addr);
 			if (a) this.fetchAddress(cor,a,markups);
 		} else {
 			if (corpus=="Taisho") { //not page number, sutra id with optional i
-				notarget2address(cor,address,newaddress=>{
+				notarget2address(cor,addr,newaddress=>{
 					if (this.state.address!=newaddress) {
 						this.fetchAddress(cor,newaddress,markups);
 					}
 				});
 				return;
 			}
-			this.fetchAddress(cor,address,markups);
+			this.fetchAddress(cor,addr,markups);
 		}
 	}
-	updateArticleByAddress(address){
-		const addressH=this.state.cor.stringify(address);
+	updateArticleByAddress(addr){
+		const addressH=this.state.cor.stringify(addr);
 		address.setMain(addressH);
 	}	
 	updateMainText(fulladdress){
@@ -87,7 +92,6 @@ class ReferenceView extends React.Component {
 		const cor=corpora.store.corpora[r[0]];
 		var a=r[1];
 		if (cor) {
-
 			const range=cor.parseRange(a);
 			if (!range.start) a=cor.stringify(getAnchorAddress(cor,a));
 		}
@@ -124,4 +128,4 @@ class ReferenceView extends React.Component {
 		);
 	}
 }
-module.exports=ReferenceView;
+module.exports=observer(ReferenceView);

@@ -39,8 +39,9 @@ class TOCView extends React.Component {
 	}
 	gotocitem(e) {
 		const kpos=parseInt(e.target.dataset.kpos);
-		const address=this.props.cor.stringify(kpos);
-		mode.readText(address);
+		const addr=this.props.cor.stringify(kpos);
+		address.setMain(addr);
+		mode.readText();
 	}
 	componentDidUpdate(){ 
 		setTimeout(function(){ //scroll to closest toc node

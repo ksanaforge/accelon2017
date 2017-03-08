@@ -10,6 +10,7 @@ const {DBSELECTOR,BOOKSELECTOR,TOCVIEW,READTEXT,BOOKRESULT,EXCERPTVIEW}=mode;
 const searchresult=require("../model/searchresult");
 const GroupNav=require("./groupnav");
 const GoPage=require("../components/gopage");
+const {observer}=require("mobx-react");
 class ModelSelector extends React.Component{
 	gotopage(){
 		const group=this.props.cor.groupOf(address.store.main);
@@ -39,4 +40,4 @@ class ModelSelector extends React.Component{
 	}
 }
 
-module.exports=ModelSelector;
+module.exports=observer(ModelSelector);

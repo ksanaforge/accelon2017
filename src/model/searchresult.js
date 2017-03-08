@@ -13,8 +13,13 @@ const store=observable({
 	q:""
 })
 
-function setQ(q){
-  if (!q || q==store.q)return;
+function setQ(q,cb){
+	if (!q || q==store.q) {
+    	setTimeout(function(){
+    		cb&&cb();
+    	},1);  	
+    	return;
+	}
 
   var searchtimer=setInterval(()=>{
   	const cor=corpora.store.cor;
@@ -42,6 +47,9 @@ function setQ(q){
 	        store.timer=timer;
 	        store.grouphits=grouphits;
 	        store.q=q;
+	        setTimeout(function(){
+	        	cb&&cb();
+	        },1);
     	  }
     });
   },50);

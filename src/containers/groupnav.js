@@ -1,7 +1,9 @@
 const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
+const {observer}=require("mobx-react");
 const {_}=require("ksana-localization");
+const address=require("../model/address");
 const styles={
 	a:{cursor:"pointer"}
 }
@@ -9,12 +11,12 @@ class GroupNav extends React.Component{
 	next(){
 		const article=this.props.cor.articleOf(this.props.address);
 		const next=this.props.cor.getArticle(article.at+1);
-		this.props.setAddress(next.startH);
-	}
+		address.setMain(next.startH);
+	} 
 	prev(){
 		const article=this.props.cor.articleOf(this.props.address);
 		const prev=this.props.cor.getArticle(article.at-1);
-		this.props.setAddress(prev.startH);
+		address.setMain(prev.startH);
 	}
 	render(){
 		const groupname=this.props.cor.getGroupName(this.props.address);
@@ -31,4 +33,4 @@ class GroupNav extends React.Component{
 			);
 	}
 }
-module.exports=GroupNav;
+module.exports=observer(GroupNav);

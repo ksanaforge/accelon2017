@@ -1,11 +1,11 @@
-const {action,autorun}=require("mobx");
+const {action,autorun,whyRun}=require("mobx");
 const {parseRoute,setHashTag}=require("../unit/hashtag");
 
 const corpora=require("./corpora");
 const address=require("./address");
 const mode=require("./mode");
 const searchresult=require("./searchresult");
-
+const excerpt=require("./excerpt");
 const getDefaultCorpus=function(corpora){
 	return Object.keys(corpora)[0];
 }
@@ -14,6 +14,7 @@ const execURL=action((force)=> {
 	if (updating && !force)return;
 
 	console.log("execURL")
+
 	var hash=window.location.hash;
 	if (hash.match(/%[0-9A-Fa-f]/)) {
 		hash=decodeURIComponent(hash);
@@ -24,33 +25,57 @@ const execURL=action((force)=> {
 	const a=urlparams.a;
 	const q=urlparams.q;
 	const m=urlparams.m;
+	const n=parseInt(urlparams.n,10)||0;
+	if (a) address.setMain(a);
+
 	if (corpus!==corpora.store.active || !corpora.store.cor) {
 		corpora.open(corpus,true,function(){
-			console.log("open",corpus)
-			mode.setMode(m);
-			address.setMain(a);
-			searchresult.setQ(q);
-		});
+			if (defaultCorpus==corpus) {
+				syncURL();
+			}
+			if (q) {
+				searchresult.setQ(q,function(){
+					excerpt.showExcerpt(n);
+					mode.setMode(m);
+				});
+			}
+		});	
 	} else {
-		mode.setMode(urlparams.m);
-		searchresult.setQ(urlparams.q);
+		searchresult.setQ(q,function(){
+			excerpt.showExcerpt(n);
+			mode.setMode(m);
+		});
 	}
 });
 
-autorun(()=>{
-	updating=true;
-	console.log("update url")
-	const urlparams={
-		q:searchresult.store.q,
-		a:address.store.main,
-		r:address.store.aux,
-		l:mode.store.layout,
-		m:mode.store.mode,
-		c:corpora.store.active
-	};
-	setHashTag(urlparams);
-	setTimeout(function(){
-		updating=false;
-	},1)
-});
+const syncURL=function(){
+	const execurl=function(){
+		execURL();
+	}
+	window.removeEventListener('hashchange',execurl);
+	window.addEventListener('hashchange', execurl);
+
+	autorun(()=>{
+		updating=true;
+		if (!corpora.store.active) return;
+		const urlparams={
+			q:searchresult.store.q,
+			a:address.store.main,
+			r:address.store.aux,
+			l:mode.store.layout,
+			m:mode.store.mode,
+			c:corpora.store.active,
+			e:excerpt.store.extra,
+			n:excerpt.store.now
+		};
+
+		console.log("update url",urlparams)
+		setHashTag(urlparams);
+
+		setTimeout(function(){
+			updating=false;
+		},1)
+	});
+
+}
 module.exports={execURL};

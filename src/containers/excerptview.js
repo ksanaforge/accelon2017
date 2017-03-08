@@ -63,7 +63,8 @@ class ExcerptView extends React.Component {
 	}	
 	openAddress(addr,now){
 		address.setMain(addr);
-		mode.readText(now);
+		excerpt.setNow(now);
+		mode.readText();
 	}
 	renderItem(item,key){
 		const start=excerpt.store.batch*excerpt.store.hitperbatch;
@@ -120,17 +121,16 @@ class ExcerptView extends React.Component {
 		const count=(sr.filtered||{}).length||0;
 		const hitperbatch=excerpt.store.hitperbatch;
 		const batch=excerpt.store.batch;
-		console.log('batch',batch)
 
 		setTimeout(function(){ //componentDidUpdate only triggered once, don't know why
 			const w=ReactDOM.findDOMNode(this.refs.scrollto);
 			w&&w.scrollIntoView();
 		}.bind(this),100)
-
+		console.log('extra',excerpt.store.extra)
 		return E("div",{style:styles.container},
 				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
 				E(ExcerptSetting,{setExtra:this.setExtra.bind(this),
-					extraline:parseInt(mode.store.extra,10)||0}),
+					extra:excerpt.store.extra}),
 				excerpts.map(this.renderItem.bind(this)),
 				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)})
 		)

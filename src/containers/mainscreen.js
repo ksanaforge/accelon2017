@@ -19,7 +19,7 @@ const {observer}=require("mobx-react");
 
 const corpora=require("../model/corpora");
 
-const {execURL}=require("../model/url");
+const {execURL,syncURL}=require("../model/url");
 
 const styles={
 	body:{overflowY:"auto",height:"96%",overflowX:"hidden"}
@@ -31,9 +31,6 @@ class MainScreen extends React.Component{
 	}
 	componentDidMount(){
 		execURL(true);
-		window.addEventListener('hashchange', () => {
-				execURL();
-		})
 	}
 	getBody(m){
 		const q=searchresult.store.q;

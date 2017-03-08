@@ -6,6 +6,7 @@ const ReadAux=require("./readaux");
 const NotePopup=require("../components/notepopup");
 const mpps=require("../unit/mpps");
 const {openLink}=require("../model/address");
+
 const styles={
 	container:{display:"flex"},
 	left:{flex:8},

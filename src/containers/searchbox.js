@@ -12,6 +12,9 @@ class SearchBox extends React.Component {
 		super(props)
 		this.state={q:searchresult.store.q||""}
 	}
+	componentWillReceiveProps(nextProps,nextState){
+		this.setState({q:searchresult.store.q});
+	}
 	tryAddress(q){
 		var address=false;
 		const r=this.props.cor.parseRange(q);
@@ -29,6 +32,7 @@ class SearchBox extends React.Component {
 			address.setMain(a);
 		} else {
 			searchresult.setQ(this.state.q);
+			mode.groupByBook();
 			this.input.focus();
 		}
 	}

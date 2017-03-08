@@ -1,7 +1,7 @@
 const {observable,action}=require("mobx");
 const store=observable({
 	excerpts:[]
-	,extra:3
+	,extra:0
 	,query:{count:0}
   	,batch:0
   	,now:0
@@ -16,11 +16,14 @@ const setExtraLine=action((l)=>{
 	store.extra=l;
 	showExcerpt();
 });
-
+const setNow=action(now=>{
+	now=parseInt(now,10)||0;
+	store.now=now;
+});
 const showExcerpt=action((now)=>{
 	//store.now=now;
 	//store.extra=extra;
-	if (typeof now=="number") store.now=now||0;
+	now=parseInt(now,10)||0;
 	var line=store.extra==0?3:store.extra;
 
 	const cor=corpora.store.cor;
@@ -36,7 +39,8 @@ const showExcerpt=action((now)=>{
 	fetchExcerpts(cor,{tpos,line,
 		phrasepostings:searchresult.store.phrasepostings},function(excerpts){
 		store.excerpts=excerpts;
+		store.now=now;
 		mode.excertView();
 	});	
 });
-module.exports={store,showExcerpt,setExtraLine};
+module.exports={store,showExcerpt,setExtraLine,setNow};

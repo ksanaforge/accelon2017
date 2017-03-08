@@ -18,7 +18,5 @@ class ExcerptSetting extends React.Component {
 		)
 	}
 }
-ExcerptSetting.propTypes={
-	extraline:PT.number.isRequired
-}
+
 module.exports=ExcerptSetting;
