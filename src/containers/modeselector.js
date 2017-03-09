@@ -20,7 +20,7 @@ class ModelSelector extends React.Component{
 	}
 	render(){
 		const m=mode.store.mode;
-		const hasQ=searchresult.store.filtered && searchresult.store.q;
+		const hasQ=searchresult.store.filtered && searchresult.store.filtered.length && searchresult.store.q;
 		const hasExcerpt=searchresult.store.filtered&&searchresult.store.filtered.length;
 		
 

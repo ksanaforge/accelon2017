@@ -16,9 +16,6 @@ const styles={
 }
 var prevtitle="";
 class ExcerptView extends React.Component {
-	shouldComponentUpdate(){
-		console.log("excerpview scu")
-	}
 	getSeqOfBook(grouphits,now){
 		if (!grouphits)return 0;
 		var remain=now,acc=0, g=0;
@@ -41,7 +38,9 @@ class ExcerptView extends React.Component {
 	highlights(excerpt){
 		if (!searchresult.store.phrasepostings) return [];
 		const linebreaks=excerpt.linebreaks;
-		const getrawline=(line)=>excerpt.rawtext[line] ;
+		const getrawline=function(line){
+			return (line<excerpt.rawtext.length)?excerpt.rawtext[line]:"" ;
+		};
 		const linelengths=this.buildlinelengths(excerpt.rawtext);
 		var hl=[];
 
@@ -115,8 +114,8 @@ class ExcerptView extends React.Component {
 	render(){
 		prevtitle="";
 		const sr=searchresult.store;
-		if (sr.searching)return E("div",{},"searching");
 		const excerpts=excerpt.store.excerpts;
+		if (sr.searching||!excerpts)return E("div",{},"searching");
 
 		const count=(sr.filtered||{}).length||0;
 		const hitperbatch=excerpt.store.hitperbatch;
@@ -126,7 +125,6 @@ class ExcerptView extends React.Component {
 			const w=ReactDOM.findDOMNode(this.refs.scrollto);
 			w&&w.scrollIntoView();
 		}.bind(this),100)
-		console.log('extra',excerpt.store.extra)
 		return E("div",{style:styles.container},
 				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
 				E(ExcerptSetting,{setExtra:this.setExtra.bind(this),

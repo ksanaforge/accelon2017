@@ -75,7 +75,6 @@ class ReadMain extends React.Component {
 			setField:this.props.setField});
 
 		const cors=corpora.openedCors();
-		console.log(cors);
 		const layout=(mode.store.layout && this.state.fields.p)?this.state.fields.p.pos:null;
 		return E("div",{},
 			E("div",{style:styles.abscontainer},
@@ -89,6 +88,7 @@ class ReadMain extends React.Component {
 			article:this.state.article,
 			rawlines:this.state.rawlines||[],
 			layout,
+			decorators,
 			onCursorActivity:this.onCursorActivity.bind(this),
 			copyText:quoteCopy,
 			fields:this.props.displayField(this.state.fields),

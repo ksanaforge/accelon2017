@@ -4,12 +4,14 @@ const PT=React.PropTypes;
 const styles={
 	container:{overflowY:"auto"}
 }
+const {observer}=require("mobx-react");
 const {groupTitle}=require("../unit/humantext");
 const mode=require("../model/mode");
 const excerpt=require("../model/excerpt");
+const searchresult=require("../model/searchresult");
 class GroupByBook extends React.Component {
 	gotogroup(n){
-		const grouphits=this.props.searchresult.grouphits;
+		const grouphits=searchresult.store.grouphits;
 		var g=0,start=0;
 		while (n>0 && g<grouphits.length) {
 			start+=grouphits[g++];
@@ -23,21 +25,21 @@ class GroupByBook extends React.Component {
 		if (!sort) {
 			return groupNames.map((i,idx)=>idx);
 		}
-		if (!this.props.searchresult.q||!this.props.searchresult.grouphits)return [];
+		if (!searchresult.store.q||!searchresult.store.grouphits)return [];
 
 		var out=[]; //group id,hit
 
 		
 		for (var i=0;i<groupNames.length;i++) {
-			const hit=this.props.searchresult.grouphits[i] || 0;
+			const hit=searchresult.store.grouphits[i] || 0;
 			out.push([i,hit]);
 		}
 		out.sort((a,b)=>b[1]-a[1]);
 		return out.map(a=>a[0]);
 	}
 	rendergroup(g,key){
-		if (!this.props.searchresult.q||!this.props.searchresult.grouphits)return;
-		const hit=this.props.searchresult.grouphits[g] || 0;
+		if (!searchresult.store.q||!searchresult.store.grouphits)return;
+		const hit=searchresult.store.grouphits[g] || 0;
 		const gname=this.props.cor.groupNames()[g];
 		const title=gname.replace(/;.*/g,"");
 		const hint=gname.replace(/.*;/,"");
@@ -60,4 +62,4 @@ class GroupByBook extends React.Component {
 	}
 };
 
-module.exports=GroupByBook;
+module.exports=observer(GroupByBook);

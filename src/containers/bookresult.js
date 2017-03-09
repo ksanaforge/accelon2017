@@ -6,8 +6,7 @@ const ModeSelector=require("./modeselector");
 const {_}=require("ksana-localization");
 const {showExcerpt}=require("../model/excerpt");
 const searchresult=require("../model/searchresult");
-
-
+const {observer}=require("mobx-react");
 class BookResult extends React.Component {
 	constructor(props){
 		super(props);
@@ -33,4 +32,4 @@ class BookResult extends React.Component {
 	}
 };
 
-module.exports=BookResult;
+module.exports=observer(BookResult);

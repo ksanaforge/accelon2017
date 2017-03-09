@@ -1,6 +1,7 @@
 const {extendObservable,action}=require("mobx");
 const {openCorpus}=require("ksana-corpus");
 const {connectCorpus}=require("../unit/connect");
+
 const Store=function() {
 	extendObservable(this,{
 		corpora:{},
@@ -26,7 +27,7 @@ const openedCors=function(){
 	return out;
 }
 const open=(corpus,setActive,cb)=>{
-	console.log("open",corpus)
+	//console.log("open",corpus)
 	openCorpus(corpus,action((err,cor)=>{
 		if (err) {
 

@@ -67,7 +67,7 @@ const buildReverseLinks=function(links,corpora){
 
 const connectCorpus=function(cor,corpora){
 	const opencorpora=Object.keys(corpora).filter(c=>corpora[c]);
-	console.log("connecting",cor.id,"to corpus",opencorpora);
+	//console.log("connecting",cor.id,"to corpus",opencorpora);
 	const output=[],
 	links=[];// [source corpus, fieldname@target , source to target]
 	var lastjobcor,lastfield;

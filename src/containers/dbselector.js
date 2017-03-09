@@ -3,9 +3,10 @@ const E=React.createElement;
 const PT=React.PropTypes;
 const mode=require("../model/mode");
 const corpora=require("../model/corpora");
-
+const searchresult=require("../model/searchresult");
 class DBSelector extends React.Component {
 	selectdb(db){
+		searchresult.clear();
 		corpora.setActive(db);
 		mode.selectBook();
 	}
@@ -14,7 +15,7 @@ class DBSelector extends React.Component {
 	}
 	renderDB(item,key){
 		const active=item==corpora.store.active;
-		const cor=corpora.store.corpora[item];
+		const cor=corpora.store.cor(item);
 
 		var title=item;
 		if (cor) {

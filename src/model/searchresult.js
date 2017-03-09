@@ -1,20 +1,43 @@
-const {observable,action}=require("mobx");
+const {extendObservable,action}=require("mobx");
 const filter=require("./filter");
 const corpora=require("./corpora");
 const kcs=require("ksana-corpus-search");
-const store=observable({
-	searching:false,
-	filtered:[],
-	matches:[],
-	phrasepostings:[],
-	timer:null,
-	grouphits:[],
-	now:0,
-	q:""
-})
 
+const Store=function() {
+	extendObservable(this,{
+		matches:[],
+		phrasepostings:[],
+		timer:null,
+		now:0,
+		q:"",
+		get filtered(){
+			const cor=corpora.store.cor();
+			const corpus=corpora.store.active;
+			const excludes=filter.store.asArray||[];
+			return filtered=kcs.filterMatch(cor,this.matches,excludes)||[];
+		},
+		get grouphits(){
+			const cor=corpora.store.cor();
+			const grouphits=kcs.groupStat(this.filtered,cor.groupTPoss());
+			grouphits.shift();
+			return grouphits;
+		}
+	});
+}
+const store=new Store();
+var searching=false;
+const setResult=action(function(opts){
+	store.phrasepostings=opts.phrasepostings;
+	store.matches=opts.matches;
+	store.timer=opts.timer;
+	store.q=opts.q;
+});
+const clear=action(function(){
+	store.phrasepostings=[];
+	store.matches=[];
+})
 function setQ(q,cb){
-	if (!q || q==store.q) {
+	if (!q || q==store.q && store.matches.length) {
     	setTimeout(function(){
     		cb&&cb();
     	},1);  	
@@ -22,31 +45,21 @@ function setQ(q,cb){
 	}
 
   var searchtimer=setInterval(()=>{
-  	const cor=corpora.store.cor;
+  	const cor=corpora.store.cor();
   	const corpus=corpora.store.active;
   	if (!cor) return;
 
-    if (store.searching) {
+    if (searching) {
       console.log("wait searching",q);
       return;
     }
-    store.searching=true;
+    searching=true;
     clearInterval(searchtimer);
-
     kcs.search(cor,q,function(result){
     	const {matches,phrasepostings,timer}=result;
 		if (matches) {
-	        const excludes=(filter.store[corpus]||{}).excludes;
-	        const filtered=kcs.filterMatch(cor,result.matches,excludes)||[];
-	        const grouphits=kcs.groupStat(filtered,cor.groupTPoss());
-	        grouphits.shift();
-	        store.filtered=filtered;
-	        store.searching=false;
-	        store.phrasepostings=phrasepostings;
-	        store.matches=matches;
-	        store.timer=timer;
-	        store.grouphits=grouphits;
-	        store.q=q;
+	        setResult({phrasepostings,matches,q,timer})
+	        searching=false;
 	        setTimeout(function(){
 	        	cb&&cb();
 	        },1);
@@ -55,4 +68,4 @@ function setQ(q,cb){
   },50);
 }
 
-module.exports={store,setQ};
+module.exports={store,setQ,clear};

@@ -26,10 +26,10 @@ const showExcerpt=action((now)=>{
 	now=parseInt(now,10)||0;
 	var line=store.extra==0?3:store.extra;
 
-	const cor=corpora.store.cor;
+	const cor=corpora.store.cor();
 	const hits=searchresult.store.filtered;
 	var tpos=[];
-	store.batch=Math.floor(store.now/store.hitperbatch);
+	store.batch=Math.floor(now/store.hitperbatch);
 
 	for (let i=0;i<store.hitperbatch;i++) {
 		const at=store.hitperbatch*store.batch+i;		
@@ -37,10 +37,11 @@ const showExcerpt=action((now)=>{
 		else break;
 	}
 	fetchExcerpts(cor,{tpos,line,
-		phrasepostings:searchresult.store.phrasepostings},function(excerpts){
+		phrasepostings:searchresult.store.phrasepostings},
+		action(function(excerpts){
 		store.excerpts=excerpts;
 		store.now=now;
 		mode.excertView();
-	});	
+	}));	
 });
 module.exports={store,showExcerpt,setExtraLine,setNow};

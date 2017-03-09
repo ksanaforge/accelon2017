@@ -2,7 +2,8 @@ const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
 const {_}=require("ksana-localization");
-
+const address=require("../model/address");
+const mode=require("../model/mode");
 class GoPage extends React.Component {
 	constructor(props){
 		super(props)
@@ -17,8 +18,9 @@ class GoPage extends React.Component {
 
 		const article=this.props.cor.articleOf(kpos);
 		if (!article)return;
-		const address=this.props.cor.stringify(kpos);
-		this.props.readText(address);
+		const addr=this.props.cor.stringify(kpos);
+		address.setMain(addr);
+		mode.readText();
 	}
 	setRef(ref){
 		this.input=ref;

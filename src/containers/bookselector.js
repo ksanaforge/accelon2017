@@ -30,7 +30,7 @@ class BookSelector extends React.Component {
 	firstOccurOfGroup(group){
 		var first=0;
 		for(let i=0;i<group;i++) {
-			if (!filter.store.active.excludes[i]){
+			if (!filter.store.active[i]){
 				first+=filter.store.active.hits[i];				
 			}
 		}
@@ -59,8 +59,7 @@ class BookSelector extends React.Component {
 		if (this.props.showHit) {
 			hit=filter.store.active.hits[key] || 0;
 		}
-
-		const exclude=filter.store.active.excludes[key] || false;
+		const exclude=filter.store.active[key] || false;
 		var br=false;
 		if (g.substr(0,2)=="\\n") {
 			g=g.substr(2);
@@ -77,7 +76,6 @@ class BookSelector extends React.Component {
 	deselectall(){
 		filter.excludeAll();
 	}
-
 	render(){
 		if (this.props.cor.meta.groupPrefix) {
 			return E(BookCategorySelector,this.props);
@@ -90,6 +88,6 @@ class BookSelector extends React.Component {
 	}
 };
 BookSelector.propTypes={
-		cor:PT.object.isRequired
+	cor:PT.object.isRequired
 }
 module.exports=observer(BookSelector);

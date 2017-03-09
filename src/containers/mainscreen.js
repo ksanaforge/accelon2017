@@ -55,11 +55,7 @@ class MainScreen extends React.Component{
 		const m=parseInt(mode.store.mode);
 		return (m!==READTEXT)?E(Footer):null;
 	}
-	componentWillUpdate(){
-		console.log("main screen will update")
-	}
 	render(){
-		console.log("main screen render")
 		const cor=corpora.store.cor();
 		if (!cor) return E("div",{},"loading "+corpora.store.active);
 		const props=Object.assign({},this.props,{cor});
