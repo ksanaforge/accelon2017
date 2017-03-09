@@ -7,6 +7,7 @@ const stockurls=[
 ]
 const selection=require("../model/selection");
 const {observer}=require("mobx-react");
+const {whyRun}=require("mobx")
 class DictView extends React.Component{
 	constructor(props){
 		super(props);

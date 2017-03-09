@@ -26,7 +26,9 @@ const execURL=action((force)=> {
 	const q=urlparams.q;
 	const m=urlparams.m;
 	const n=parseInt(urlparams.n,10)||0;
-	if (a) address.setMain(a);
+	if (a) {
+		address.setMain(a);	
+	} 
 
 	if (corpus!==corpora.store.active || !corpora.store.cor) {
 		corpora.open(corpus,true,function(){
@@ -38,6 +40,8 @@ const execURL=action((force)=> {
 					excerpt.showExcerpt(n);
 					mode.setMode(m);
 				});
+			} else {
+				mode.setMode(m);
 			}
 		});	
 	} else {
@@ -74,7 +78,7 @@ const syncURL=function(){
 
 		setTimeout(function(){
 			updating=false;
-		},1)
+		},100);
 	});
 
 }

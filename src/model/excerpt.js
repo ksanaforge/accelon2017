@@ -33,7 +33,7 @@ const showExcerpt=action((now)=>{
 
 	for (let i=0;i<store.hitperbatch;i++) {
 		const at=store.hitperbatch*store.batch+i;		
-		if (hits[at]) tpos.push(hits[at]);
+		if (at<hits.length && hits[at]) tpos.push(hits[at]);
 		else break;
 	}
 	fetchExcerpts(cor,{tpos,line,

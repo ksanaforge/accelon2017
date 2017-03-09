@@ -2,9 +2,9 @@ const React=require("react");
 const ReactDOM=require("react-dom");
 const E=React.createElement;
 const MainScreen=require('./containers/mainscreen');
-
+const {useStrict}=require("mobx");
 require("./localestring");
-
+useStrict(true);
 const Main=function(appopts){
 	var opts=appopts;
 	if (appopts.corpora instanceof Array) {

@@ -35,7 +35,7 @@ class ReadMain extends React.Component {
 		}
 		props=props||this.props;
 		fetchArticle(this.props.cor,address.store.main,markups.store,(states)=>{
-			console.log(states.fields)
+			//console.log(states.fields)
 			if (!this._unmounted) this.setState(states);
 		})  	
 	}
@@ -74,6 +74,8 @@ class ReadMain extends React.Component {
 			fields:this.state.fields,hidefields:this.props.hidefields,
 			setField:this.props.setField});
 
+		const cors=corpora.openedCors();
+		console.log(cors);
 		const layout=(mode.store.layout && this.state.fields.p)?this.state.fields.p.pos:null;
 		return E("div",{},
 			E("div",{style:styles.abscontainer},
@@ -81,9 +83,9 @@ class ReadMain extends React.Component {
 			 ,E("div",{style:styles.menu},E(ReadMainmenu,menuprops))
 			)
 			,E(CorpusView,{address:address.store.main,
-			decorators,
+			
 			cor:this.props.cor,
-			corpora:corpora.store.corpora,
+				corpora:cors,
 			article:this.state.article,
 			rawlines:this.state.rawlines||[],
 			layout,
