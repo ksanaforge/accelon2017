@@ -35,7 +35,7 @@ class ReadMain extends React.Component {
 		}
 		props=props||this.props;
 		fetchArticle(this.props.cor,address.store.main,markups.store,(states)=>{
-			//console.log(states.fields)
+			console.log(states.fields)
 			if (!this._unmounted) this.setState(states);
 		})  	
 	}

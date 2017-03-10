@@ -1,4 +1,4 @@
-const createRend=function({cm,cor,start,end,id,tabid,target,actions,fields}){		
+const createRend=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	if (target.indexOf(":")>0) {
 		return cm.markText(start,end,{css:target});
 	} else {

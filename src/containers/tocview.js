@@ -48,8 +48,8 @@ class TOCView extends React.Component {
 			const ref=this.refs.toclabel_selected;
 			if (ref && this.refs.body){
 				ref.scrollIntoView(false);
-				const container=this.refs.body.parentElement;
-				container.scrollTop+=window.innerHeight/2;
+				//const container=this.refs.body.parentElement;
+				//container.scrollTop+=window.innerHeight/2;
 			} 
 		}.bind(this),100); //need to wait react to update DOM
 	}
