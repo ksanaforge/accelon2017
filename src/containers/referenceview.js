@@ -126,7 +126,7 @@ class ReferenceView extends React.Component {
 			 E("div",{style:styles.menu},E(AuxMainmenu,menuprops))
 			)
 
-			, E(CorpusView,{address:r[1],
+			, E(CorpusView,{address:this.state.address,
 			fulladdress:address.store.aux,
 			decorators,
 			id:"aux",

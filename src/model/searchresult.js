@@ -57,7 +57,9 @@ function setQ(q,cb){
     	},1);  	
     	return;
 	}
-
+  action(function(){
+  	 store.q=q; //update q immediately
+  })();
   var searchtimer=setInterval(()=>{
   	const cor=corpora.store.cor();
   	const corpus=corpora.store.active;
@@ -70,6 +72,7 @@ function setQ(q,cb){
   	waitsearch=0;
     searching=true;
     clearInterval(searchtimer);
+
     search(cor,q,function(result){
     	const {matches,phrasepostings,timer,fuzzy,scores}=result;
 		if (matches) {

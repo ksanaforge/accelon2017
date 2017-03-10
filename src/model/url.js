@@ -54,7 +54,26 @@ const execURL=action((force)=> {
 		});
 	}
 });
+const updateUrl=function(){
+	updating=true;
+	const x=packBits(filter.store.asArray);
+	const urlparams={
+		q:searchresult.store.q,
+		a:address.store.main,
+		r:address.store.aux,
+		l:mode.store.layout,
+		m:mode.store.mode,
+		c:corpora.store.active,
+		e:excerpt.store.extra,
+		n:excerpt.store.now,
+		x
+	};
 
+	console.log("update url",urlparams)
+	setHashTag(urlparams);
+	updating=false;
+}
+var urlupdater
 const syncURL=function(){
 	const execurl=function(){
 		execURL();
@@ -63,28 +82,8 @@ const syncURL=function(){
 	window.addEventListener('hashchange', execurl);
 	synced=true;
 	autorun(()=>{
-		updating=true;
-		if (!corpora.store.active) return;
-		const x=packBits(filter.store.asArray);
-		const urlparams={
-			q:searchresult.store.q,
-			a:address.store.main,
-			r:address.store.aux,
-			l:mode.store.layout,
-			m:mode.store.mode,
-			c:corpora.store.active,
-			e:excerpt.store.extra,
-			n:excerpt.store.now,
-			x
-		};
-
-		//console.log("update url",urlparams)
-		setHashTag(urlparams);
-
-		setTimeout(function(){
-			updating=false;
-		},1000);
+		clearTimeout(urlupdater);
+		urlupdater=setTimeout(updateUrl,1000);
 	});
-
 }
 module.exports={execURL};

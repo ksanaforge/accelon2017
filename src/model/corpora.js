@@ -38,11 +38,7 @@ const open=(corpus,setActive,cb)=>{
 		if (err) {
 
 		} else {
-			var _corpora={};
-			for (var i in store.corpora){
-				if (store.corpora[i]) _corpora[i]=openCorpus(i);
-			}
-			connectCorpus(cor,_corpora);
+			connectCorpus(cor);
 			if (setActive) store.active=corpus;
 			store.corpora[corpus]=true;
 			store.corpora=Object.assign({},store.corpora);
