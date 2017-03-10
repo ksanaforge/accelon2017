@@ -43,7 +43,7 @@ class ExcerptView extends React.Component {
 		prevtitle=title;
 		const now=excerpt.store.now;
 		const seq=this.getSeqOfBook(searchresult.store.grouphits,n);
-		const scrollto=excerpt.store.now==n;
+		const scrollto=now==n;
 		var obj={};
 		if (scrollto && !first) obj.ref="scrollto"; //no need to scroll if first item is highlighted
 

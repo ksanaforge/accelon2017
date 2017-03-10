@@ -36,7 +36,6 @@ const tocView=action(()=>{
 	store.mode=TOCVIEW;
 });
 
-
 const excertView=action(()=>{
 	store.mode=EXCERPTVIEW;
 })

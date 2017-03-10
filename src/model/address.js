@@ -1,5 +1,6 @@
 const {observable,action,autorun}=require("mobx");
 const mode=require("./mode");
+const corpora=require("./corpora");
 const store=observable({
 	main:'',
 	n:0,
@@ -14,8 +15,15 @@ const setAux=action((address)=>{
 });
 const openLink=action((fulladdress)=>{
 	const r=fulladdress.split("@");
-	const corpus=r[0], address=r[1];
-	store.aux=fulladdress;
+	if (!corpora.store.corpora[r[0]]) {
+		corpora.open(r[0],false,function(){
+			setTimeout(action(function(){//wait connect
+				store.aux=fulladdress;	
+			}),500);
+		});
+	} else {
+		store.aux=fulladdress;	
+	}	
 });
 const openNewWindow=action((address,corpus)=>{
 	var url=window.location.origin+window.location.pathname+"#c="+corpus+"&m="+READTEXT+"&a="+address;

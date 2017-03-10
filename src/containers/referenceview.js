@@ -36,7 +36,7 @@ class ReferenceView extends React.Component {
 	*/
 	fetchAddress(cor,addr,mrks){
 		if (addr&&!this._unmounted) {
-			this.setState({message:"loaaddrng "+addr});
+			this.setState({message:"loading "+addr});
 		}
 
 		if ( parseInt(addr,10).toString(10)==addr) {
@@ -55,24 +55,24 @@ class ReferenceView extends React.Component {
 	}
 	componentDidMount(){
 		autorun(()=>{
-			//console.log("aux",address.store.aux);
-			this.loadtext(this.props);
+			const a=address.store.aux;
+			clearTimeout(this.timer);
+			this.timer=setTimeout(function(){
+				if (!this._unmounted) this.loadtext(this.props);	
+			}.bind(this),200);
 		});		
 	}
 	loadtext(props){
 		props=props||this.props;
-		if (!corpora.store.corpora)return;
-		if (!address.store.aux)return ;
+ 		if (!address.store.aux)return ;
 
 		const r=address.store.aux.split("@");
 		const corpus=r[0].toLowerCase(); //Taisho ==> taisho		
 		const cor=corpora.store.cor(corpus);
 		if (!cor) {
-			//this will cause not loading bilink for the first time
 			corpora.open(corpus);
 			return;
 		}
-
 
 		var addr=r[1];
 		if (parseInt(addr,10).toString(10)==addr) {
