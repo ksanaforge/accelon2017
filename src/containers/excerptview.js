@@ -10,6 +10,7 @@ const mode=require("../model/mode");
 const searchresult=require("../model/searchresult");
 const excerpt=require("../model/excerpt");
 const address=require("../model/address");
+const {highlightExcerpt}=require("../unit/highlight");
 const styles={
 	container:{},
 	table:{width:"100%"}
@@ -25,41 +26,7 @@ class ExcerptView extends React.Component {
 		}
 		return remain ;
 	}
-	buildlinelengths(rawtext){
-		var linelengths=[];
-		var acc=0;
-		for (let i=0;i<rawtext.length;i++) {
-			linelengths.push(acc);
-			acc+=rawtext[i].length;
-		}
-		linelengths.push(acc);
-		return linelengths;
-	}
-	highlights(excerpt){
-		if (!searchresult.store.phrasepostings) return [];
-		const linebreaks=excerpt.linebreaks;
-		const getrawline=function(line){
-			return (line<excerpt.rawtext.length)?excerpt.rawtext[line]:"" ;
-		};
-		const linelengths=this.buildlinelengths(excerpt.rawtext);
-		var hl=[];
 
-		for(let j=0;j<excerpt.phrasehits.length;j++) {
-			const hits=excerpt.phrasehits[j].hits;
-			const phraselengths=searchresult.store.phrasepostings[j].lengths;
-			const linecharr=hits.map((hit,idx)=>{
-
-				const phraselength=phraselengths[idx]||phraselengths;//should be kpos width
-				const range=this.props.cor.makeRange(hit,hit+phraselength);
-
-				var {start,end}=this.props.cor.toLogicalRange(excerpt.linebreaks,range,getrawline);
-				const absstart=linelengths[start.line]+start.ch +start.line //for linefeed ;
-				const absend=linelengths[end.line]+end.ch + end.line ;
-				hl.push([absstart,absend-absstart,j]);
-			});
-		}
-		return hl;
-	}	
 	openAddress(addr,now){
 		address.setMain(addr);
 		excerpt.setNow(now);
@@ -80,7 +47,7 @@ class ExcerptView extends React.Component {
 		var obj={};
 		if (scrollto && !first) obj.ref="scrollto"; //no need to scroll if first item is highlighted
 
-		const hits=this.highlights(excerpt.store.excerpts[key]);
+		const hits=highlightExcerpt(this.props.cor,excerpt.store.excerpts[key],searchresult.store.phrasepostings);
 		return E(ExcerptLine,Object.assign(obj,item,
 			{openAddress:this.openAddress.bind(this),key,now,n,seq,header,shorttitle,
 				cor:this.props.cor,

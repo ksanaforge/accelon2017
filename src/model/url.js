@@ -14,8 +14,7 @@ var updating=false;
 var synced=false;
 const execURL=action((force)=> {
 	if (updating && !force)return;
-
-	//console.log("execURL")
+	console.log("execURL")
 
 	var hash=window.location.hash;
 	if (hash.match(/%[0-9A-Fa-f]/)) {
@@ -84,7 +83,7 @@ const syncURL=function(){
 
 		setTimeout(function(){
 			updating=false;
-		},100);
+		},1000);
 	});
 
 }

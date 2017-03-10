@@ -31,7 +31,7 @@ class BookCategorySelector extends React.Component {
 			if (!allOfCat[prefix]) allOfCat[prefix]=[];
 			allOfCat[prefix].push(groupNames.length);
 			groupNames.push(r2[1]);
-			if (!filter.store.active.excludes[i]) {
+			if (!filter.store.active[i]) {
 				if (!selOfCat[prefix]) selOfCat[prefix]=0;
 				selOfCat[prefix]++;
 			}			
@@ -49,10 +49,11 @@ class BookCategorySelector extends React.Component {
 		mode.tocView(a);
 	}
 	firstOccurOfGroup(group){
+		return 0;
 		var first=0;
 		for(let i=0;i<group;i++) {
-			if (!filter.store.active.excludes[i]){
-				first+=filter.store.active.hits[i];				
+			if (!filter.store.active[i]){
+				//first+=filter.store.active.hits[i];				
 			}
 		}
 		return first;
@@ -88,10 +89,10 @@ class BookCategorySelector extends React.Component {
 	renderGroup(group,key){
 		var hit=0;
 		if (this.props.showHit) {
-			hit=filter.store.active.hits[group] || 0;			
+		//	hit=filter.store.active.hits[group] || 0;			
 		}
 		
-		const exclude=filter.store.active.excludes[group] || false;
+		const exclude=filter.store.active[group] || false;
 		var br=false;
 		var g=this.state.groupNames[group];
 		if (g.substr(0,2)=="\\n") {

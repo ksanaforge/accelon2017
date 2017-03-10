@@ -116,7 +116,7 @@ class ReferenceView extends React.Component {
 			return E("div",{},this.state.message);
 		}
 		const r=address.store.aux.split("@");
-		console.log("render ReferenceView",r)
+		
 		const menuprops=Object.assign({},this.props,{
 			cor:this.state.cor,
 			address:this.state.address});

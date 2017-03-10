@@ -1,5 +1,11 @@
 const {extendObservable,action}=require("mobx");
-const {openCorpus}=require("ksana-corpus");
+var openCorpus=null
+try {
+	openCorpus=require("ksana-corpus").openCorpus;
+} catch(e){
+	openCorpus=require("ksana-corpus-lib").openCorpus;
+}
+
 const {connectCorpus}=require("../unit/connect");
 
 const Store=function() {

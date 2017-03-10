@@ -18,20 +18,24 @@ class ModelSelector extends React.Component{
 		
 		return E(GoPage,{cor:this.props.cor, range, readText:mode.readText});
 	}
+	showExcerpt(){
+		excerpt.showExcerpt();
+		mode.excertView();
+	}
 	render(){
 		const m=mode.store.mode;
-		const hasQ=searchresult.store.filtered && searchresult.store.filtered.length && searchresult.store.q;
+		const showBookResult=searchresult.store.filtered && searchresult.store.filtered.length 
+				&& searchresult.store.q;
 		const hasExcerpt=searchresult.store.filtered&&searchresult.store.filtered.length;
-		
 
 		return E("span",{},
 			E("a",{className:(m==BOOKSELECTOR?"activemodelink":"modelink"),onClick:mode.selectBook},_("Select Book")),
 			" ",
 			E("a",{className:(m==TOCVIEW?"activemodelink":"modelink"),onClick:mode.tocView},_("TOC View")),
 			" ",
-			hasQ?E("a",{className:(m==BOOKRESULT?"activemodelink":"modelink"),onClick:mode.groupByBook},_("Group By Book")):null,
+			showBookResult?E("a",{className:(m==BOOKRESULT?"activemodelink":"modelink"),onClick:mode.groupByBook},_("Group By Book")):null,
 			" ",
-			hasExcerpt?E("a",{className:(m==EXCERPTVIEW?"activemodelink":"modelink"),onClick:excerpt.showExcerpt},_("Excerpt")):null,
+			hasExcerpt?E("a",{className:(m==EXCERPTVIEW?"activemodelink":"modelink"),onClick:this.showExcerpt},_("Excerpt")):null,
 			" ",
 			m==READTEXT?E(GroupNav,{setAddress:address.setMain,address:address.store.main,cor:this.props.cor}):null,
 			" ",

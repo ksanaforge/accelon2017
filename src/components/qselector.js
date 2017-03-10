@@ -10,8 +10,10 @@ class QSelector extends React.Component{
 		this.setState({selectTo:-1});
 	}
 	onMouseDown(idx){
+		const tokens=this.toToken(this.props.q);
 		if (this.props.maxChar&&idx>=this.props.maxChar)  idx=this.props.maxChar-1;
-		this.props.onSelect&&this.props.onSelect(this.props.q.substr(0,idx+1));
+		tokens.length=idx+1;
+		this.props.onSelect&&this.props.onSelect(tokens.join(""));
 	}
 	constructor(props){
 		super(props);

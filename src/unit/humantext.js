@@ -4,4 +4,5 @@ const	groupTitle=function(label,cor){
 		const categoryNames=cor.meta.groupPrefix||[];
 		return categoryNames[parseInt(r[0],0)]+"《"+r[1]+"》";
 }
+
 module.exports={groupTitle}

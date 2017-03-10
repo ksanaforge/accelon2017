@@ -7,7 +7,14 @@ const store=observable({
   	,now:0
 	,hitperbatch:20
 });
-const {fetchExcerpts}=require("ksana-corpus-search").excerpt;
+
+var fetchExcerpts=null;
+try {
+	fetchExcerpts=require("ksana-corpus-search").excerpt.fetchExcerpts;
+} catch(e){
+	fetchExcerpts=require("ksana-corpus-lib").excerpt.fetchExcerpts;
+}
+
 
 const searchresult=require("./searchresult");
 const mode=require("./mode");
@@ -39,9 +46,8 @@ const showExcerpt=action((now)=>{
 	fetchExcerpts(cor,{tpos,line,
 		phrasepostings:searchresult.store.phrasepostings},
 		action(function(excerpts){
-		store.excerpts=excerpts;
-		store.now=now;
-		mode.excertView();
+			store.excerpts=excerpts;
+			store.now=now;
 	}));	
 });
 module.exports={store,showExcerpt,setExtraLine,setNow};

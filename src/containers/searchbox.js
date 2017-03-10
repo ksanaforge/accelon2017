@@ -47,7 +47,7 @@ class SearchBox extends React.Component {
 	}
 	render(){
 		return E("span",{className:"searchbox"},
-			E("input",{className:"input",ref:this.setRef.bind(this),value:this.state.q,
+			E("input",{className:"input",placeholder:_("Puncuation to enable Fuzzy Search"),ref:this.setRef.bind(this),value:this.state.q,
 				onChange:this.onChange.bind(this),onKeyPress:this.onKeyPress.bind(this)})
 			,E("button",{className:"button",onClick:this.search.bind(this)},_("Search"))
 		)

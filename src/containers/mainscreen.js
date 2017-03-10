@@ -6,6 +6,7 @@ const HomeBar=require("./homebar");
 const DBSelector=require("./dbselector");
 const BookSelector=require("./bookselector");
 const BookResult=require("./bookresult");
+const FuzzyResult=require("./fuzzyresult");
 const mode=require("../model/mode");
 const searchresult=require("../model/searchresult");
 const {DBSELECTOR,BOOKSELECTOR,TOCVIEW,BOOKRESULT,READTEXT,EXCERPTVIEW}=mode;
@@ -34,6 +35,7 @@ class MainScreen extends React.Component{
 	}
 	getBody(m){
 		const q=searchresult.store.q;
+		const fuzzy=searchresult.store.fuzzy;
 		m=parseInt(m);
 		switch (m) {
 			case DBSELECTOR: return DBSelector;
@@ -41,7 +43,7 @@ class MainScreen extends React.Component{
 			case READTEXT: return ReadText;
 			case TOCVIEW: return TOCView;
 			case BOOKRESULT: return q?BookResult:BookSelector;
-			case EXCERPTVIEW: return q?ExcerptView:BookSelector;
+			case EXCERPTVIEW: return fuzzy?FuzzyResult:ExcerptView;
 		}
 		return BookSelector;
 	}
