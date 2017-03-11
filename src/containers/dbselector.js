@@ -35,13 +35,11 @@ class DBSelector extends React.Component {
 			},0);
 		}
 		const src="img/"+item+".png";
+		const className=active?"activedbname":"dbname";
+		const onClick=this.selectdb.bind(this,item);
 		return E("div",{key,className:"dbselector"},
-			this.state.noimage[item]?
-			E("span",{className:active?"activedbname":"dbname",
-				onClick:this.selectdb.bind(this,item)},
-				title)
-			:E("img",{src,onError:this.onImgError.bind(this,item)}),
-
+			this.state.noimage[item]?E("span",{className,onClick},title)
+			  :E("img",{className,src,onClick,onError:this.onImgError.bind(this,item)}),
 			E("span",{},(active?"✓":""))
 		);
 	}
