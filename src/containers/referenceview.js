@@ -119,6 +119,7 @@ class ReferenceView extends React.Component {
 		
 		const menuprops=Object.assign({},this.props,{
 			cor:this.state.cor,
+			corpus:r[0],
 			address:this.state.address});
 		const cors=corpora.openedCors();
 		return E("div",{},

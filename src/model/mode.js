@@ -15,7 +15,7 @@ const setMode=action(m=> {
 });
 
 const setLayout=action(l=>{
-	mode.layout=l;
+	store.layout=l;
 });
 
 const selectBook=action(()=>{

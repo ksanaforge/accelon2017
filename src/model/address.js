@@ -25,8 +25,8 @@ const openLink=action((fulladdress)=>{
 		store.aux=fulladdress;	
 	}	
 });
-const openNewWindow=action((address,corpus)=>{
-	var url=window.location.origin+window.location.pathname+"#c="+corpus+"&m="+READTEXT+"&a="+address;
+const openNewWindow=action((addr,corpus)=>{
+	var url=window.location.origin+window.location.pathname+"#c="+corpus+"&m="+mode.READTEXT+"&a="+addr;
 	const win=window.open(url,'_blank');
 	win.focus();	
 });

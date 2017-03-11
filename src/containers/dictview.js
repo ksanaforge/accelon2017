@@ -13,7 +13,7 @@ class DictView extends React.Component{
 		super(props);
 
 		const urls=stockurls.slice();
-		const o=window.accelon2017&&window.accelon2017.sites;
+		const o=window.accelon2017&&window.accelon2017.dictionaries;
 		if (o) {
 			for (var i=0;i<o.length;i++) {
 				urls.push(o[i]);

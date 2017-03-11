@@ -29,7 +29,7 @@ class ModelSelector extends React.Component{
 		const hasExcerpt=searchresult.store.filtered&&searchresult.store.filtered.length;
 
 		return E("span",{},
-			E("a",{className:(m==BOOKSELECTOR?"activemodelink":"modelink"),onClick:mode.selectBook},_("Select Book")),
+			E("a",{className:(m==BOOKSELECTOR?"activemodelink":"modelink"),onClick:mode.selectBook},_("Home Page")),
 			" ",
 			E("a",{className:(m==TOCVIEW?"activemodelink":"modelink"),onClick:mode.tocView},_("TOC View")),
 			" ",
