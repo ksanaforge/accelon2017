@@ -1,3 +1,6 @@
+/*
+	TODO , load external Cor
+*/
 const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;

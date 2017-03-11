@@ -3,6 +3,7 @@ const E=React.createElement;
 const PT=React.PropTypes;
 const filterItem=require("../components/filteritem");
 const mode=require("../model/mode");
+const {observer}=require("mobx-react");
 
 const filter=require("../model/filter")
 const {_}=require("ksana-localization");
@@ -17,12 +18,27 @@ class BookCategorySelector extends React.Component {
 	constructor(props){
 		super(props);
 		const res=this.buildCategory();
+		const groupNames=this.props.cor.groupNames();
 		this.state=Object.assign({},{selCategory:-1},res);
+	}
+	getCategorySelected(){
+		const rawgroupNames=this.props.cor.groupNames();
+		const selOfCat=[];
+		for (var i=0;i<rawgroupNames.length;i++) {
+			const r=rawgroupNames[i].split(";");
+			const r2=r[1].split("@");
+			const prefix=parseInt(r2[0]);
+			if (!filter.store.active[i]) {
+				if (!selOfCat[prefix]) selOfCat[prefix]=0;
+				selOfCat[prefix]++;
+			}				
+		}
+		return selOfCat;
 	}
 	buildCategory(props){
 		props=props||this.props;
 		const rawgroupNames=this.props.cor.groupNames();
-		var allOfCat=[],selOfCat=[],groupNames=[],id=[];
+		var allOfCat=[],groupNames=[],id=[];
 		for (var i=0;i<rawgroupNames.length;i++) {
 			const r=rawgroupNames[i].split(";");
 			id.push(r[0]);
@@ -30,13 +46,9 @@ class BookCategorySelector extends React.Component {
 			const prefix=parseInt(r2[0]);
 			if (!allOfCat[prefix]) allOfCat[prefix]=[];
 			allOfCat[prefix].push(groupNames.length);
-			groupNames.push(r2[1]);
-			if (!filter.store.active[i]) {
-				if (!selOfCat[prefix]) selOfCat[prefix]=0;
-				selOfCat[prefix]++;
-			}			
+			groupNames.push(r2[1]);		
 		}
-		return {allOfCat,selOfCat,groupNames,id,
+		return {allOfCat,groupNames,id,
 			categoryNames:this.props.cor.meta.groupPrefix};
 	}
 
@@ -68,15 +80,17 @@ class BookCategorySelector extends React.Component {
 	}
 	checkCat(key){
 		const all=this.state.allOfCat[key];
-		const sel=this.state.selOfCat[key]||0;
+		const sel=this.selOfCat[key]||0;
 
 		filter.setExclude(all,!!sel);		
 	}
 	renderCategory(item,key){
 		const all=this.state.allOfCat[key];
-		const sel=this.state.selOfCat[key]||0;
+		const sel=this.selOfCat[key]||0;
 		const selected=this.state.selCategory==key;
 		if (!all) return null;
+
+
 		const checked=!!sel;
 		return E("div",{key},"　",
 				E("input",{type:"checkbox",checked,onChange:this.checkCat.bind(this,key)}),
@@ -111,6 +125,7 @@ class BookCategorySelector extends React.Component {
 		filter.excludeAll();
 	}
 	render(){
+		this.selOfCat=this.getCategorySelected();
 		return E("div",{style:styles.container},
 			E("button",{style:styles.btn,onClick:this.selectall.bind(this)},_("Select All")),
 			E("button",{style:styles.btn,onClick:this.deselectall.bind(this)},_("Deselect All")),
@@ -118,4 +133,4 @@ class BookCategorySelector extends React.Component {
 	}
 };
 
-module.exports=BookCategorySelector;
+module.exports=observer(BookCategorySelector);
