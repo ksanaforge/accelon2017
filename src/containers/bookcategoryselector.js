@@ -3,6 +3,7 @@ const E=React.createElement;
 const PT=React.PropTypes;
 const filterItem=require("../components/filteritem");
 const mode=require("../model/mode");
+const address=require("../model/address");
 const {observer}=require("mobx-react");
 
 const filter=require("../model/filter")
@@ -58,14 +59,15 @@ class BookCategorySelector extends React.Component {
 	goGroup(group){
 		const r=this.props.cor.groupKRange(group);
 		const a=this.props.cor.stringify(r[0]);
-		mode.tocView(a);
+		address.setMain(a);
+		mode.tocView();
 	}
 	firstOccurOfGroup(group){
 		return 0;
 		var first=0;
 		for(let i=0;i<group;i++) {
 			if (!filter.store.active[i]){
-				//first+=filter.store.active.hits[i];				
+				//first+=filter.store.active.hits[i];
 			}
 		}
 		return first;

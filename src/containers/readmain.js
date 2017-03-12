@@ -69,6 +69,7 @@ class ReadMain extends React.Component {
 		const caretpos=this.getCaretKPos();
 		const navprops={caretpos,cor:this.props.cor,
 			onSelectItem:this.updateArticleByAddress.bind(this)};
+		
 		const menuprops=Object.assign({},this.props,{
 			layout:mode.store.layout,
 			fields:this.state.fields,hidefields:this.props.hidefields,
@@ -76,6 +77,7 @@ class ReadMain extends React.Component {
 
 		const cors=corpora.openedCors();
 		const layout=(mode.store.layout && this.state.fields.p)?this.state.fields.p.pos:null;
+
 		return E("div",{},
 			E("div",{style:styles.abscontainer},
 				E("div",{style:styles.nav},E(TOCNav,navprops))
