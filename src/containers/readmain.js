@@ -97,6 +97,7 @@ class ReadMain extends React.Component {
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
 			openLink,
 			showNotePopup:this.props.showNotePopup,
+			//showLinkPopup:this.props.showLinkPopup,
 			showPageStart:true,
 			setSelection:selection.setSelection.bind(this),
 			searchresult:searchresult.store,

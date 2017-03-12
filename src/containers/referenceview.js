@@ -15,6 +15,8 @@ const markups=require("../model/markups");
 const corpora=require("../model/corpora");
 const {observer}=require("mobx-react");
 const {autorun}=require("mobx");
+const {linkpopupmatrix}=require("../unit/popupmatrix");
+
 
 const styles={
 	abscontainer:{position:"relative",zIndex:200},
@@ -111,6 +113,15 @@ class ReferenceView extends React.Component {
 		corpora.setActive(r[0]);
 		address.setMain(a);
 	}
+	followLinks(cm,links,actions){
+		const coords=cm.cursorCoords(cm.getCursor());
+
+		var y=coords.top-linkpopupmatrix.height-80;
+		if (y<50) y=coords.top+30;
+		var x=coords.left-30;
+		
+		this.props.showLinkPopup({x,y,links,title:"backlink",actions});
+	}
 	render(){
 		if (this.state.message || !this.state.article) {
 			return E("div",{},this.state.message);
@@ -136,7 +147,8 @@ class ReferenceView extends React.Component {
 			article:this.state.article,
 			rawlines:this.state.rawlines,
 			fields:this.props.displayField(this.state.fields),
-			showNotePopup:this.props.showNotePopup,
+			followLinks:this.followLinks.bind(this),
+			showNotePopup:this.props.showNotePopup, //called by decorators/popupnote 
 			copyText:quoteCopy,
 			showPageStart:true,
 			setSelection:selection.setSelection.bind(this),
