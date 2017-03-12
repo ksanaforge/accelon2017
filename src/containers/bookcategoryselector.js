@@ -2,7 +2,11 @@ const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
 const filterItem=require("../components/filteritem");
-const {TOCVIEW}=require("../actions/params");
+const mode=require("../model/mode");
+const address=require("../model/address");
+const {observer}=require("mobx-react");
+
+const filter=require("../model/filter")
 const {_}=require("ksana-localization");
 const styles={
 	container:{overflowY:"auto"},
@@ -15,12 +19,27 @@ class BookCategorySelector extends React.Component {
 	constructor(props){
 		super(props);
 		const res=this.buildCategory();
+		const groupNames=this.props.cor.groupNames();
 		this.state=Object.assign({},{selCategory:-1},res);
+	}
+	getCategorySelected(){
+		const rawgroupNames=this.props.cor.groupNames();
+		const selOfCat=[];
+		for (var i=0;i<rawgroupNames.length;i++) {
+			const r=rawgroupNames[i].split(";");
+			const r2=r[1].split("@");
+			const prefix=parseInt(r2[0]);
+			if (!filter.store.active[i]) {
+				if (!selOfCat[prefix]) selOfCat[prefix]=0;
+				selOfCat[prefix]++;
+			}				
+		}
+		return selOfCat;
 	}
 	buildCategory(props){
 		props=props||this.props;
 		const rawgroupNames=this.props.cor.groupNames();
-		var allOfCat=[],selOfCat=[],groupNames=[],id=[];
+		var allOfCat=[],groupNames=[],id=[];
 		for (var i=0;i<rawgroupNames.length;i++) {
 			const r=rawgroupNames[i].split(";");
 			id.push(r[0]);
@@ -28,32 +47,27 @@ class BookCategorySelector extends React.Component {
 			const prefix=parseInt(r2[0]);
 			if (!allOfCat[prefix]) allOfCat[prefix]=[];
 			allOfCat[prefix].push(groupNames.length);
-			groupNames.push(r2[1]);
-			if (!props.filter.exclude[i]) {
-				if (!selOfCat[prefix]) selOfCat[prefix]=0;
-				selOfCat[prefix]++;
-			}			
+			groupNames.push(r2[1]);		
 		}
-		return {allOfCat,selOfCat,groupNames,id,categoryNames:this.props.cor.meta.groupPrefix};
+		return {allOfCat,groupNames,id,
+			categoryNames:this.props.cor.meta.groupPrefix};
 	}
-	componentWillReceiveProps(nextProps){
-		if (nextProps.filter.exclude!==this.props.filter.exclude ) {
-			this.setState(this.buildCategory(nextProps));
-		}
-	}
+
 	setExclude(group,value){
-		this.props.setExclude(group,value);
+		filter.setExclude(group,value);
 	}
 	goGroup(group){
 		const r=this.props.cor.groupKRange(group);
 		const a=this.props.cor.stringify(r[0]);
-		this.props.setParams({m:TOCVIEW,a});
+		address.setMain(a);
+		mode.tocView();
 	}
 	firstOccurOfGroup(group){
+		return 0;
 		var first=0;
 		for(let i=0;i<group;i++) {
-			if (!this.props.filter.exclude[i]){
-				first+=this.props.filter.hits[i];				
+			if (!filter.store.active[i]){
+				//first+=filter.store.active.hits[i];
 			}
 		}
 		return first;
@@ -68,15 +82,17 @@ class BookCategorySelector extends React.Component {
 	}
 	checkCat(key){
 		const all=this.state.allOfCat[key];
-		const sel=this.state.selOfCat[key]||0;
+		const sel=this.selOfCat[key]||0;
 
-		this.props.setExclude(all,!!sel);		
+		filter.setExclude(all,!!sel);		
 	}
 	renderCategory(item,key){
 		const all=this.state.allOfCat[key];
-		const sel=this.state.selOfCat[key]||0;
+		const sel=this.selOfCat[key]||0;
 		const selected=this.state.selCategory==key;
 		if (!all) return null;
+
+
 		const checked=!!sel;
 		return E("div",{key},"　",
 				E("input",{type:"checkbox",checked,onChange:this.checkCat.bind(this,key)}),
@@ -89,10 +105,10 @@ class BookCategorySelector extends React.Component {
 	renderGroup(group,key){
 		var hit=0;
 		if (this.props.showHit) {
-			hit=this.props.filter.hits[group] || 0;			
+		//	hit=filter.store.active.hits[group] || 0;			
 		}
 		
-		const exclude=this.props.filter.exclude[group] || false;
+		const exclude=filter.store.active[group] || false;
 		var br=false;
 		var g=this.state.groupNames[group];
 		if (g.substr(0,2)=="\\n") {
@@ -105,19 +121,18 @@ class BookCategorySelector extends React.Component {
 			setExclude:this.setExclude.bind(this),goGroup:this.goGroup.bind(this)});
 	}
 	selectall(){
-		this.props.includeAll();
+		filter.includeAll();
 	}
 	deselectall(){
-		this.props.excludeAll();
+		filter.excludeAll();
 	}
 	render(){
+		this.selOfCat=this.getCategorySelected();
 		return E("div",{style:styles.container},
 			E("button",{style:styles.btn,onClick:this.selectall.bind(this)},_("Select All")),
 			E("button",{style:styles.btn,onClick:this.deselectall.bind(this)},_("Deselect All")),
 			this.state.categoryNames.map(this.renderCategory.bind(this)));	
 	}
 };
-BookCategorySelector.propTypes={
-		filter:PT.object.isRequired
-}
-module.exports=BookCategorySelector;
+
+module.exports=observer(BookCategorySelector);

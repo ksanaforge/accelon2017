@@ -2,6 +2,8 @@ const React =require('react');
 const ReactDOM =require('react-dom');
 const PT=React.PropTypes;
 const E=React.createElement;
+const mode=require("../model/mode");
+const address=require("../model/address");
 
 class TOCView extends React.Component {
 	constructor(props){
@@ -27,8 +29,8 @@ class TOCView extends React.Component {
 		return toc;
 	}
 	componentDidMount(){		
-		const group=this.props.cor.groupOf(this.props.params.a);
-		const kpos=this.props.cor.parseRange(this.props.params.a).start;
+		const group=this.props.cor.groupOf(address.store.main);
+		const kpos=this.props.cor.parseRange(address.store.main).start;
 		
 		this.props.cor.getGroupTOC(group,function(rawtoc){
 			const toc=this.buildToc(rawtoc);
@@ -37,16 +39,17 @@ class TOCView extends React.Component {
 	}
 	gotocitem(e) {
 		const kpos=parseInt(e.target.dataset.kpos);
-		const address=this.props.cor.stringify(kpos);
-		this.props.readText(address);
+		const addr=this.props.cor.stringify(kpos);
+		address.setMain(addr);
+		mode.readText();
 	}
 	componentDidUpdate(){ 
 		setTimeout(function(){ //scroll to closest toc node
 			const ref=this.refs.toclabel_selected;
 			if (ref && this.refs.body){
 				ref.scrollIntoView(false);
-				const container=this.refs.body.parentElement;
-				container.scrollTop+=window.innerHeight/2;
+				//const container=this.refs.body.parentElement;
+				//container.scrollTop+=window.innerHeight/2;
 			} 
 		}.bind(this),100); //need to wait react to update DOM
 	}
@@ -66,7 +69,7 @@ class TOCView extends React.Component {
 		if (!this.state.toc) return E("div",{},"loading toc");
 		if (!this.state.toc.length) return E("div",{},"Empty TOC");
 
-		const group=this.props.cor.groupOf(this.props.params.a);
+		const group=this.props.cor.groupOf(address.store.main);
 		const range=this.props.cor.groupKRange(group);
 		
 		

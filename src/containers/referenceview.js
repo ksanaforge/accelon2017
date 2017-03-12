@@ -8,6 +8,14 @@ const {notarget2address}=require("../unit/taisho");
 const {getAnchorAddress}=require("../unit/anchor");
 const decorators=require("../decorators");
 const AuxMainmenu=require("./auxmainmenu");
+const mode=require("../model/mode");
+const address=require("../model/address");
+const selection=require("../model/selection");
+const markups=require("../model/markups");
+const corpora=require("../model/corpora");
+const {observer}=require("mobx-react");
+const {autorun}=require("mobx");
+
 const styles={
 	abscontainer:{position:"relative",zIndex:200},
 	nav:{position:"absolute",right:100},
@@ -22,102 +30,116 @@ class ReferenceView extends React.Component {
 	/*
 	shouldComponentUpdate(nextProps,nextState){
 		const r= nextProps.params.r&&
-		 (nextProps.params.r!==this.props.params.r || (this.state.article&&(this.state.article.at!=nextState.article.at)));
+		 (nextProps.params.r!==params.store.r || (this.state.article&&(this.state.article.at!=nextState.article.at)));
 		 return !!r;
 	}
 	*/
-	fetchAddress(cor,address,markups){
-		if (address) this.setState({message:"loading "+address});
-
-		if ( parseInt(address,10).toString(10)==address) {
-			address=cor.stringify(address);
+	fetchAddress(cor,addr,mrks){
+		if (addr&&!this._unmounted) {
+			this.setState({message:"loading "+addr});
 		}
-		fetchArticle(cor,address,markups,function(states){
-			const r=this.props.params.r;
-			this.setState(Object.assign({},states,{address,cor,message:null,r}));
+
+		if ( parseInt(addr,10).toString(10)==addr) {
+			addr=cor.stringify(addr);
+		}
+		fetchArticle(cor,addr,mrks,function(states){
+			console.log(states)
+			const r=address.store.aux;
+			if (!this._unmounted) {
+				this.setState(Object.assign({},states,{addr,cor,message:null,r}));
+			}
 		}.bind(this));
 	}
+	componentWillUnmount(){
+		this._unmounted=true;
+	}
 	componentDidMount(){
-		this.loadtext(this.props);
+		autorun(()=>{
+			const a=address.store.aux;
+			clearTimeout(this.timer);
+			this.timer=setTimeout(function(){
+				if (!this._unmounted) this.loadtext(this.props);	
+			}.bind(this),200);
+		});		
 	}
 	loadtext(props){
 		props=props||this.props;
-		if (!props.corpora)return;
-		if (!props.params.r)return ;
-		const r=props.params.r.split("@");
-		const corpus=r[0].toLowerCase(); //Taisho ==> taisho
-		var address=r[1];
-		const cor=props.corpora[corpus];
+ 		if (!address.store.aux)return ;
+
+		const r=address.store.aux.split("@");
+		const corpus=r[0].toLowerCase(); //Taisho ==> taisho		
+		const cor=corpora.store.cor(corpus);
 		if (!cor) {
-			//this will cause not loading bilink for the first time
-			props.openCorpus(corpus);
+			corpora.open(corpus);
 			return;
 		}
-		if (parseInt(address,10).toString(10)==address) {
-			address=cor.stringify(address);
+
+		var addr=r[1];
+		if (parseInt(addr,10).toString(10)==addr) {
+			addr=cor.stringify(addr);
 		}
-		const range=cor.parseRange(address);
-		const markups=props.corpusmarkups[corpus];
+		const range=cor.parseRange(addr);
+		const mrks=markups.store.markups[corpus];
 
 		if (!range.start) {
-			const a=getAnchorAddress(cor,address);
-			if (a) this.fetchAddress(cor,a,markups);
+			const a=getAnchorAddress(cor,addr);
+			if (a) this.fetchAddress(cor,a,mrks);
 		} else {
 			if (corpus=="Taisho") { //not page number, sutra id with optional i
-				notarget2address(cor,address,newaddress=>{
+				notarget2address(cor,addr,newaddress=>{
 					if (this.state.address!=newaddress) {
-						this.fetchAddress(cor,newaddress,markups);
+						this.fetchAddress(cor,newaddress,mrks);
 					}
 				});
 				return;
 			}
-			this.fetchAddress(cor,address,markups);
+			this.fetchAddress(cor,addr,mrks);
 		}
 	}
-	componentWillReceiveProps(nextProps) {
-		if (!nextProps.params.r)return;
-		if (this.state.r!==nextProps.params.r || nextProps.markups!==this.props.markups && nextProps.markups){
-			this.loadtext(nextProps);
-		} 
-	}
-	updateArticleByAddress(address){
-		const addressH=this.state.cor.stringify(address);
-		this.props.setA(addressH);
+	updateArticleByAddress(addr){
+		const addressH=this.state.cor.stringify(addr);
+		address.setMain(addressH);
 	}	
 	updateMainText(fulladdress){
 		const r=fulladdress.split("@");
-		const cor=this.props.corpora[r[0]];
+		const cor=corpora.store.cor(r[0]);
 		var a=r[1];
 		if (cor) {
-
 			const range=cor.parseRange(a);
 			if (!range.start) a=cor.stringify(getAnchorAddress(cor,a));
 		}
-		this.props.setParams({c:r[0],a});
+		corpora.setActive(r[0]);
+		address.setMain(a);
 	}
 	render(){
 		if (this.state.message || !this.state.article) {
 			return E("div",{},this.state.message);
 		}
+		const r=address.store.aux.split("@");
+		
 		const menuprops=Object.assign({},this.props,{
 			cor:this.state.cor,
+			corpus:r[0],
 			address:this.state.address});
+		const cors=corpora.openedCors();
 		return E("div",{},
 			E("div",{style:styles.abscontainer},
 			 E("div",{style:styles.menu},E(AuxMainmenu,menuprops))
 			)
 
 			, E(CorpusView,{address:this.state.address,
+			fulladdress:address.store.aux,
 			decorators,
 			id:"aux",
 			cor:this.state.cor,
-			corpora:this.props.corpora,
+			corpora:cors,
 			article:this.state.article,
 			rawlines:this.state.rawlines,
 			fields:this.props.displayField(this.state.fields),
 			showNotePopup:this.props.showNotePopup,
 			copyText:quoteCopy,
 			showPageStart:true,
+			setSelection:selection.setSelection.bind(this),
 			updateArticleByAddress:this.updateArticleByAddress.bind(this),
 			openLink:this.updateMainText.bind(this),
 			aux:true//open Link will update main text
@@ -125,4 +147,4 @@ class ReferenceView extends React.Component {
 		);
 	}
 }
-module.exports=ReferenceView;
+module.exports=observer(ReferenceView);

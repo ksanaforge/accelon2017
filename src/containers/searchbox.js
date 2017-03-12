@@ -2,15 +2,18 @@ const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
 const {_}=require("ksana-localization");
+const mode=require("../model/mode");
+const searchresult=require("../model/searchresult");
+const address=require("../model/address");
+
+
 class SearchBox extends React.Component {
 	constructor(props){
 		super(props)
-		this.state={q:this.props.params.q||""}
+		this.state={q:searchresult.store.q||""}
 	}
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.params&&nextProps.params.q!==this.state.q) {
-			this.setState({q:nextProps.params.q||""});
-		}
+	componentWillReceiveProps(nextProps,nextState){
+		this.setState({q:searchresult.store.q});
 	}
 	tryAddress(q){
 		var address=false;
@@ -24,11 +27,13 @@ class SearchBox extends React.Component {
 	search(){
 		const a=this.tryAddress(this.state.q);
 		if (a) {
-			this.props.setQ("");
-			this.props.readText(a);
+			searchresult.setQ("");
+			mode.readText();
+			address.setMain(a);
 		} else {
-			this.props.setQ(this.state.q);
-				this.input.focus();
+			searchresult.setQ(this.state.q);
+			mode.groupByBook();
+			this.input.focus();
 		}
 	}
 	setRef(ref){
@@ -42,7 +47,7 @@ class SearchBox extends React.Component {
 	}
 	render(){
 		return E("span",{className:"searchbox"},
-			E("input",{className:"input",ref:this.setRef.bind(this),value:this.state.q,
+			E("input",{className:"input",placeholder:_("Puncuation to enable Fuzzy Search"),ref:this.setRef.bind(this),value:this.state.q,
 				onChange:this.onChange.bind(this),onKeyPress:this.onKeyPress.bind(this)})
 			,E("button",{className:"button",onClick:this.search.bind(this)},_("Search"))
 		)

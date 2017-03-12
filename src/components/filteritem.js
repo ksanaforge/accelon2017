@@ -44,7 +44,7 @@ class filterItem extends React.Component{
 filterItem.propTypes={
 		label:PT.string.isRequired,
 		hit:PT.number.isRequired,
-		exclude:PT.bool.isRequired,
+		//exclude:PT.bool.isRequired,
 		setExclude:PT.func.isRequired,
 		goGroup:PT.func.isRequired,
 		goHit:PT.func,

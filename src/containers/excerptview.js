@@ -1,12 +1,16 @@
 const React =require('react');
 const ReactDOM =require('react-dom');
+const {observer}=require("mobx-react");
 const PT=React.PropTypes;
 const E=React.createElement;
 const ExcerptLine=require("../components/excerptline");
 const ExcerptPager=require("./excerptpager");
 const ExcerptSetting=require("./excerptsetting");
-
-
+const mode=require("../model/mode");
+const searchresult=require("../model/searchresult");
+const excerpt=require("../model/excerpt");
+const address=require("../model/address");
+const {highlightExcerpt}=require("../unit/highlight");
 const styles={
 	container:{},
 	table:{width:"100%"}
@@ -22,73 +26,43 @@ class ExcerptView extends React.Component {
 		}
 		return remain ;
 	}
-	buildlinelengths(rawtext){
-		var linelengths=[];
-		var acc=0;
-		for (let i=0;i<rawtext.length;i++) {
-			linelengths.push(acc);
-			acc+=rawtext[i].length;
-		}
-		linelengths.push(acc);
-		return linelengths;
-	}
-	highlights(excerpt){
-		if (!this.props.searchresult.phrasepostings) return [];
-		const linebreaks=excerpt.linebreaks;
-		const getrawline=(line)=>excerpt.rawtext[line] ;
-		const linelengths=this.buildlinelengths(excerpt.rawtext);
-		var hl=[];
 
-		for(let j=0;j<excerpt.phrasehits.length;j++) {
-			const hits=excerpt.phrasehits[j].hits;
-			const phraselengths=this.props.searchresult.phrasepostings[j].lengths;
-			const linecharr=hits.map((hit,idx)=>{
-
-				const phraselength=phraselengths[idx]||phraselengths;//should be kpos width
-				const range=this.props.cor.makeRange(hit,hit+phraselength);
-
-				var {start,end}=this.props.cor.toLogicalRange(excerpt.linebreaks,range,getrawline);
-				const absstart=linelengths[start.line]+start.ch +start.line //for linefeed ;
-				const absend=linelengths[end.line]+end.ch + end.line ;
-				hl.push([absstart,absend-absstart,j]);
-			});
-		}
-		return hl;
-	}	
 	openAddress(addr,now){
-		this.props.readText(addr,now);
+		address.setMain(addr);
+		excerpt.setNow(now);
+		mode.readText();
 	}
 	renderItem(item,key){
-		const start=this.props.excerpt.batch*this.props.excerpt.hitperbatch;
+		const start=excerpt.store.batch*excerpt.store.hitperbatch;
 		const n=start+key;
-		const first=(this.props.excerpt.now%this.props.excerpt.hitperbatch)==0;
+		const first=(excerpt.store.now%excerpt.store.hitperbatch)==0;
 		const {grouphit,address,title,shorttitle}=this.excerptTitle(n);
 		
 
 		const header=(title!==prevtitle)? title:"";
 		prevtitle=title;
-		const now=this.props.excerpt.now;
-		const seq=this.getSeqOfBook(this.props.searchresult.grouphits,n);
-		const scrollto=this.props.excerpt.now==n;
+		const now=excerpt.store.now;
+		const seq=this.getSeqOfBook(searchresult.store.grouphits,n);
+		const scrollto=now==n;
 		var obj={};
 		if (scrollto && !first) obj.ref="scrollto"; //no need to scroll if first item is highlighted
 
-		const hits=this.highlights(this.props.excerpt.excerpts[key]);
+		const hits=highlightExcerpt(this.props.cor,excerpt.store.excerpts[key],searchresult.store.phrasepostings);
 		return E(ExcerptLine,Object.assign(obj,item,
 			{openAddress:this.openAddress.bind(this),key,now,n,seq,header,shorttitle,
 				cor:this.props.cor,
 				address:address||"",grouphit,scrollto,hits}));
 	}
 	excerptTitle(n){
-		const searchresult=this.props.searchresult;
-		if (!searchresult.filtered)return {};
-		const tpos=searchresult.filtered[n];
+		const sr=searchresult.store;
+		if (!sr.filtered)return {};
+		const tpos=sr.filtered[n];
 		const address=this.props.cor.fromTPos(tpos).kpos[0];
 		if (address) {
 			var addressH=this.props.cor.stringify(address);
 			addressH=addressH.substr(0,addressH.length-2);
 			const group=this.props.cor.groupOf(address);
-			const grouphit=searchresult.grouphits[group];
+			const grouphit=sr.grouphits[group];
 
 			const title=this.props.cor.getGroupName(address);
 			const shorttitle=this.props.cor.getGroupName(address,true);
@@ -98,35 +72,34 @@ class ExcerptView extends React.Component {
 		}
 	}
 	gobatch(batch) {
-		const hitperbatch=this.props.excerpt.hitperbatch;
-		this.props.showExcerpt(batch*hitperbatch);
+		const hitperbatch=excerpt.store.hitperbatch;
+		excerpt.showExcerpt(batch*hitperbatch);
 	}	
 	setExtra(extra){
-		this.props.setParams({e:extra});
+		excerpt.setExtraLine(extra);
 	}
 	render(){
 		prevtitle="";
-		const searchresult=this.props.searchresult;
-		if (searchresult.searching)return E("div",{},"searching");
-		const excerpts=this.props.excerpt.excerpts;
+		const sr=searchresult.store;
+		const excerpts=excerpt.store.excerpts;
+		if (sr.searching||!excerpts)return E("div",{},"searching");
 
-		const count=(searchresult.filtered||{}).length||0;
-		const hitperbatch=this.props.excerpt.hitperbatch;
-		const batch=this.props.excerpt.batch;
+		const count=(sr.filtered||{}).length||0;
+		const hitperbatch=excerpt.store.hitperbatch;
+		const batch=excerpt.store.batch;
 
 		setTimeout(function(){ //componentDidUpdate only triggered once, don't know why
 			const w=ReactDOM.findDOMNode(this.refs.scrollto);
 			w&&w.scrollIntoView();
 		}.bind(this),100)
-
 		return E("div",{style:styles.container},
 				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
 				E(ExcerptSetting,{setExtra:this.setExtra.bind(this),
-					extraline:parseInt(this.props.params.e,10)||0}),
+					extra:excerpt.store.extra}),
 				excerpts.map(this.renderItem.bind(this)),
 				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)})
 		)
 	}
 }
 
-module.exports=ExcerptView;
+module.exports=observer(ExcerptView);

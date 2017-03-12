@@ -5,6 +5,8 @@ const ReadMain=require("./readmain");
 const ReadAux=require("./readaux");
 const NotePopup=require("../components/notepopup");
 const mpps=require("../unit/mpps");
+const {openLink}=require("../model/address");
+
 const styles={
 	container:{display:"flex"},
 	left:{flex:8},
@@ -42,7 +44,7 @@ class ReadText extends React.Component {
 			hidefields:this.state.hidefields,
 			setField:this.setField.bind(this)});
 		return E("div",{style:styles.container},
-			E(NotePopup,{x:this.state.popupX,y:this.state.popupY,openLink:this.props.openLink,
+			E(NotePopup,{x:this.state.popupX,y:this.state.popupY,openLink,
 				text:this.state.text,title:this.state.title,tagname:this.state.tagname,
 				timestamp:this.state.popuptimestamp}),
 			E("div",{style:styles.left},E(ReadMain,props))

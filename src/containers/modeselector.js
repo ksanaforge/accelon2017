@@ -2,40 +2,46 @@ const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
 const {_}=require("ksana-localization");
-const {DBSELECTOR,BOOKSELECTOR,TOCVIEW,READTEXT,BOOKRESULT,EXCERPTVIEW}=require("../actions/params");
+const mode=require("../model/mode");
+const address=require("../model/address");
+const excerpt=require("../model/excerpt");
+const {DBSELECTOR,BOOKSELECTOR,TOCVIEW,READTEXT,BOOKRESULT,EXCERPTVIEW}=mode;
+
+const searchresult=require("../model/searchresult");
 const GroupNav=require("./groupnav");
 const GoPage=require("../components/gopage");
+const {observer}=require("mobx-react");
 class ModelSelector extends React.Component{
-	tocView(){
-		this.props.setParams({m:TOCVIEW});
-	}
 	gotopage(){
-		const group=this.props.cor.groupOf(this.props.params.a);
+		const group=this.props.cor.groupOf(address.store.main);
 		const range=this.props.cor.groupKRange(group);
 		
-		return E(GoPage,{cor:this.props.cor, range, readText:this.props.readText});
+		return E(GoPage,{cor:this.props.cor, range, readText:mode.readText});
+	}
+	showExcerpt(){
+		excerpt.showExcerpt();
+		mode.excertView();
 	}
 	render(){
-		const m=this.props.params.m;
-		const hasQ=this.props.searchresult.filtered && this.props.params.q;
-		const hasExcerpt=this.props.searchresult.filtered&&this.props.searchresult.filtered.length;
+		const m=mode.store.mode;
+		const showBookResult=searchresult.store.filtered && searchresult.store.filtered.length 
+				&& searchresult.store.q;
+		const hasExcerpt=searchresult.store.filtered&&searchresult.store.filtered.length;
 
 		return E("span",{},
-			E("a",{className:(m==BOOKSELECTOR?"activemodelink":"modelink"),onClick:this.props.selectBook},_("Select Book")),
+			E("a",{className:(m==BOOKSELECTOR?"activemodelink":"modelink"),onClick:mode.selectBook},_("Home Page")),
 			" ",
-			E("a",{className:(m==TOCVIEW?"activemodelink":"modelink"),onClick:this.tocView.bind(this)},_("TOC View")),
+			E("a",{className:(m==TOCVIEW?"activemodelink":"modelink"),onClick:mode.tocView},_("TOC View")),
 			" ",
-			hasQ?E("a",{className:(m==BOOKRESULT?"activemodelink":"modelink"),onClick:this.props.groupByBook},_("Group By Book")):null,
+			showBookResult?E("a",{className:(m==BOOKRESULT?"activemodelink":"modelink"),onClick:mode.groupByBook},_("Group By Book")):null,
 			" ",
-			hasExcerpt?E("a",{className:(m==EXCERPTVIEW?"activemodelink":"modelink"),onClick:this.props.showExcerpt},_("Excerpt")):null,
+			hasExcerpt?E("a",{className:(m==EXCERPTVIEW?"activemodelink":"modelink"),onClick:this.showExcerpt},_("Excerpt")):null,
 			" ",
-			m==READTEXT?E(GroupNav,{setA:this.props.setA,address:this.props.params.a,cor:this.props.cor}):null,
+			m==READTEXT?E(GroupNav,{setAddress:address.setMain,address:address.store.main,cor:this.props.cor}):null,
 			" ",
 			(m==READTEXT||m==TOCVIEW)?this.gotopage():null
-
-
 		)
 	}
 }
 
-module.exports=ModelSelector;
+module.exports=observer(ModelSelector);

@@ -17,5 +17,40 @@ var renderHits=function(text,hits,func){
   out.push(func({key:i+1},text.substr(ex)));
   return out;
 };
+const  buildlinelengths=function(rawtext){
+  var linelengths=[];
+  var acc=0;
+  for (let i=0;i<rawtext.length;i++) {
+    linelengths.push(acc);
+    acc+=rawtext[i].length;
+  }
+  linelengths.push(acc);
+  return linelengths;
+}
+const highlightExcerpt=function(cor,excerpt,phrasepostings){
+  if (!phrasepostings) return [];
+  const linebreaks=excerpt.linebreaks;
+  const getrawline=function(line){
+    return (line<excerpt.rawtext.length)?excerpt.rawtext[line]:"" ;
+  };
+  const linelengths=buildlinelengths(excerpt.rawtext);
+  var hl=[];
 
-module.exports={renderHits}
+  for(let j=0;j<excerpt.phrasehits.length;j++) {
+    const hits=excerpt.phrasehits[j].hits;
+    const phraselengths=phrasepostings[j].lengths;
+    const linecharr=hits.map((hit,idx)=>{
+
+      const phraselength=phraselengths[idx]||phraselengths;//should be kpos width
+      const range=cor.makeRange(hit,hit+phraselength);
+
+      var {start,end}=cor.toLogicalRange(excerpt.linebreaks,range,getrawline);
+      const absstart=linelengths[start.line]+start.ch +start.line //for linefeed ;
+      const absend=linelengths[end.line]+end.ch + end.line ;
+      hl.push([absstart,absend-absstart,j]);
+    });
+  }
+  return hl;
+} 
+
+module.exports={renderHits,highlightExcerpt}

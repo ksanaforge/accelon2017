@@ -10,6 +10,7 @@ const styles={
 }
 const {_}=require("ksana-localization");
 const {loadJSON}=require("../unit/localfile");
+const mode=require("../model/mode");
 class ReadMainmenu extends React.Component {
 	openMenu(){
 		this.setState({opened:true,lasterror:""});
@@ -44,17 +45,17 @@ class ReadMainmenu extends React.Component {
 		}
 	}
 	togglelayout(){
-		this.props.setLayout(this.props.params.l?0:1,true);
+		mode.setLayout(this.props.layout?0:1,true);
 	}
 
 	render(){
-	
-		const layout=this.props.params.l;
+		const layout=this.props.layout;
+		const hasP=this.props.fields&&this.props.fields.p &&this.props.fields.p.length;
 		if (this.state.opened) {
 			return E("div",{className:"readmainmenu"},
 				E("span",{onClick:this.closemenu.bind(this),style:styles.closebutton},"✕"),
 				"　",
-				E("button",{onClick:this.togglelayout.bind(this)},layout?_("Layout Off"):_("Layout On")),
+				hasP?E("button",{onClick:this.togglelayout.bind(this)},layout?_("Layout Off"):_("Layout On")):null,
 				E("br"),
 				E(FieldSelector,{fields:this.props.fields,hidefields:this.props.hidefields,setField:this.props.setField}),
 				E("br"),"　",

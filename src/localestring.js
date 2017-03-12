@@ -25,7 +25,7 @@ const stringtable={
 	["Select All","全選"],
 	["Deselect All","全不選"],
 	["Select DB","選資料庫"],
-	["Select Book","選書"],
+	["Home Page","主頁面"],
 	["Group By Book","檢索所得"],
 	["Excerpt","摘要"],
 	["Read Text","閱讀內文"],
@@ -42,7 +42,8 @@ const stringtable={
 	["View First Markup","跳到第一個標記"],
 	["Layout On","原書換行"],
 	["Layout Off","段落重排"],
-	["Open New Window","以新視窗開啟"]
+	["Open New Window","以新視窗開啟"],
+	["Puncuation to enable Fuzzy Search","條件含有標點符號啟用模糊搜尋"]
 	]
 }
 for (var locale in stringtable) {

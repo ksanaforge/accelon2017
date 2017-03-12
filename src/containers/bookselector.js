@@ -2,8 +2,12 @@ const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
 const filterItem=require("../components/filteritem");
-const {TOCVIEW}=require("../actions/params");
+const {tocView}=require("../model/mode");
+const address=require("../model/address");
+const filter=require("../model/filter");
 const {_}=require("ksana-localization");
+const {observer}=require("mobx-react");
+
 const styles={
 	container:{overflowY:"auto"},
 	btn:{marginLeft:"10px"},
@@ -15,18 +19,19 @@ const BookCategorySelector=require("./bookcategoryselector");
 
 class BookSelector extends React.Component {
 	setExclude(group,value){
-		this.props.setExclude(group,value);
+		filter.setExclude(group,value);
 	}
 	goGroup(group){
 		const r=this.props.cor.groupKRange(group);
 		const a=this.props.cor.stringify(r[0]);
-		this.props.setParams({m:TOCVIEW,a});
+		address.setMain(a);
+		tocView();
 	}
 	firstOccurOfGroup(group){
 		var first=0;
 		for(let i=0;i<group;i++) {
-			if (!this.props.filter.exclude[i]){
-				first+=this.props.filter.hits[i];				
+			if (!filter.store.active[i]){
+				first+=filter.store.active.hits[i];				
 			}
 		}
 		return first;
@@ -52,10 +57,9 @@ class BookSelector extends React.Component {
 	rendergroup(g,key){
 		var hit=0;
 		if (this.props.showHit) {
-			hit=this.props.filter.hits[key] || 0;			
+			hit=filter.store.active.hits[key] || 0;
 		}
-
-		const exclude=this.props.filter.exclude[key] || false;
+		const exclude=filter.store.active[key] || false;
 		var br=false;
 		if (g.substr(0,2)=="\\n") {
 			g=g.substr(2);
@@ -67,12 +71,11 @@ class BookSelector extends React.Component {
 			setExclude:this.setExclude.bind(this),goGroup:this.goGroup.bind(this)});
 	}
 	selectall(){
-		this.props.includeAll();
+		filter.includeAll();
 	}
 	deselectall(){
-		this.props.excludeAll();
+		filter.excludeAll();
 	}
-
 	render(){
 		if (this.props.cor.meta.groupPrefix) {
 			return E(BookCategorySelector,this.props);
@@ -85,7 +88,6 @@ class BookSelector extends React.Component {
 	}
 };
 BookSelector.propTypes={
-		filter:PT.object.isRequired,
-		cor:PT.object.isRequired
+	cor:PT.object.isRequired
 }
-module.exports=BookSelector;
+module.exports=observer(BookSelector);

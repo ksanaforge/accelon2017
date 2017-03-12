@@ -1,6 +1,6 @@
 /* when a corpus is opened, connect it with already opened */
 const taskqueue=[];
-const {SET_MARKUPS}=require("../actions/markup");
+const {setMarkup}=require("../model/markups");
 
 const connect=function(cor1,cor2, output, links){
 	if (cor1===cor2)return;
@@ -40,10 +40,13 @@ const groupByArticle=function(pos,value,cor){
 	}
 	return markups;
 }
-const buildReverseLinks=function(links,corpora){
+const buildReverseLinks=function(links){
+	const corpora=require("../model/corpora");
 	const out=[];
+	const cors=corpora.openedCors();
 	for (var i=0;i<links.length;i++) {
 		const corpus=links[i][1].replace(/.*@/,"");
+		if (!cors[corpus]) continue;
 		const fieldname=links[i][1].replace(/@.*/,"")+"@"+links[i][0];
 		const pv=[];
 		const payload=links[i][2];
@@ -57,22 +60,23 @@ const buildReverseLinks=function(links,corpora){
 
 		const pos=pv.map(a=>a[0]);
 		const value=pv.map(a=>a[1]);
-		const markups=groupByArticle(pos,value,corpora[corpus]);
+		
+		const markups=groupByArticle(pos,value,cors[corpus]);
 		out.push( [corpus, fieldname, markups]);
 	}
 	return out;
 }
 
-const connectCorpus=function(cor,corpora,dispatch){
-	const opencorpora=Object.keys(corpora).filter(c=>corpora[c]);
-	console.log("connecting",cor.id,"to corpus",opencorpora);
+const connectCorpus=function(cor){
+	const corpora=require("../model/corpora");
 	const output=[],
 	links=[];// [source corpus, fieldname@target , source to target]
 	var lastjobcor,lastfield;
-	for (var db in corpora) {
-		const tcor=corpora[db];
+	for (var db in corpora.store.corpora) {
+		if (!corpora.store.corpora[db])continue;
+		const tcor=corpora.store.cor(db);
 		if (!tcor) continue;
-
+		
 		var r=connect(cor,tcor,output,links);
 		if (r) {
 			lastjobcor=tcor.id;
@@ -84,17 +88,15 @@ const connectCorpus=function(cor,corpora,dispatch){
 			lastfield=r;
 		}
 	}
-
 	if (taskqueue.length) {
 		taskqueue.push(function(data){
 			output.push(data);
-			//dispatch({type:SET_MARKUPS, name:meta.type, corpus, markups});
 			links.forEach((j,idx)=>j.push(output[idx]));
 
-			const outputlinks=buildReverseLinks(links,corpora);
+			const outputlinks=buildReverseLinks(links);
 			for (var i=0;i<outputlinks.length;i++) {
-				const corpus=outputlinks[i][0], name=outputlinks[i][1], markups=outputlinks[i][2];
-				dispatch({type:SET_MARKUPS, corpus,name,markups});
+				const corpus=outputlinks[i][0], name=outputlinks[i][1], mrks=outputlinks[i][2];
+				setMarkup(corpus,name,mrks);
 			}
 		});	
 		taskqueue.shift()({__empty:true});

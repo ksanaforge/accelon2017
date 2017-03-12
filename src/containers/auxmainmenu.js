@@ -11,7 +11,8 @@ const styles={
 }
 const {_}=require("ksana-localization");
 const {loadJSON}=require("../unit/localfile");
-class ReadMainmenu extends React.Component {
+const address=require("../model/address");
+class AuxMainmenu extends React.Component {
 	openMenu(){
 		this.setState({opened:true,lasterror:""});
 	}
@@ -23,12 +24,8 @@ class ReadMainmenu extends React.Component {
 		this.setState({opened:false});	
 	}
 	opennew(){
-		const r=this.props.params.r.split("@");
-		const corpus=(r.length==2)?r[0]:null;
-		const address=(r.length==2)?r[1]:this.props.params.r;
-
 		this.closemenu();
-		this.props.openNewWindow(address,corpus);
+		address.openNewWindow(this.props.address,this.props.corpus);
 	}
 	render(){
 		if (this.state.opened) {
@@ -46,4 +43,4 @@ class ReadMainmenu extends React.Component {
 	}
 }
 
-module.exports=ReadMainmenu;
+module.exports=AuxMainmenu;
