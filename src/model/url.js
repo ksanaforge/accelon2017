@@ -48,10 +48,14 @@ const execURL=action((force)=> {
 			}
 		});	
 	} else {
-		searchresult.setQ(q,function(){
-			excerpt.showExcerpt(n);
+		if (searchresult.store.q!==q){
+			searchresult.setQ(q,function(){
+				excerpt.showExcerpt(n);
+				mode.setMode(m);
+			});			
+		} else {
 			mode.setMode(m);
-		});
+		}
 	}
 });
 const updateUrl=function(urlparams){

@@ -11,7 +11,6 @@ var LinkPopup=React.createClass({
 		x:PT.number.isRequired,
 		title:PT.string,
 		cors:PT.object.isRequired, //open corpus
-		links:PT.oneOf[PT.object.isRequired,PT.array.isRequired],
 		tagname:PT.string,
 		openLink:PT.func.isRequired
 	},
