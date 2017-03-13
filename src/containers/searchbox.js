@@ -31,6 +31,7 @@ class SearchBox extends React.Component {
 			mode.readText();
 			address.setMain(a);
 		} else {
+
 			searchresult.setQ(this.state.q);
 			mode.groupByBook();
 			this.input.focus();

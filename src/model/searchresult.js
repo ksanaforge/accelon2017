@@ -51,16 +51,16 @@ const clear=action(function(){
 })
 var waitsearch=0;
 function setQ(q,cb){
-  	action(function(){
-  		store.q=q; //update q immediately
-  		if (!q) clear();
-  	})();
 	if (!q || q==store.q && store.matches.length) {
 		setTimeout(function(){
 			cb&&cb();
 		},10);  	
 		return;
 	}
+	action(function(){
+		store.q=q; //update q immediately
+		if (!q) clear();
+	})();
 
   var searchtimer=setInterval(()=>{
   	const cor=corpora.store.cor();
