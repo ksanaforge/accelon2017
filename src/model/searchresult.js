@@ -44,11 +44,11 @@ const setResult=action(function(opts){
 	store.timer=opts.timer;
 	store.q=opts.q;
 	store.fuzzy=opts.fuzzy;
-	setTimeout(function(){
+	setTimeout(action(function(){
 		//reset n
 		const excerpt=require("./excerpt");
 		if (!excerpt.store.now) excerpt.store.now=0;
-	},1)
+	}),1)
 
 });
 const clear=action(function(){

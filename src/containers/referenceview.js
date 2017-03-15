@@ -114,6 +114,9 @@ class ReferenceView extends React.Component {
 		address.setMain(a);
 	}
 	followLinks(cm,links,actions){
+		if (links.length<2) {
+			return false;//use default
+		}
 		const coords=cm.cursorCoords(cm.getCursor());
 
 		var y=coords.top-linkpopupmatrix.height-80;
@@ -121,6 +124,7 @@ class ReferenceView extends React.Component {
 		var x=coords.left-30;
 		
 		this.props.showLinkPopup({x,y,links,title:"backlink",actions});
+		return true;
 	}
 	render(){
 		if (this.state.message || !this.state.article) {

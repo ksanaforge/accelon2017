@@ -1,4 +1,5 @@
 var popuptimer;
+const mode=require("../model/mode");
 const onLinkMouseOver=function(e){
 	const text=e.target.dataset.text;
 	const title=e.target.innerHTML;
@@ -14,7 +15,8 @@ const onLinkMouseLeave=function(e){
 }
 const createPopupNote=function({cm,cor,corpus,field,start,end,id,tabid,target,actions,fields}){
 	const dom=document.createElement("span");
-	dom.className=field;
+	const layout=mode.store.layout;
+	dom.className=field+ (layout?"":(" "+field+"_ori"));
 	dom.onmouseover=onLinkMouseOver;
 	dom.onmouseleave=onLinkMouseLeave;
 	dom.action=actions.showNotePopup;
