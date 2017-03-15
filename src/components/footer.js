@@ -8,7 +8,7 @@ class Footer extends React.Component{
 		return E("div",{className:"footer"}
 			,E("div",{className:"separator"},"　")
 			,E("div",{style:styles.container}
-			,E("table",{style:styles.table},E("tr",{}
+			,E("table",{style:styles.table},E("tbody",{},E("tr",{}
 				,E("td",{}
 					,E("img",{style:styles.logoimg,src:"logo.png"}))
 				,E("td",{}
@@ -16,7 +16,7 @@ class Footer extends React.Component{
 					,E("div",{},E("a",{target:"_new",href:"http://www.ksana.tw"},"www.ksana.tw"))
 					,E("div",{},"Ver: 2017.3.13")
 				)
-			)))
+			))))
 		)
 	}
 }

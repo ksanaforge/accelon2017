@@ -38,7 +38,6 @@ class ExcerptView extends React.Component {
 		const first=(excerpt.store.now%excerpt.store.hitperbatch)==0;
 		const {grouphit,address,title,shorttitle}=this.excerptTitle(n);
 		
-
 		const header=(title!==prevtitle)? title:"";
 		prevtitle=title;
 		const now=excerpt.store.now;

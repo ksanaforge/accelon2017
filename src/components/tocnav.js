@@ -11,7 +11,7 @@ class TOCNav extends React.Component {
 	loadTOC(kpos){
 		if (!this.props.cor)return;
 
-		this.props.cor.getSubTOC(kpos,function(tocs){
+		this.props.cor.getTOC(kpos,function(tocs){
 			var toc=tocs[0] || [];
 			if (toc.length && toc[0].d!==0) {
 				toc=toc.slice();

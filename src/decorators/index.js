@@ -19,5 +19,5 @@ const p=require("./p");
 const span=require("./span");
 const rend=require("./rend"); //same as span for TEI rend
 const origin=require("./origin");
-module.exports={ptr,def,note,link,bilink,figure,table,kepan,translation,head,
-	mppsnote,yinshunnote,inlinenote,jin,p,span,rend,footnote,origin}
+module.exports={ptr,def,note,link,bilink,figure,table,kepan,translation,
+	mppsnote,yinshunnote,inlinenote,jin,p,span,head,rend,footnote,origin}

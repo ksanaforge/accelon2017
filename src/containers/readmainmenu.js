@@ -50,7 +50,7 @@ class ReadMainmenu extends React.Component {
 
 	render(){
 		const layout=this.props.layout;
-		const hasP=this.props.fields&&this.props.fields.p &&this.props.fields.p.length;
+		const hasP=this.props.fields&&this.props.fields.p &&this.props.fields.p.pos.length;
 		if (this.state.opened) {
 			return E("div",{className:"readmainmenu"},
 				E("span",{onClick:this.closemenu.bind(this),style:styles.closebutton},"✕"),

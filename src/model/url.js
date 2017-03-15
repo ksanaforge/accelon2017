@@ -33,28 +33,31 @@ const execURL=action((force)=> {
 		address.setMain(a);	
 	} 
 
+	const updateSearchResult=action(function(nn){
+		mode.setMode(m);
+		if (m==mode.EXCERPTVIEW) excerpt.showExcerpt(nn);
+	});
+
 	if (corpus!==corpora.store.active || !corpora.store.cor()) {
 		corpora.open(corpus,true,function(){
 			
-			if (!synced) syncURL();
+			if (!synced) syncURL(); //run once
 			
 			if (q) {
 				searchresult.setQ(q,function(){
-					excerpt.showExcerpt(n);
-					mode.setMode(m);
+					updateSearchResult(0);
 				});
 			} else {
-				mode.setMode(m);
+				updateSearchResult(0);
 			}
 		});	
 	} else {
 		if (searchresult.store.q!==q){
 			searchresult.setQ(q,function(){
-				excerpt.showExcerpt(n);
-				mode.setMode(m);
+				updateSearchResult(0);
 			});			
 		} else {
-			mode.setMode(m);
+			updateSearchResult(n);
 		}
 	}
 });
@@ -71,7 +74,7 @@ const updateUrl=function(urlparams){
 var urlupdater=null;
 const syncURL=function(){
 	const execurl=function(){
-		execURL();
+		if (!updating) execURL();
 	}
 	window.removeEventListener('hashchange',execurl);
 	window.addEventListener('hashchange', execurl);

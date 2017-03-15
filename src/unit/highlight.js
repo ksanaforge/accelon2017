@@ -2,7 +2,6 @@ var renderHits=function(text,hits,func){
 	if (!text) return [];
   var i, ex=0,out=[],now;
   hits=hits||[];
-
   for (i=0;i<hits.length;i+=1) {
     now=hits[i][0];
     if (now>ex) {
@@ -33,23 +32,23 @@ const highlightExcerpt=function(cor,excerpt,phrasepostings){
   const getrawline=function(line){
     return (line<excerpt.rawtext.length)?excerpt.rawtext[line]:"" ;
   };
-  const linelengths=buildlinelengths(excerpt.rawtext);
+  const linelengths=buildlinelengths(excerpt.text.split("\n"));
   var hl=[];
 
   for(let j=0;j<excerpt.phrasehits.length;j++) {
     const hits=excerpt.phrasehits[j].hits;
+    const hitsend=excerpt.phrasehits[j].hitsend;
     const phraselengths=phrasepostings[j].lengths;
     const linecharr=hits.map((hit,idx)=>{
-
-      const phraselength=phraselengths[idx]||phraselengths;//should be kpos width
-      const range=cor.makeRange(hit,hit+phraselength);
-
+      const range=cor.makeRange(hit,hitsend[idx]);
       var {start,end}=cor.toLogicalRange(excerpt.linebreaks,range,getrawline);
       const absstart=linelengths[start.line]+start.ch +start.line //for linefeed ;
       const absend=linelengths[end.line]+end.ch + end.line ;
+
       hl.push([absstart,absend-absstart,j]);
     });
   }
+
   return hl;
 } 
 
