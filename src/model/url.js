@@ -63,13 +63,11 @@ const execURL=action((force)=> {
 });
 const updateUrl=function(urlparams){
 	updating=true;
-
 	console.log("update url",urlparams)
 	setHashTag(urlparams);
 	setTimeout(function(){
 		updating=false;	
 	},300);
-	
 }
 var urlupdater=null;
 const syncURL=function(){
@@ -94,7 +92,7 @@ const syncURL=function(){
 		};
 
 		clearTimeout(urlupdater);
-		urlupdater=setTimeout(updateUrl.bind(this,urlparams),1000);
+		urlupdater=setTimeout(updateUrl.bind(this,urlparams),500);
 	});
 }
 module.exports={execURL};
