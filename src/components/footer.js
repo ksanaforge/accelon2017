@@ -14,7 +14,7 @@ class Footer extends React.Component{
 				,E("td",{}
 					,E("div",{},"Accelon 2017")
 					,E("div",{},E("a",{target:"_new",href:"http://www.ksana.tw"},"www.ksana.tw"))
-					,E("div",{},"Ver: 2017.3.15")
+					,E("div",{},"Ver: 2017.3.17")
 				)
 			))))
 		)

@@ -15,8 +15,9 @@ const setAux=action((address)=>{
 });
 const openLink=action((fulladdress)=>{
 	const r=fulladdress.split("@");
-	if (!corpora.store.corpora[r[0]]) {
-		corpora.open(r[0],false,function(){
+	const corpus=r[0].toLowerCase();
+	if (!corpora.store.corpora[corpus]) {
+		corpora.open(corpus,false,function(){
 			setTimeout(action(function(){//wait connect
 				store.aux=fulladdress;	
 			}),500);

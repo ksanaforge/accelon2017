@@ -17,10 +17,13 @@ class fieldSelector  extends React.Component {
 			onChange:this.setItem.bind(this,key)}),
 
 			E("span",{htmlFor:"cb"+key,title:item},
-				_(item)));
+				_(item.replace(/@.*/,""))));//remove text after @
 	}
 	render(){
-		return E("div",{},Object.keys(this.props.fields).map(this.renderItem.bind(this)));
+		const existfields=Object.keys(this.props.fields).filter(function(field){
+			return !!this.props.fields[field];
+		}.bind(this));
+		return E("div",{},existfields.map(this.renderItem.bind(this)));
 	}
 }
 module.exports=fieldSelector;
