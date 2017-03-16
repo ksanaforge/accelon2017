@@ -18,15 +18,19 @@ class ReadText extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={popupX:0,popupY:0,text:"",title:"",hidefields:{},
-		lpopupX:0,lpopupY:0,ltitle:"",links:[]};
+		lpopupX:0,lpopupY:0,ltitle:"",links:[],lclose:true};
 	}
 	showNotePopup(opts){
 		this.setState({popupX:opts.x,popupY:opts.y,text:opts.text,
 			title:opts.title,tagname:opts.tagname,popuptimestamp:new Date()});
 	}
 	showLinkPopup(opts){
-		this.setState({lpopupX:opts.x,lpopupY:opts.y,links:opts.links,
-			lactions:opts.actions,ltitle:opts.title,lpopuptimestamp:new Date()});
+		if (!opts) {
+			this.setState({lclose:true});
+		} else {
+			this.setState({lclose:false,lpopupX:opts.x,lpopupY:opts.y,links:opts.links,
+			lactions:opts.actions,ltitle:opts.title,lpopuptimestamp:new Date()});			
+		}
 	}	
 	setField(field,on){
 		var hidefields=this.state.hidefields;
@@ -61,6 +65,7 @@ class ReadText extends React.Component {
 				timestamp:this.state.popuptimestamp}),
 			E(LinkPopup,{x:this.state.lpopupX,y:this.state.lpopupY,openLink,
 				title:this.state.ltitle,links:this.state.links,cors,mainAddress,mainCorpus,
+				close:this.state.lclose,
 				timestamp:this.state.lpopuptimestamp,actions:this.state.lactions}),
 
 			E("div",{style:styles.left},E(ReadMain,props))

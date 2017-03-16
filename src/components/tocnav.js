@@ -12,9 +12,9 @@ class TOCNav extends React.Component {
 		if (!this.props.cor)return;
 
 		this.props.cor.getTOC(kpos,function(tocs){
-			var toc=tocs[0] || [];
+			var toc= tocs[0] || [];
+			toc=toc.slice();
 			if (toc.length && toc[0].d!==0) {
-				toc=toc.slice();
 				toc.unshift({d:0,t:" "});
 			}
 			this.setState({toc});

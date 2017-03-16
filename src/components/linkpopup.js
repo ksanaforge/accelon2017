@@ -19,10 +19,14 @@ var LinkPopup=React.createClass({
 		this.props.actions.highlightAddress(0);
 	},
 	componentWillReceiveProps:function(nextProps){
-		if (nextProps.timestamp!==this.props.timestamp) {
-			const mainAddress=nextProps.mainAddress;
-			const mainCorpus=nextProps.mainCorpus;
-			this.setState({close:false,mainAddress,mainCorpus});
+		if (nextProps.close)	 {
+			this.setState({close:true});
+		} else {
+			if (nextProps.timestamp!==this.props.timestamp) {
+				const mainAddress=nextProps.mainAddress;
+				const mainCorpus=nextProps.mainCorpus;
+				this.setState({close:false,mainAddress,mainCorpus});
+			}			
 		}
 	},
 	componentDidUpdate:function(){

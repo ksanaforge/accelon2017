@@ -14,7 +14,6 @@ const setAux=action((address)=>{
 	store.aux=address;
 });
 const openLink=action((fulladdress)=>{
-	debugger
 	const r=fulladdress.split("@");
 	if (!corpora.store.corpora[r[0]]) {
 		corpora.open(r[0],false,function(){

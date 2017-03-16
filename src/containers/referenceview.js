@@ -115,6 +115,7 @@ class ReferenceView extends React.Component {
 	}
 	followLinks(cm,links,actions){
 		if (links.length<2) {
+			this.props.showLinkPopup(null);//hide the popup
 			return false;//use default
 		}
 		const coords=cm.cursorCoords(cm.getCursor());
