@@ -35,7 +35,7 @@ class ReadMain extends React.Component {
 		}
 		props=props||this.props;
 
-		const article=this.props.cor.articleOf(this.state.address);
+		const article=this.props.cor.articleOf(address.store.main);
 		if (article &&article.at==this.state.article.at) return;
 
 		fetchArticle(this.props.cor,address.store.main,markups.store,(states)=>{
