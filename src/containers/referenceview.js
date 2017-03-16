@@ -82,12 +82,8 @@ class ReferenceView extends React.Component {
 		}
 		const range=cor.parseRange(addr);
 		const mrks=markups.store.markups[corpus];
-
 		if (!range.start) {
-			const a=getAnchorAddress(cor,addr);
-			if (a) this.fetchAddress(cor,a,mrks);
-		} else {
-			if (corpus=="Taisho") { //not page number, sutra id with optional i
+			if (r[0]=="Taisho") { //not page number, sutra id with optional i
 				notarget2address(cor,addr,newaddress=>{
 					if (this.state.address!=newaddress) {
 						this.fetchAddress(cor,newaddress,mrks);
@@ -95,6 +91,9 @@ class ReferenceView extends React.Component {
 				});
 				return;
 			}
+			const a=getAnchorAddress(cor,addr);
+			if (a) this.fetchAddress(cor,a,mrks);
+		} else {
 			this.fetchAddress(cor,addr,mrks);
 		}
 	}
