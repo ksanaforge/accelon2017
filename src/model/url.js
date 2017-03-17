@@ -38,6 +38,10 @@ const execURL=action((force)=> {
 		if (m==mode.EXCERPTVIEW) excerpt.showExcerpt(nn);
 	});
 
+	if (!corpora.store.cor() && mode.store.fileprotocol) {
+		mode.selectDB();
+		return;
+	}
 	if (corpus!==corpora.store.active || !corpora.store.cor()) {
 		corpora.open(corpus,true,function(){
 			

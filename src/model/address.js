@@ -17,11 +17,15 @@ const openLink=action((fulladdress)=>{
 	const r=fulladdress.split("@");
 	const corpus=r[0].toLowerCase();
 	if (!corpora.store.corpora[corpus]) {
-		corpora.open(corpus,false,function(){
-			setTimeout(action(function(){//wait connect
-				store.aux=fulladdress;	
-			}),500);
-		});
+		if (mode.store.fileprotocol) {
+			store.aux=fulladdress;	
+		} else {
+			corpora.open(corpus,false,function(){
+				setTimeout(action(function(){//wait connect
+					store.aux=fulladdress;	
+				}),500);
+			});
+		}
 	} else {
 		store.aux=fulladdress;	
 	}	

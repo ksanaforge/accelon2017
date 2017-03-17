@@ -11,6 +11,9 @@ const onLinkMouseDown=function(e){
 to save some dom node*/
 const createLink=function({cm,cor,start,end,id,target,active,actions}){
 	if (start.ch==end.ch && start.line==end.line) {
+		if (target instanceof Array) {
+			target=target[0];
+		}
 		const dom=document.createElement("span");
 		dom.className="notelink";
 		dom.onmousedown=onLinkMouseDown;

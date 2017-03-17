@@ -46,7 +46,11 @@ const stringtable={
 	["Layout On","原書換行"],
 	["Layout Off","段落重排"],
 	["Open New Window","以新視窗開啟"],
-	["Puncuation to enable Fuzzy Search","條件含有標點符號啟用模糊搜尋"]
+	["Puncuation to enable Fuzzy Search","條件含有標點符號啟用模糊搜尋"],
+	["Open local cor","開啟本機資料庫"],
+	["click and select one or more *.cor file in your local drive",
+	"↓↓請開啟在本機的資料庫"],
+	["Require Cor:","需要資料庫："]
 	]
 }
 for (var locale in stringtable) {

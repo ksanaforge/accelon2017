@@ -3,9 +3,12 @@ const {observable,action,autorun}=require("mobx");
 const {packBits,unpackBits}=require("../unit/bitstr");
 const BOOKSELECTOR=0, READTEXT=1,TOCVIEW=2,DBSELECTOR=3,
 	BOOKRESULT=10,EXCERPTVIEW=11;
-
+const isFileProtocol=function(){
+	return (typeof window!=="undefined" && window.location.protocol=="file:");
+}
 const store=observable({
 	mode:BOOKSELECTOR, //mode
+	fileprotocol:true||isFileProtocol(),
 	layout:0,//layout
 	extraline:3
 })

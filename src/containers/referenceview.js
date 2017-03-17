@@ -16,7 +16,8 @@ const corpora=require("../model/corpora");
 const {observer}=require("mobx-react");
 const {autorun}=require("mobx");
 const {linkpopupmatrix}=require("../unit/popupmatrix");
-
+const LocalFile=require("../components/localfile");
+const {_}=require("ksana-localization");
 
 const styles={
 	abscontainer:{position:"relative",zIndex:200},
@@ -58,10 +59,12 @@ class ReferenceView extends React.Component {
 	componentDidMount(){
 		autorun(()=>{
 			const a=address.store.aux;
+			//make sure loadtext when user open a local file
+			const c=Object.keys(corpora.store.corpora).length;
 			clearTimeout(this.timer);
 			this.timer=setTimeout(function(){
 				if (!this._unmounted) this.loadtext(this.props);	
-			}.bind(this),200);
+			}.bind(this),200+c);
 		});		
 	}
 	loadtext(props){
@@ -72,7 +75,9 @@ class ReferenceView extends React.Component {
 		const corpus=r[0].toLowerCase(); //Taisho ==> taisho		
 		const cor=corpora.store.cor(corpus);
 		if (!cor) {
-			corpora.open(corpus);
+			if (!mode.store.fileprotocol) {
+				corpora.open(corpus);
+			}
 			return;
 		}
 
@@ -126,11 +131,27 @@ class ReferenceView extends React.Component {
 		this.props.showLinkPopup({x,y,links,title:"backlink",actions});
 		return true;
 	}
+	openfile(e){
+		const id=e.target.files[0];
+		for (var i=0;i<e.target.files.length;i++) {
+			if (!e.target.files[i])continue;
+			const corpus=e.target.files[i];
+			corpora.open(corpus);
+		}
+	}
 	render(){
-		if (this.state.message || !this.state.article) {
+		const r=address.store.aux.split("@");
+		if (this.state.message||!this.state.article) {
+			if (mode.store.fileprotocol&&r[0]) {
+				return E("div",{},
+					E("span",{},_("Require Cor:")),
+					E("span",{style:{fontWeight:700,size:"125%"}}
+						,r[0]),
+					E(LocalFile,{openfile:this.openfile.bind(this)})
+				)
+			}
 			return E("div",{},this.state.message);
 		}
-		const r=address.store.aux.split("@");
 		
 		const menuprops=Object.assign({},this.props,{
 			cor:this.state.cor,

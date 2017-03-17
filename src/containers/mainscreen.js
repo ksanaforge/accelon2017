@@ -59,7 +59,8 @@ class MainScreen extends React.Component{
 	}
 	render(){
 		const cor=corpora.store.cor();
-		if (!cor) return E("div",{},"loading "+corpora.store.active);
+		//if (!cor) return E("div",{},"loading "+corpora.store.active);
+
 		const props=Object.assign({},this.props,{cor});
 
 		const bodyElement=this.getBody(mode.store.mode);

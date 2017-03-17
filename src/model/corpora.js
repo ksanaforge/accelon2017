@@ -1,4 +1,6 @@
 const {extendObservable,action}=require("mobx");
+const expandVariant=require("ksana-unihan-variant").expandVariant;
+
 var openCorpus=null
 try {
 	openCorpus=require("ksana-corpus").openCorpus;
@@ -12,7 +14,6 @@ const Store=function() {
 	extendObservable(this,{
 		corpora:{},
 		active:'',
-
 	})
 	this.cor=function (corpus) {
 		if (this.corpora[corpus||this.active]) {
@@ -34,13 +35,14 @@ const openedCors=function(){
 }
 const open=(corpus,setActive,cb)=>{
 	//console.log("open",corpus)
-	openCorpus(corpus,action((err,cor)=>{
+	const opts={expandVariant};
+	openCorpus(corpus,opts,action((err,cor)=>{
 		if (err) {
 
 		} else {
 			connectCorpus(cor);
 			if (setActive) store.active=corpus;
-			store.corpora[corpus]=true;
+			store.corpora[cor.id]=true;
 			store.corpora=Object.assign({},store.corpora);
 			cb&&cb();
 		}
