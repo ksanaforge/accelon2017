@@ -67,7 +67,7 @@ class ReadMain extends React.Component {
 		}
 	}
 	render(){
-		if (!this.state.article || this.state.article==-1) {
+		if ( this.state.article==-1) {
 			return E("div",{},"loading");
 		}
 		const caretpos=this.getCaretKPos();
@@ -80,7 +80,10 @@ class ReadMain extends React.Component {
 			setField:this.props.setField});
 
 		const cors=corpora.openedCors();
-		const layout=(mode.store.layout && this.state.fields.p)?this.state.fields.p.pos:null;
+		var layout=null;
+		if(mode.store.layout && this.state.fields &&this.state.fields.p) {
+			layout=this.state.fields.p.pos;
+		};
 
 		return E("div",{},
 			E("div",{style:styles.abscontainer},

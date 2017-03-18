@@ -8,7 +8,7 @@ const isFileProtocol=function(){
 }
 const store=observable({
 	mode:BOOKSELECTOR, //mode
-	fileprotocol:true||isFileProtocol(),
+	fileprotocol:isFileProtocol(),
 	layout:0,//layout
 	extraline:3
 })

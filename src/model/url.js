@@ -26,18 +26,20 @@ const execURL=action((force)=> {
 	const a=urlparams.a;
 	const q=urlparams.q;
 	const m=urlparams.m;
+	const l=urlparams.l||0;
 	const excludes=unpackBits(urlparams.x);
 	filter.setExcludes(excludes);
 	const n=parseInt(urlparams.n,10)||0;
 	if (a) {
-		address.setMain(a);	
+		address.setMain(a);
 	} 
 
 	const updateSearchResult=action(function(nn){
 		mode.setMode(m);
 		if (m==mode.EXCERPTVIEW) excerpt.showExcerpt(nn);
+		mode.setLayout(l);		
 	});
-
+		
 	if (!corpora.store.cor() && mode.store.fileprotocol) {
 		mode.selectDB();
 		return;
