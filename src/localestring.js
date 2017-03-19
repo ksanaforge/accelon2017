@@ -52,6 +52,7 @@ const stringtable={
 	"↓↓請開啟本機資料庫"],
 	["Require Cor:","需要資料庫："],
 	["local cor","本機"],
+	["local system","單機版"],
 	["download","下載"]
 	]
 }

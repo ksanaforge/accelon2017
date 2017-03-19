@@ -8,6 +8,7 @@ const mode=require("../model/mode");
 const corpora=require("../model/corpora");
 const searchresult=require("../model/searchresult");
 const LocalFile=require("../components/localfile");
+const LocalSystem=require("../components/localsystem");
 const LocalFileItem=require("../components/localfileitem");
 const styles={
 	opencorbutton:{color:"blue"}
@@ -84,6 +85,7 @@ class DBSelector extends React.Component {
 		return E("div",{},
 			E("br"),
 			E(LocalFile,{openfile:this.openfile.bind(this)}),
+			E(LocalSystem),
 			items.map(this.renderDB.bind(this))
 
 			);
