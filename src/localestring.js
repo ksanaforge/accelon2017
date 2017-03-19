@@ -51,7 +51,8 @@ const stringtable={
 	["click and select one or more *.cor file in your local drive",
 	"↓↓請開啟本機資料庫"],
 	["Require Cor:","需要資料庫："],
-	["local cor","本機"]
+	["local cor","本機"],
+	["download","下載"]
 	]
 }
 for (var locale in stringtable) {
