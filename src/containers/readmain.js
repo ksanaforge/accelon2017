@@ -106,6 +106,7 @@ class ReadMain extends React.Component {
 			showNotePopup:this.props.showNotePopup,
 			//showLinkPopup:this.props.showLinkPopup,
 			showPageStart:true,
+			autoFollowSingleLink:true,//auto follow single link 
 			setSelection:selection.setSelection.bind(this),
 			searchresult:searchresult.store,
 			//theme:"ambiance"
