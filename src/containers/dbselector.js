@@ -12,7 +12,7 @@ const LocalFileItem=require("../components/localfileitem");
 const styles={
 	opencorbutton:{color:"blue"}
 }
-
+const {_}=require("ksana-localization");
 class DBSelector extends React.Component {
 	constructor(props){
 		super(props);
@@ -36,6 +36,7 @@ class DBSelector extends React.Component {
 		for (var i=0;i<e.target.files.length;i++) {
 			if (!e.target.files[i])continue;
 			const corpus=e.target.files[i];
+			corpora.close(corpus.name.replace(".cor",""));
 			corpora.open(corpus);
 		}
 	}
@@ -47,12 +48,10 @@ class DBSelector extends React.Component {
 		var onClick=this.selectdb.bind(this,item);
 		var className=active?"activedbname":"dbname";
 
-		var openLocalCorButton=null;
 		if (cor) {
 			title=cor.meta.title;
 		} else {
 			if (mode.store.fileprotocol) {
-				openLocalCorButton="";
 				onClick=null;
 				className="dbnotopen";
 			} else {
@@ -63,7 +62,7 @@ class DBSelector extends React.Component {
 		}
 		return E("div",{key,className:"dbselector"},
 			E("span",{className,onClick},title),
-			openLocalCorButton,
+			cor&&cor.local?E("span",{className:"localcor"},_("local cor")):null	,
 			E("span",{},(active?"✓":""))
 		);
 	}

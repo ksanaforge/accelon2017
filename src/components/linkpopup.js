@@ -72,8 +72,9 @@ var LinkPopup=React.createClass({
 			const cor=this.props.cors[link.corpus];
 			const shortname=cor.getGroupName(link.to);
 			const r=cor.parseRange(link.to);
-			const m=link.to.match(/(p\d+)/);
-			const page=m?m[1]:link.to;
+			const to=typeof link.to=="number"?cor.stringify(r.range):link.to;
+			const m=to.match(/(p\d+)/);
+			const page=m?m[1]:to;
 			const originate= mainr.start>r.start&&mainr.start<r.end;
 			out.push(E("div",{key,className:originate?"backlink_originate":"backlink"
 				,"data-id":id

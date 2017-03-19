@@ -13,9 +13,16 @@ const setMain=action((address)=>{
 const setAux=action((address)=>{
 	store.aux=address;
 });
-const openLink=action((fulladdress)=>{
+const openLink=action((fulladdress,cor)=>{
 	const r=fulladdress.split("@");
+
+	if (r.length==1) {
+		store.aux=cor.id+"@"+r;
+		return;
+	}
+
 	const corpus=r[0].toLowerCase();
+
 	if (!corpora.store.corpora[corpus]) {
 		if (mode.store.fileprotocol) {
 			store.aux=fulladdress;	

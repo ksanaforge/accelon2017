@@ -5,7 +5,7 @@ const onLinkMouseDown=function(e){
 	if (!target.action) {
 		console.error("action openLink is not defined");
 	}
-	target.action&&target.action(fulladdress);	
+	target.action&&target.action(fulladdress,target.cor);	
 }
 /* TODO , show link only when in cursor ,
 to save some dom node*/

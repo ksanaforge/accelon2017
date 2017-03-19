@@ -1,11 +1,13 @@
 const {extendObservable,action}=require("mobx");
 const expandVariant=require("ksana-unihan-variant").expandVariant;
 
-var openCorpus=null
+var openCorpus,closeCorpus;
 try {
 	openCorpus=require("ksana-corpus").openCorpus;
+	closeCorpus=require("ksana-corpus").closeCorpus;
 } catch(e){
 	openCorpus=require("ksana-corpus-lib").openCorpus;
+	closeCorpus=require("ksana-corpus-lib").closeCorpus;
 }
 
 const {connectCorpus}=require("../unit/connect");
@@ -33,17 +35,18 @@ const openedCors=function(){
 	}
 	return out;
 }
+const close=action((id)=>closeCorpus(id));
 const open=(corpus,setActive,cb)=>{
 	//console.log("open",corpus)
 	const opts={expandVariant};
 	openCorpus(corpus,opts,action((err,cor)=>{
 		if (err) {
-
+			console.log(err);
 		} else {
-			connectCorpus(cor);
 			if (setActive) store.active=corpus;
 			store.corpora[cor.id]=true;
 			store.corpora=Object.assign({},store.corpora);
+			connectCorpus(cor);
 			cb&&cb();
 		}
 	}))
@@ -56,4 +59,4 @@ const init=action((_corpora)=>{
 	store.corpora=_corpora;
 	//store.active=Object.keys(_corpora)[0]
 });
-module.exports={open,setActive,store,init,openedCors}
+module.exports={open,close,setActive,store,init,openedCors}

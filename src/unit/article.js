@@ -8,11 +8,8 @@ const fetchArticle=function(cor,address,markups,cb){
   }
   const article=cor.articleOf(address);
   if (article){
-    const articleFields=cor.meta.articleFields||[];
-
-    cor.getArticleTextTag(article.at , articleFields, (res)=>{
+    cor.getArticleTextTag(article.at ,  (res)=>{
       const fields=loadArticleMarkup(res.fields,markups,article.at);
-
       cb&&cb({address,article,rawlines:res.text,fields,kpos:article.start});
     }); 
   }

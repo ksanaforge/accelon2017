@@ -1,5 +1,5 @@
 const getAnchorAddress=function(cor,anchor){
-	 const anchors=cor.getField("a");
+	 const anchors=cor.getField("anchor");
    anchor=anchor.replace(/~.+/,"");
    if (!anchors || !anchors.value)return null;
    const at=anchors.value.indexOf(anchor);

@@ -3,6 +3,7 @@ const def=require("./def");
 const note=require("./note");
 const link=require("./link");
 const bilink=require("./bilink");
+const k=require("./bilink");
 const kepan=require("./kepan");
 const figure=require("./table");
 const table=require("./table");
@@ -20,5 +21,5 @@ const p=require("./p");
 const span=require("./span");
 const rend=require("./rend"); //same as span for TEI rend
 const origin=require("./origin");
-module.exports={ptr,def,note,link,bilink,figure,table,kepan,translation,
+module.exports={ptr,def,note,link,k,bilink,figure,table,kepan,translation,
 	mppsnote,yinshunnote,inlinenote,jin,p,span,head,rend,footnote,origin,rubynote}

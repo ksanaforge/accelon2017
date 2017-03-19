@@ -110,6 +110,9 @@ class ReferenceView extends React.Component {
 		const r=fulladdress.split("@");
 		const cor=corpora.store.cor(r[0]);
 		var a=r[1];
+		if (parseInt(a,10).toString()==a) {
+			a=parseInt(a,10);
+		}
 		if (cor) {
 			const range=cor.parseRange(a);
 			if (!range.start) a=cor.stringify(getAnchorAddress(cor,a));

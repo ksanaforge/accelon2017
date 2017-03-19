@@ -1,23 +1,22 @@
 /* when a corpus is opened, connect it with already opened */
-const taskqueue=[];
 const {setMarkup}=require("../model/markups");
+var output=[]; // corpus, id, links_in_all_article
 
-const connect=function(cor1,cor2, output, links){
+const connect=function(cor1,cor2,output,taskqueue){
 	if (cor1===cor2)return;
-	var lastfield=null;
 	if (cor2.meta.linkTo) {
 		for (var field in cor2.meta.linkTo) {
 			if (field.indexOf("@"+cor1.id)==-1) continue;
 			const articles=cor2.meta.linkTo[field];
 			const keys=articles.map(a=>["afields",a,field]);
-			lastfield=field;
-
-			links.push([cor2.id,field]);
-			taskqueue.push((function(cor,keys){
+			
+			taskqueue.push((function(cor,keys,f){
+				var corid=cor.id;
 				return (
-					function(data){
+					function(data,_cor,paths){
 						if (!(typeof data=='object' && data.__empty)) {
-							output.push(data);
+							const field=paths[0][2]
+							output.push([_cor.id,field,data]);
 						}
 						cor.get(keys,{recursive:true},taskqueue.shift());
 					}
@@ -26,7 +25,6 @@ const connect=function(cor1,cor2, output, links){
 			);
 		}
 	}
-	return lastfield;
 }
 const groupByArticle=function(pos,value,cor){
 	//group by article
@@ -42,15 +40,17 @@ const groupByArticle=function(pos,value,cor){
 }
 const buildReverseLinks=function(links){
 	const corpora=require("../model/corpora");
-	const out=[];
+	var out=[];
 	const cors=corpora.openedCors();
 	for (var i=0;i<links.length;i++) {
 		const corpus=links[i][1].replace(/.*@/,"");
 		if (!cors[corpus]) continue;
-		const fieldname=links[i][1].replace(/@.*/,"")+"@"+links[i][0];
+		const sourcecorpus=links[i][0];
+		const type=links[i][1].replace(/@.*/,"");
+		const fieldname=type+"@"+sourcecorpus;
 		const pv=[];
 		const payload=links[i][2];
-
+		
 		for (var j=0;j<payload.length;j++) {//article
 			for (var k=0;k<payload[j].pos.length;k++) {
 				pv.push([payload[j].value[k],payload[j].pos[k]]);	
@@ -69,35 +69,26 @@ const buildReverseLinks=function(links){
 
 const connectCorpus=function(cor){
 	const corpora=require("../model/corpora");
-	const output=[],
-	links=[];// [source corpus, fieldname@target , source to target]
-	var lastjobcor,lastfield;
+	var taskqueue=[];
 	for (var db in corpora.store.corpora) {
 		if (!corpora.store.corpora[db])continue;
 		const tcor=corpora.store.cor(db);
 		if (!tcor) continue;
-		
-		var r=connect(cor,tcor,output,links);
-		if (r) {
-			lastjobcor=tcor.id;
-			lastfield=r;
-		}
-		r=connect(tcor,cor,output,links);
-		if (r) {
-			lastjobcor=cor.id;
-			lastfield=r;
-		}
-	}
-	if (taskqueue.length) {
-		taskqueue.push(function(data){
-			output.push(data);
-			links.forEach((j,idx)=>j.push(output[idx]));
 
-			const outputlinks=buildReverseLinks(links);
+		connect(cor,tcor,output,taskqueue);
+		connect(tcor,cor,output,taskqueue);
+	}
+
+	if (taskqueue.length) {
+		taskqueue.push(function(data,_cor,paths){
+			const field=paths[0][2];
+			output.push([_cor.id,field,data]);
+			const outputlinks=buildReverseLinks(output);
 			for (var i=0;i<outputlinks.length;i++) {
 				const corpus=outputlinks[i][0], name=outputlinks[i][1], mrks=outputlinks[i][2];
 				setMarkup(corpus,name,mrks);
 			}
+			output=[];
 		});	
 		taskqueue.shift()({__empty:true});
 	}
