@@ -53,7 +53,8 @@ const stringtable={
 	["Require Cor:","需要資料庫："],
 	["local cor","本機"],
 	["local system","單機版"],
-	["download","下載"]
+	["download","下載"],
+	["build date","建置於"]
 	]
 }
 for (var locale in stringtable) {

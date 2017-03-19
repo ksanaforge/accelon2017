@@ -12,12 +12,13 @@ const {_}=require("ksana-localization");
 class HomeBar extends React.Component {
 	render(){
 		const title=this.props.cor&&this.props.cor.meta.title;
+		const date=this.props.cor&&_("build date")+this.props.cor.meta.date;
 		const opencormessage=_("click and select one or more *.cor file in your local drive");
 
 		return E("div",{className:"homebar homebarbox"}
 			,"　"
 			,E("span",{onClick:mode!==DBSELECTOR?selectDB:null,
-				className:"activedb"},title)
+				className:"activedb",title:date},title)
 			,"　"
 			,this.props.cor?E(SearchBox,this.props):null
 			,"　"

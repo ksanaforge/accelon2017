@@ -41,16 +41,6 @@ class DBSelector extends React.Component {
 			corpora.open(corpus);
 		}
 	}
-	getDownloadURL(corpus){
-		var url="";
-		if (window && window.location.protocol=="http:") {
-			var parent=window.location.origin+window.location.pathname;
-			parent=parent.substring(0,parent.length-1);
-			const at=parent.lastIndexOf("/");
-			parent=parent.substr(0,at+1);
-			return parent+corpus+"-corpus/"+corpus+".cor";
-		}
-	}
 	renderDB(item,key){
 		const active=item==corpora.store.active;
 		const cor=corpora.store.cor(item);
@@ -71,12 +61,12 @@ class DBSelector extends React.Component {
 				},0);				
 			}
 		}
-		var downloadurl=this.getDownloadURL(item);
-
+		var downloadurl=cor?cor.url:"";
+		var builddate=cor?_("build date")+cor.meta.date:"";
 		return E("div",{key,className:"dbselector"},
 			E("span",{className,onClick},title),
 			cor&&cor.local?E("span",{className:"localcor"},_("local cor"))
-				:(downloadurl&&cor?E("a",{href:downloadurl},_("download")):null)	,
+				:(downloadurl&&cor?E("a",{href:downloadurl,title:builddate},_("download")):null)	,
 			E("span",{},(active?"✓":""))
 		);
 	}
