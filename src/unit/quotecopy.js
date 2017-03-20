@@ -12,8 +12,8 @@ const quoteCopy_mpps=function({cor,value,krange}){
 	const ep=cor.pageOf(r.end)+1;
 	var pagerange="p."+sp;
 	if (ep!==sp) pagerange="p"+pagerange+'-'+ep;
-	var gn=cor.getGroupName(krange).replace(/《?大智度論》?　?/,"");
-	gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
+	var gn=cor.getGroupName(krange);
+	//gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
 	return "「"+value+"」（《大智度論講義》"+gn+"，"+pagerange+"）";
 }
 const quoteCopy_taisho=function({cor,value,krange}){

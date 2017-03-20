@@ -65,7 +65,7 @@ class DBSelector extends React.Component {
 		var builddate=cor?_("build date")+cor.meta.date:"";
 		return E("div",{key,className:"dbselector"},
 			E("span",{className,onClick},title),
-			cor&&cor.local?E("span",{className:"localcor"},_("local cor"))
+			cor&&cor.local?E("span",{className:"localcor",title:builddate},_("local cor"))
 				:(downloadurl&&cor?E("a",{href:downloadurl,title:builddate},_("download")):null)	,
 			E("span",{},(active?"✓":""))
 		);
