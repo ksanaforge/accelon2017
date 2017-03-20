@@ -8,14 +8,24 @@ const calFascicle=function(cor,krange){
 }
 const quoteCopy_mpps=function({cor,value,krange}){
 	const r=cor.parseRange(krange);
-	const sp=cor.pageOf(r.start)+1;
+	const sp=cor.pageOf(r.start);
 	const ep=cor.pageOf(r.end)+1;
 	var pagerange="p."+sp;
+
 	if (ep!==sp) pagerange="p"+pagerange+'-'+ep;
 	var gn=cor.getGroupName(krange);
+	const article=cor.articleOf(r.start);
+	const toc=cor.getTOC(r.start);
+	var pin=toc&&toc.length?toc[0][0].t+"〉":gn;
+	pin=pin.replace(/卷(\d+)/,function(m,m1){
+		return "卷"+m1+"〈";
+	})
+	pin=pin.replace(/\(\d+\)/,"");
+
 	//gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
-	return "「"+value+"」（《大智度論講義》"+gn+"，"+pagerange+"）";
+	return "「"+value+"」（《大智度論講義》"+pin+"，"+pagerange+"）";
 }
+
 const quoteCopy_taisho=function({cor,value,krange}){
 	const group=cor.getGroupName(krange).replace(/.*@/,"");
 	const address=cor.stringify(krange);
