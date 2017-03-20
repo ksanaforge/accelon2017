@@ -20,8 +20,7 @@ const quoteCopy_mpps=function({cor,value,krange}){
 	pin=pin.replace(/卷(\d+)/,function(m,m1){
 		return "卷"+m1+"〈";
 	})
-	pin=pin.replace(/\(\d+\)/,"");
-
+	pin=pin.replace(/\((\d+)\)/,function(m,m1){return m1});
 	//gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
 	return "「"+value+"」（《大智度論講義》"+pin+"，"+pagerange+"）";
 }
