@@ -45,11 +45,11 @@ class DBSelector extends React.Component {
 		if (!cor) return;
 		var corurl=cor.registered?'https://github.com/accelon/'+cor.id:'';
 		var builddate=_("build date")+cor.meta.date;
-		var corurllabel=_("corurl");
+		var corurllabel=_("about");
 		var corurlclass="registered";
 		if (!cor.registered) {
 			corurl='https://github.com/accelon/register';
-			corurllabel=_("corregister");
+			corurllabel=_("unknowncor");
 			corurlclass="unregistered";
 		}
 	
