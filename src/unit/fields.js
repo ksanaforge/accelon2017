@@ -1,5 +1,5 @@
 const getExternalField=function(cor,article){
-	if (cor.meta.name=="taisho") {
+	if (cor.meta.id=="taisho") {
 		if (article.at==4772) {
 			return {
 				kepan:{
