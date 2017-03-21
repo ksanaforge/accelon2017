@@ -41,6 +41,25 @@ class DBSelector extends React.Component {
 			corpora.open(corpus);
 		}
 	}
+	renderRegister(cor){
+		if (!cor) return;
+		var corurl=cor.registered?'https://github.com/accelon/'+cor.id:'';
+		var builddate=_("build date")+cor.meta.date;
+		var corurllabel=_("corurl");
+		var corurlclass="registered";
+		if (!cor.registered) {
+			corurl='https://github.com/accelon/register';
+			corurllabel=_("corregister");
+			corurlclass="unregistered";
+		}
+	
+		return E("span",{},
+			cor.local?E("span",{className:"localcor",title:builddate},_("local cor")):null,
+			corurl?E("a",{href:corurl,target:"_new",
+				title:builddate,className:corurlclass},
+				corurllabel):null
+		);
+	}
 	renderDB(item,key){
 		const active=item==corpora.store.active;
 		const cor=corpora.store.cor(item);
@@ -61,12 +80,10 @@ class DBSelector extends React.Component {
 				},0);				
 			}
 		}
-		var downloadurl=cor?cor.url:"";
 		var builddate=cor?_("build date")+cor.meta.date:"";
 		return E("div",{key,className:"dbselector"},
 			E("span",{className,onClick},title),
-			cor&&cor.local?E("span",{className:"localcor",title:builddate},_("local cor"))
-				:(downloadurl&&cor?E("a",{href:downloadurl,title:builddate},_("download")):null)	,
+			this.renderRegister(cor),
 			E("span",{},(active?"✓":""))
 		);
 	}

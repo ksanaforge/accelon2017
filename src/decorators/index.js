@@ -13,7 +13,9 @@ const rubynote=require("./rubynote");
 const mppsnote=require("./popupnote");
 const yinshunnote=require("./popupnote");
 const footnote=require("./popupnote");
-
+const cdata=require("./cdata");
+const jpeg=require("./image");
+const png=require("./image");
 /* might be simplified to maketext with className same as type */
 const inlinenote=require("./inlinenote");
 const jin=require("./jin");
@@ -21,5 +23,5 @@ const p=require("./p");
 const span=require("./span");
 const rend=require("./rend"); //same as span for TEI rend
 const origin=require("./origin");
-module.exports={ptr,def,note,link,k,bilink,figure,table,kepan,translation,
-	mppsnote,yinshunnote,inlinenote,jin,p,span,head,rend,footnote,origin,rubynote}
+module.exports={ptr,def,note,link,k,bilink,figure,table,kepan,translation,cdata,
+	mppsnote,yinshunnote,inlinenote,jin,p,span,head,rend,footnote,origin,rubynote,png,jpeg}

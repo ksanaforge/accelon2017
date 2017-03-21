@@ -54,7 +54,9 @@ const stringtable={
 	["local cor","本機"],
 	["local system","單機版"],
 	["download","下載"],
+	["corurl","下載頁"],
 	["build date","建置於"],
+	["corregister","未註冊"],
 	["download latest zip and cor files, and open index.html",
 	"下載最新的zip及所需之資料庫，再打開index.html"]
 	]

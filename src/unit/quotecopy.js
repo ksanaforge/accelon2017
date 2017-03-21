@@ -21,8 +21,8 @@ const quoteCopy_mpps=function({cor,value,krange}){
 		return "卷"+m1+"〈";
 	})
 	pin=pin.replace(/\((\d+)\)/,function(m,m1){return m1});
-	//gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
-	return "「"+value+"」（《大智度論講義》"+pin+"，"+pagerange+"）";
+	gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
+	return "「"+value+"」（《大智度論講義》"+gn+"，"+pagerange+"）";
 }
 
 const quoteCopy_taisho=function({cor,value,krange}){

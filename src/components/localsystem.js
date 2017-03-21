@@ -9,7 +9,7 @@ class LocalSystem extends React.Component {
 		&&window.location.host.indexOf("127.0.0.1")==-1;
 		if (!downloadable) return E("span");
 		return E("span",{className:"localfile"},
-			E("a",{href:"release",target:"_new",title},_("local system"))
+			E("a",{href:"https://github.com/accelon/accelon2017/",target:"_new",title},_("local system"))
 		)
 	}
 }

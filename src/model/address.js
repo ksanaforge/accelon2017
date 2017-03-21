@@ -14,6 +14,11 @@ const setAux=action((address)=>{
 	store.aux=address;
 });
 const openLink=action((fulladdress,cor)=>{
+	if (fulladdress.indexOf("http:")==0||
+		fulladdress.indexOf("https:")==0) {
+		window.open(fulladdress);
+		return;
+	}
 	const r=fulladdress.split("@");
 
 	if (r.length==1) {
