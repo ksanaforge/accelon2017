@@ -11,7 +11,7 @@ const corpora=require("../model/corpora");
 const address=require("../model/address");
 const styles={
 	container:{display:"flex"},
-	left:{flex:8},
+	left:{flex:8,maxWidth:1000},
 	right:{flex:4}
 }
 class ReadText extends React.Component {

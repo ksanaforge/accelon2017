@@ -12,15 +12,22 @@ const adjustsize=function(e){
 	replacedWith.style.height=Math.floor(replacedWith.h*ratio)+"%";
 	e.stopPropagation();
 }
+const newwindow=function(e){
+	const svg=e.target.nextSibling.children[0];
+	debugger
+	window.open("data:image/svg+xml;"+svg.outerHTML);
+}
 const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	const replacedWith=document.createElement("div");
-	var svgcontent=target.replace(/ height=".*?"/,'height="100%"');
-	svgcontent=svgcontent.replace(/ width=".*?"/,'width="100%"').replace(/\r?\n/g,"");
-	//replacedWith.className="inlinesvg";
-	replacedWith.w=70;
-	replacedWith.h=50;
-	replacedWith.ratio=1;
-	replacedWith.style="width:70%;height:50%;"
+	//var svgcontent=target.replace(/ height=".*?"/,'height="100%"');
+	//svgcontent=svgcontent.replace(/ width=".*?"/,'width="100%"').replace(/\r?\n/g,"");
+	var svgcontent=target
+	replacedWith.className="inlinesvg";
+	//replacedWith.w=70;
+	//replacedWith.h=50;
+	//replacedWith.ratio=1;
+	//replacedWith.style="width:70%;height:50%;"
+	/*
 	const larger=document.createElement("input");
 	larger.type="button";
 	larger.style="z-index:200"
@@ -31,12 +38,19 @@ const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	smaller.style="z-index:200"
 	smaller.value="－"
 	smaller.onmousedown=adjustsize;
-
+	const opennew=document.createElement("input");
+	opennew.type="button";
+	opennew.style="z-index:200"
+	opennew.value="◳"
+	opennew.onmousedown=newwindow;
+	*/
 
 	const svg=document.createElement("div");
 	svg.innerHTML=svgcontent;
-	replacedWith.appendChild(smaller);
-	replacedWith.appendChild(larger);
+	
+	//replacedWith.appendChild(smaller);
+	//replacedWith.appendChild(larger);
+	//replacedWith.appendChild(opennew);
 	replacedWith.appendChild(svg);
 
 
