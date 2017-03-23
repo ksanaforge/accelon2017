@@ -43,8 +43,9 @@ const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	replacedWith.appendChild(opennew);
 	replacedWith.appendChild(svg);
 
-
 	const ch=end.ch+99; //cover entire line
-	return cm.markText(start,{line:end.line,ch},{replacedWith,handleMouseEvents:true});
+
+	return cm.markText(start,{line:end.line,ch},
+		{replacedWith,handleMouseEvents:true});
 }
 module.exports=createTable;

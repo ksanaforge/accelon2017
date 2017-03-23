@@ -17,7 +17,7 @@ class fieldSelector  extends React.Component {
 			onChange:this.setItem.bind(this,key)}),
 
 			E("span",{htmlFor:"cb"+key,title:item},
-				_(item.replace(/@.*/,""))));//remove text after @
+				_(item.replace(/<.*/,""))));//remove text after @
 	}
 	render(){
 		const existfields=Object.keys(this.props.fields).filter(function(field){

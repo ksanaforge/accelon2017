@@ -9,6 +9,7 @@ const stringtable={
 	["figure","圖"],
 	["link","連結"],
 	["bilink","出處"],
+	["k","互文"],
 	["noteid","出處"],
 	["jin","經文"],
 	["ptr","注釋號"],
