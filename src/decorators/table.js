@@ -13,44 +13,34 @@ const adjustsize=function(e){
 	e.stopPropagation();
 }
 const newwindow=function(e){
-	const svg=e.target.nextSibling.children[0];
-	debugger
-	window.open("data:image/svg+xml;"+svg.outerHTML);
+	e.target.innerHTML;
+	e.stopPropagation();
 }
 const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	const replacedWith=document.createElement("div");
 	//var svgcontent=target.replace(/ height=".*?"/,'height="100%"');
 	//svgcontent=svgcontent.replace(/ width=".*?"/,'width="100%"').replace(/\r?\n/g,"");
-	var svgcontent=target
+	const filename=target.match(/y[\.a-z\d\-]+\.svg/) || "yinshun.svg";
+
+	var svgcontent=target.replace(/<!--.+?-->\r?\n?/g,"")
+	.replace(/<!DOCTYPE.+?>\r?\n/,"").replace(/<\?xml.+>\r?\n/,"");
 	replacedWith.className="inlinesvg";
-	//replacedWith.w=70;
-	//replacedWith.h=50;
-	//replacedWith.ratio=1;
-	//replacedWith.style="width:70%;height:50%;"
-	/*
-	const larger=document.createElement("input");
-	larger.type="button";
-	larger.style="z-index:200"
-	larger.onmousedown=adjustsize;
-	larger.value="＋"
-	const smaller=document.createElement("input");
-	smaller.type="button";
-	smaller.style="z-index:200"
-	smaller.value="－"
-	smaller.onmousedown=adjustsize;
-	const opennew=document.createElement("input");
-	opennew.type="button";
+
+	const opennew=document.createElement("a");
 	opennew.style="z-index:200"
-	opennew.value="◳"
+	
+	opennew.setAttribute("href","data:image/svg+xml;utf8,"+encodeURI(svgcontent));
+
+	opennew.innerHTML="\u21E9"
+	opennew.setAttribute("download",filename);
 	opennew.onmousedown=newwindow;
-	*/
 
 	const svg=document.createElement("div");
 	svg.innerHTML=svgcontent;
 	
 	//replacedWith.appendChild(smaller);
 	//replacedWith.appendChild(larger);
-	//replacedWith.appendChild(opennew);
+	replacedWith.appendChild(opennew);
 	replacedWith.appendChild(svg);
 
 
