@@ -37,7 +37,7 @@ class DBSelector extends React.Component {
 		for (var i=0;i<e.target.files.length;i++) {
 			if (!e.target.files[i])continue;
 			const corpus=e.target.files[i];
-			corpora.close(corpus.id.replace(".cor",""));
+			corpora.close(corpus.name.replace(".cor",""));
 			corpora.open(corpus);
 		}
 	}

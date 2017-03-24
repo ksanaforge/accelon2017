@@ -8,11 +8,13 @@ const calFascicle=function(cor,krange){
 }
 const quoteCopy_mpps=function({cor,value,krange}){
 	const r=cor.parseRange(krange);
-	const sp=cor.pageOf(r.start);
+	const sp=cor.pageOf(r.start)+1;
 	const ep=cor.pageOf(r.end)+1;
-	var pagerange="p."+sp;
+	var selrange="p."+sp;
 
-	if (ep!==sp) pagerange="p"+pagerange+'-'+ep;
+	if (ep!==sp) selrange="p"+selrange+'-'+ep;
+
+
 	var gn=cor.getGroupName(krange);
 	const article=cor.articleOf(r.start);
 	const toc=cor.getTOC(r.start);
@@ -22,7 +24,7 @@ const quoteCopy_mpps=function({cor,value,krange}){
 	})
 	pin=pin.replace(/\((\d+)\)/,function(m,m1){return m1});
 	gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
-	return "「"+value+"」（《大智度論講義》"+gn+"，"+pagerange+"）";
+	return "「"+value+"」（《大智度論講義》"+gn+"，"+selrange+"）";
 }
 
 const quoteCopy_taisho=function({cor,value,krange}){
