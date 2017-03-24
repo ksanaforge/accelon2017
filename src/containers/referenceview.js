@@ -70,7 +70,6 @@ class ReferenceView extends React.Component {
 	loadtext(props){
 		props=props||this.props;
  		if (!address.store.aux)return ;
-
 		const r=address.store.aux.split("@");
 		const corpus=r[0].toLowerCase(); //Taisho ==> taisho		
 		const cor=corpora.store.cor(corpus);
@@ -96,6 +95,7 @@ class ReferenceView extends React.Component {
 				});
 				return;
 			}
+
 			const a=getAnchorAddress(cor,addr);
 			if (a) this.fetchAddress(cor,a,mrks);
 		} else {
