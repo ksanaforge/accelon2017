@@ -40,6 +40,7 @@ class ReadMain extends React.Component {
 
 		fetchArticle(this.props.cor,address.store.main,markups.store,(states)=>{
 			console.log(states.fields)
+			states.layoutTags=this.props.cor.getParagraphBreaks(states.fields);
 			if (!this._unmounted) this.setState(states);
 		})  	
 	}
@@ -82,7 +83,7 @@ class ReadMain extends React.Component {
 		const cors=corpora.openedCors();
 		var layout=null;
 		if(mode.store.layout && this.state.fields &&this.state.fields.p) {
-			layout=this.state.fields.p.pos;
+			layout=this.state.layoutTags;
 		};
 
 		return E("div",{},
