@@ -1,6 +1,6 @@
 var patterns={
  bold:/\{([^k]+?)\}/g,
- kai:/\{k(.+?)k\}/g,
+ kai:/\{k[\s\S]+?k\}/g,
  taisho:/@t(\d+p\d+[a-c\-0-9]*)/g,
  taisho_full:/@t(\d+p\d+[a-c][0-9]+)/g,
  yinshun_note:/@y([A-Z][0-9]+)#([0-9]+)/g,
@@ -50,13 +50,6 @@ const markLine=function(doc,i,visitlink){
 		doc.markText({line:i,ch:idx+m.length-1},{line:i,ch:idx+m.length},{className:"hide"});
 	});
 
-	line.replace(patterns.kai,function(m,m1,idx){
-		var marker=doc.markText({line:i,ch:idx+2},{line:i,ch:idx+m.length-2},
-			{className:"kai"});
-		//hide control code
-		doc.markText({line:i,ch:idx},{line:i,ch:idx+2},{className:"hide"});
-		doc.markText({line:i,ch:idx+m.length-2},{line:i,ch:idx+m.length},{className:"hide"});
-	});
 }
 
 var markNoteLines=function(doc,from,to,openLink){
@@ -71,8 +64,22 @@ var markNoteLines=function(doc,from,to,openLink){
 
 	var M=doc.findMarks({line:from,ch:0},{line:to,ch:65536});
 	M.forEach(function(m){m.clear()});
+
 	for (var i=from;i<to+1;i++) {
 		markLine(doc, i, visitlink);
 	}
+
+
+	doc.getValue().replace(patterns.kai,function(m,idx,self){
+		const start=doc.posFromIndex(idx);
+		const end=doc.posFromIndex(idx+m.length);
+		var marker=doc.markText({line:start.line,ch:start.ch+2},{line:end.line,ch:end.ch-2},
+			{className:"kai"});
+
+		//hide control code
+		doc.markText({line:start.line,ch:start.ch},{line:start.line,ch:start.ch+2},{className:"hide"});
+		doc.markText({line:end.line,ch:end.ch-2},{line:end.line,ch:end.ch},{className:"hide"});
+	});
+
 }
 module.exports={markNoteLines};
