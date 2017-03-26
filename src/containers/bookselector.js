@@ -2,7 +2,7 @@ const React =require('react');
 const E=React.createElement;
 const PT=React.PropTypes;
 const filterItem=require("../components/filteritem");
-const {tocView}=require("../model/mode");
+const {readText}=require("../model/mode");
 const address=require("../model/address");
 const filter=require("../model/filter");
 const {_}=require("ksana-localization");
@@ -25,7 +25,7 @@ class BookSelector extends React.Component {
 		const r=this.props.cor.groupKRange(group);
 		const a=this.props.cor.stringify(r[0]);
 		address.setMain(a);
-		tocView();
+		readText();
 	}
 	firstOccurOfGroup(group){
 		var first=0;

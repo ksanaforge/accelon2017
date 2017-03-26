@@ -17,7 +17,6 @@ try {
 
 
 const searchresult=require("./searchresult");
-const mode=require("./mode");
 const corpora=require("./corpora");
 const setExtraLine=action((l)=>{
 	store.extra=l;
@@ -28,6 +27,7 @@ const setNow=action(now=>{
 	store.now=now;
 });
 const showExcerpt=action((now)=>{
+	console.log("showexcerpt",now)
 	if (typeof now=="undefined") {
 		now=store.now;
 	}

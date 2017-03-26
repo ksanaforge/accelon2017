@@ -5,7 +5,7 @@ const {_}=require("ksana-localization");
 const mode=require("../model/mode");
 const address=require("../model/address");
 const excerpt=require("../model/excerpt");
-const {DBSELECTOR,BOOKSELECTOR,TOCVIEW,READTEXT,BOOKRESULT,EXCERPTVIEW}=mode;
+const {DBSELECTOR,BOOKSELECTOR,TOCVIEW,READTEXT,EXCERPTVIEW}=mode;
 
 const searchresult=require("../model/searchresult");
 const GroupNav=require("./groupnav");
@@ -20,21 +20,21 @@ class ModelSelector extends React.Component{
 	}
 	showExcerpt(){
 		excerpt.showExcerpt();
-		mode.excertView();
+		mode.excerptView();
 	}
 	render(){
 		const m=mode.store.mode;
-		const showBookResult=searchresult.store.filtered && searchresult.store.filtered.length 
-				&& searchresult.store.q;
+//		const showBookResult=searchresult.store.filtered && searchresult.store.filtered.length 
+//				&& searchresult.store.q;
 		const hasExcerpt=searchresult.store.filtered&&searchresult.store.filtered.length;
 
 		return E("span",{},
 			E("a",{className:(m==BOOKSELECTOR?"activemodelink":"modelink"),onClick:mode.selectBook},_("Home Page")),
 			" ",
-			E("a",{className:(m==TOCVIEW?"activemodelink":"modelink"),onClick:mode.tocView},_("TOC View")),
+			m==READTEXT?E("a",{className:(m==TOCVIEW?"activemodelink":"modelink"),onClick:mode.tocView},_("TOC View")):null,
 			" ",
-			showBookResult?E("a",{className:(m==BOOKRESULT?"activemodelink":"modelink"),onClick:mode.groupByBook},_("Group By Book")):null,
-			" ",
+//			showBookResult?E("a",{className:(m==BOOKRESULT?"activemodelink":"modelink"),onClick:mode.groupByBook},_("Group By Book")):null,
+//			" ",
 			hasExcerpt?E("a",{className:(m==EXCERPTVIEW?"activemodelink":"modelink"),onClick:this.showExcerpt},_("Excerpt")):null,
 			" ",
 			m==READTEXT?E(GroupNav,{setAddress:address.setMain,address:address.store.main,cor:this.props.cor}):null,

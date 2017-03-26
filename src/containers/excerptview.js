@@ -8,6 +8,7 @@ const ExcerptPager=require("./excerptpager");
 const ExcerptSetting=require("./excerptsetting");
 const mode=require("../model/mode");
 const searchresult=require("../model/searchresult");
+const BookResult=require("./bookresult");
 const excerpt=require("../model/excerpt");
 const address=require("../model/address");
 const {highlightExcerpt}=require("../unit/highlight");
@@ -56,6 +57,7 @@ class ExcerptView extends React.Component {
 		const sr=searchresult.store;
 		if (!sr.filtered)return {};
 		const tpos=sr.filtered[n];
+		if (!tpos) return{};
 		const address=this.props.cor.fromTPos(tpos).kpos[0];
 		if (address) {
 			var addressH=this.props.cor.stringify(address);
@@ -92,6 +94,7 @@ class ExcerptView extends React.Component {
 			w&&w.scrollIntoView();
 		}.bind(this),100)
 		return E("div",{style:styles.container},
+				E(BookResult,{cor:this.props.cor}),
 				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
 				E(ExcerptSetting,{setExtra:this.setExtra.bind(this),
 					extra:excerpt.store.extra}),
