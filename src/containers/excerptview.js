@@ -12,6 +12,7 @@ const BookResult=require("./bookresult");
 const excerpt=require("../model/excerpt");
 const address=require("../model/address");
 const {highlightExcerpt}=require("../unit/highlight");
+const {_}=require("ksana-localization");
 const styles={
 	container:{},
 	table:{width:"100%"}
@@ -83,7 +84,10 @@ class ExcerptView extends React.Component {
 		prevtitle="";
 		const sr=searchresult.store;
 		const excerpts=excerpt.store.excerpts;
-		if (sr.searching||!excerpts)return E("div",{},"searching");
+		if (sr.searching) return E("div",{},"searching");
+		if (!excerpts) return E("div",{},_("no result"));
+
+		
 
 		const count=(sr.filtered||{}).length||0;
 		const hitperbatch=excerpt.store.hitperbatch;

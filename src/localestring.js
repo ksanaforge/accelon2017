@@ -58,6 +58,7 @@ const stringtable={
 	["download","下載"],
 	["about","關於"],
 	["build date","建置於"],
+	["no result","無搜尋結果"],
 	["unknowncor","來路不明"],
 	["download latest zip and cor files, and open index.html",
 	"下載最新的zip及所需之資料庫，再打開index.html"]

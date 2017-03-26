@@ -82,13 +82,11 @@ function setQ(q,cb){
     clearInterval(searchtimer);
     search(cor,q,function(result){
     	const {matches,phrasepostings,timer,fuzzy,scores}=result;
-		if (matches) {
 	        setResult({phrasepostings,matches,q,timer,fuzzy,scores});
-	        searching=false;
-	        setTimeout(function(){
-	        	cb&&cb();
-	        },1);
-    	  }
+	    searching=false;
+    	setTimeout(function(){
+	     	cb&&cb();
+	    },1);
     });
   },100);
 }

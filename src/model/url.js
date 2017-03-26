@@ -39,10 +39,12 @@ const execURL=action((force)=> {
 		//	excerpt.showExcerpt(nn);
 		//}
 		mode.setLayout(l);
-		setTimeout(function(){
-			excerpt.showExcerpt(nn);
-			mode.excerptView();	
-		},1000);
+		if (q) {
+			setTimeout(function(){
+				excerpt.showExcerpt(nn);
+				mode.excerptView();	
+			},1000);			
+		}
 	});
 		
 	if (!corpora.store.cor() && mode.store.fileprotocol) {
