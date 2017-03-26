@@ -8,9 +8,11 @@ const ExcerptPager=require("./excerptpager");
 const ExcerptSetting=require("./excerptsetting");
 const mode=require("../model/mode");
 const searchresult=require("../model/searchresult");
+const BookResult=require("./bookresult");
 const excerpt=require("../model/excerpt");
 const address=require("../model/address");
 const {highlightExcerpt}=require("../unit/highlight");
+const {_}=require("ksana-localization");
 const styles={
 	container:{},
 	table:{width:"100%"}
@@ -56,6 +58,7 @@ class ExcerptView extends React.Component {
 		const sr=searchresult.store;
 		if (!sr.filtered)return {};
 		const tpos=sr.filtered[n];
+		if (!tpos) return{};
 		const address=this.props.cor.fromTPos(tpos).kpos[0];
 		if (address) {
 			var addressH=this.props.cor.stringify(address);
@@ -81,7 +84,10 @@ class ExcerptView extends React.Component {
 		prevtitle="";
 		const sr=searchresult.store;
 		const excerpts=excerpt.store.excerpts;
-		if (sr.searching||!excerpts)return E("div",{},"searching");
+		if (sr.searching) return E("div",{},"searching");
+		if (!excerpts) return E("div",{},_("no result"));
+
+		
 
 		const count=(sr.filtered||{}).length||0;
 		const hitperbatch=excerpt.store.hitperbatch;
@@ -92,6 +98,7 @@ class ExcerptView extends React.Component {
 			w&&w.scrollIntoView();
 		}.bind(this),100)
 		return E("div",{style:styles.container},
+				E(BookResult,{cor:this.props.cor}),
 				E(ExcerptPager,{batch,count,hitperbatch,gobatch:this.gobatch.bind(this)}),
 				E(ExcerptSetting,{setExtra:this.setExtra.bind(this),
 					extra:excerpt.store.extra}),

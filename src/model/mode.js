@@ -1,8 +1,9 @@
 const {observable,action,autorun}=require("mobx");
 
 const {packBits,unpackBits}=require("../unit/bitstr");
-const BOOKSELECTOR=0, READTEXT=1,TOCVIEW=2,DBSELECTOR=3,
-	BOOKRESULT=10,EXCERPTVIEW=11;
+const BOOKSELECTOR=0, READTEXT=1,TOCVIEW=2,DBSELECTOR=3,EXCERPTVIEW=11;
+	//BOOKRESULT=10,
+	
 const isFileProtocol=function(){
 	return (typeof window!=="undefined" && window.location.protocol=="file:");
 }
@@ -31,19 +32,19 @@ const selectDB=action(()=>{
 const readText=action(()=>{
 	store.mode=READTEXT;
 });
-const groupByBook=action(()=>{
+/*const groupByBook=action(()=>{
 	store.mode=BOOKRESULT;
-});
+});*/
 
 const tocView=action(()=>{
 	store.mode=TOCVIEW;
 });
 
-const excertView=action(()=>{
+const excerptView=action(()=>{
 	store.mode=EXCERPTVIEW;
 })
-module.exports={store,setMode,setLayout,groupByBook,
-	readText,selectDB,selectBook,tocView,excertView,
-	BOOKSELECTOR, READTEXT,TOCVIEW,DBSELECTOR,
-	BOOKRESULT,EXCERPTVIEW
+module.exports={store,setMode,setLayout,
+	readText,selectDB,selectBook,tocView,excerptView,
+	BOOKSELECTOR, READTEXT,TOCVIEW,DBSELECTOR,EXCERPTVIEW
+	//BOOKRESULT,
 };

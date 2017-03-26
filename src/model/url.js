@@ -35,9 +35,16 @@ const execURL=action((force)=> {
 	} 
 
 	const updateSearchResult=action(function(nn){
-		mode.setMode(m);
-		if (m==mode.EXCERPTVIEW) excerpt.showExcerpt(nn);
-		mode.setLayout(l);		
+		//if (nn!==n || q!==searchresult.store.q) {
+		//	excerpt.showExcerpt(nn);
+		//}
+		mode.setLayout(l);
+		if (q) {
+			setTimeout(function(){
+				excerpt.showExcerpt(nn);
+				mode.excerptView();	
+			},1000);			
+		}
 	});
 		
 	if (!corpora.store.cor() && mode.store.fileprotocol) {
@@ -46,7 +53,6 @@ const execURL=action((force)=> {
 	}
 	if (corpus!==corpora.store.active || !corpora.store.cor()) {
 		corpora.open(corpus,true,function(){
-			
 			if (!synced) syncURL(); //run once
 			
 			if (q) {

@@ -46,6 +46,7 @@ const stringtable={
 	["View First Markup","跳到第一個標記"],
 	["Layout On","原書換行"],
 	["Layout Off","段落重排"],
+	["total book","分佈於"],
 	["Open New Window","以新視窗開啟"],
 	["Puncuation to enable Fuzzy Search","條件含有標點符號啟用模糊搜尋"],
 	["Open local cor","開啟本機資料庫"],
@@ -57,6 +58,7 @@ const stringtable={
 	["download","下載"],
 	["about","關於"],
 	["build date","建置於"],
+	["no result","無搜尋結果"],
 	["unknowncor","來路不明"],
 	["download latest zip and cor files, and open index.html",
 	"下載最新的zip及所需之資料庫，再打開index.html"]
