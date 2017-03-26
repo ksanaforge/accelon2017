@@ -47,8 +47,9 @@ class ExcerptView extends React.Component {
 		const scrollto=now==n;
 		var obj={};
 		if (scrollto && !first) obj.ref="scrollto"; //no need to scroll if first item is highlighted
-
-		const hits=highlightExcerpt(this.props.cor,excerpt.store.excerpts[key],searchresult.store.phrasepostings);
+		const ex=excerpt.store.excerpts[key];
+		if (!ex)return null;
+		const hits=highlightExcerpt(this.props.cor,ex,searchresult.store.phrasepostings);
 		return E(ExcerptLine,Object.assign(obj,item,
 			{openAddress:this.openAddress.bind(this),key,now,n,seq,header,shorttitle,
 				cor:this.props.cor,

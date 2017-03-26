@@ -9,16 +9,18 @@ const mpps=require("../unit/mpps");
 const {openLink}=require("../model/address");
 const corpora=require("../model/corpora");
 const address=require("../model/address");
-const styles={
-	container:{display:"flex"},
-	left:{flex:8,maxWidth:1000},
-	right:{flex:4}
-}
+const SplitPane=require("react-split-pane");
+const styles={container:{},left:{},right:{}};
+const mainsizekey="accelon2017.defaultSize";
 class ReadText extends React.Component {
 	constructor(props){
 		super(props);
+		const minSize=Math.floor(window.innerWidth * 0.35);
+		const w=parseInt(localStorage.getItem(mainsizekey)||"0",10);
+		console.log("default size",localStorage.getItem(mainsizekey))
+		const defaultSize=w||minSize*2;
 		this.state={popupX:0,popupY:0,text:"",title:"",hidefields:{},
-		lpopupX:0,lpopupY:0,ltitle:"",links:[],lclose:true};
+		lpopupX:0,lpopupY:0,ltitle:"",links:[],lclose:true,minSize,defaultSize};
 	}
 	showNotePopup(opts){
 		this.setState({popupX:opts.x,popupY:opts.y,text:opts.text,
@@ -48,6 +50,24 @@ class ReadText extends React.Component {
 		}
 		return fields;
 	}
+	onSplitterDown(){
+
+	}
+	onSplitterMove(e){
+		if (e.buttons==1) {
+			const x=e.clientX;
+			e.target.style.left=x;
+		}
+	}
+	onSplitterUp(e){
+
+	}
+	onChangeMainSize(size){
+		clearTimeout(this.timer);
+			this.timer=setTimeout(function(){
+	 			localStorage.setItem(mainsizekey, size);	
+		},1000);
+	}
 	render(){
 		const props=Object.assign({},this.props,{
 			showNotePopup:this.showNotePopup.bind(this),
@@ -59,7 +79,7 @@ class ReadText extends React.Component {
 		const cors=corpora.openedCors();
 		const mainAddress=address.store.main;
 		const mainCorpus=corpora.store.active;
-		return E("div",{style:styles.container},
+		return E("div",{},
 			E(NotePopup,{x:this.state.popupX,y:this.state.popupY,openLink,
 				text:this.state.text,title:this.state.title,tagname:this.state.tagname,
 				timestamp:this.state.popuptimestamp}),
@@ -68,8 +88,13 @@ class ReadText extends React.Component {
 				close:this.state.lclose,
 				timestamp:this.state.lpopuptimestamp,actions:this.state.lactions}),
 
-			E("div",{style:styles.left},E(ReadMain,props))
-			,E("div",{style:styles.right},E(ReadAux,props))
+			E(SplitPane,{split:"vertical",minSize:this.state.minSize,
+				defaultSize:this.state.defaultSize,
+				onChange:this.onChangeMainSize.bind(this)
+			},
+				E("div",{},E(ReadMain,props))
+				,E("div",{},E(ReadAux,props))
+			)
 		);
 	}
 }

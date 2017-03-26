@@ -35,9 +35,7 @@ const execURL=action((force)=> {
 	} 
 
 	const updateSearchResult=action(function(nn){
-		//if (nn!==n || q!==searchresult.store.q) {
-		//	excerpt.showExcerpt(nn);
-		//}
+		mode.setMode(m);
 		mode.setLayout(l);
 		if (q) {
 			setTimeout(function(){
@@ -53,6 +51,7 @@ const execURL=action((force)=> {
 	}
 	if (corpus!==corpora.store.active || !corpora.store.cor()) {
 		corpora.open(corpus,true,function(){
+
 			if (!synced) syncURL(); //run once
 			
 			if (q) {
