@@ -17,6 +17,8 @@ const cdata=require("./cdata");
 const jpeg=require("./image");
 const png=require("./image");
 const inlinesvg=require("./inlinesvg");
+const svg=require("./table");
+
 /* might be simplified to maketext with className same as type */
 const inlinenote=require("./inlinenote");
 const jin=require("./jin");
@@ -26,4 +28,4 @@ const rend=require("./rend"); //same as span for TEI rend
 const origin=require("./origin");
 module.exports={ptr,def,note,link,k,bilink,figure,table,kepan,translation,cdata,
 	inlinesvg,
-	mppsnote,yinshunnote,inlinenote,jin,p,span,head,rend,footnote,origin,rubynote,png,jpeg}
+	mppsnote,yinshunnote,inlinenote,jin,p,span,head,rend,footnote,origin,rubynote,png,jpeg,svg}
