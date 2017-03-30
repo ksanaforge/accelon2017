@@ -27,7 +27,7 @@ const quoteCopy_mpps=function({cor,value,krange,fields}){
 	if (ep!==sp) selrange="p"+selrange+'-'+ep;
 	
 	const pin=getPin(rend,krange);
-	const pinname="〈"+pin.t+pin.n+"〉";
+	const pinname="〈"+pin.n+pin.t+"〉";
 
 	var gn=cor.getGroupName(krange);
 	const article=cor.articleOf(r.start);
