@@ -6,25 +6,35 @@ const calFascicle=function(cor,krange){
 	const b=cor.articleOf(r.start).at;
 	return (a-b+1);
 }
-const quoteCopy_mpps=function({cor,value,krange}){
+const getPin=function(rend,kpos){
+	if (!rend)return;
+	var pin=null;
+	for (var i=0;i<rend.value.length;i++) {
+		if (rend.value[i].substr(0,4)=="pin|") {
+			pin=JSON.parse(rend.value[i].substr(4));
+		}
+		if (kpos<rend.pos[i]) break;
+	}
+	return pin;
+}
+const quoteCopy_mpps=function({cor,value,krange,fields}){
 	const r=cor.parseRange(krange);
 	const sp=cor.pageOf(r.start)+1;
 	const ep=cor.pageOf(r.end)+1;
 	var selrange="p."+sp;
 
+	const rend=fields&&fields.rend;
 	if (ep!==sp) selrange="p"+selrange+'-'+ep;
-
+	
+	const pin=getPin(rend,krange);
+	const pinname="〈"+pin.t+pin.n+"〉";
 
 	var gn=cor.getGroupName(krange);
 	const article=cor.articleOf(r.start);
 	const toc=cor.getTOC(r.start);
-	var pin=toc&&toc.length?toc[0][0].t+"〉":gn;
-	pin=pin.replace(/卷(\d+)/,function(m,m1){
-		return "卷"+m1+"〈";
-	})
-	pin=pin.replace(/\((\d+)\)/,function(m,m1){return m1});
+
 	gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
-	return "「"+value+"」（《大智度論講義》"+gn+"，"+selrange+"）";
+	return "「"+value+"」（《大智度論講義》"+gn+pinname+"，"+selrange+"）";
 }
 
 const quoteCopy_taisho=function({cor,value,krange}){
@@ -41,12 +51,12 @@ const quoteCopy_taisho=function({cor,value,krange}){
 	var fascicle=calFascicle(cor,krange);
 	return "《"+group+"》卷"+fascicle+"：「"+value.replace(/\r?\n/g,"")+"」（大正"+vol+"，"+shortaddress+"）";
 }
-const quoteCopy=function({cor,value,krange}){
+const quoteCopy=function({cor,value,krange,fields}){
 	if (value.length<10) {
 		return value;
 	}
-	if (cor.id=="taisho") return quoteCopy_taisho({cor,value,krange});
-	if (cor.id=="mpps") return quoteCopy_mpps({cor,value,krange});
+	if (cor.id=="taisho") return quoteCopy_taisho({cor,value,krange,fields});
+	if (cor.id=="mpps") return quoteCopy_mpps({cor,value,krange,fields});
 	const r=cor.parseRange(krange);
 	const sp=cor.pageOf(r.start)+1;
 	const ep=cor.pageOf(r.end)+1;
