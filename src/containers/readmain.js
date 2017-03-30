@@ -20,7 +20,7 @@ const address=require("../model/address");
 const styles={
 	abscontainer:{position:"relative",zIndex:200},
 	nav:{position:"absolute",right:100},
-	menu:{position:"absolute",left:10,top:10}
+	menu:{position:"absolute",left:0,top:0}
 }
 
 class ReadMain extends React.Component {

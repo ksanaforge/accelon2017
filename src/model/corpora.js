@@ -2,12 +2,12 @@ const {extendObservable,action}=require("mobx");
 const expandVariant=require("ksana-unihan-variant").expandVariant;
 
 var openCorpus,closeCorpus;
-try {
+if (typeof KsanaCorpus!=="undefined") {	
+	openCorpus=KsanaCorpus&&KsanaCorpus.openCorpus;
+	closeCorpus=KsanaCorpus&&KsanaCorpus.closeCorpus;
+} else {
 	openCorpus=require("ksana-corpus").openCorpus;
 	closeCorpus=require("ksana-corpus").closeCorpus;
-} catch(e){
-	openCorpus=require("ksana-corpus-lib").openCorpus;
-	closeCorpus=require("ksana-corpus-lib").closeCorpus;
 }
 
 const {connectCorpus}=require("../unit/connect");

@@ -2,14 +2,16 @@ const {extendObservable,action}=require("mobx");
 const filter=require("./filter");
 const corpora=require("./corpora");
 var search=null,filterMatch=null,groupStat=null;
-try {
+
+var search,groupState,filterMatch;
+if (typeof KsanaCorpusSearch!=="undefined") {
+	search=KsanaCorpusSearch.search;
+	groupStat=KsanaCorpusSearch.groupStat;
+	filterMatch=KsanaCorpusSearch.filterMatch;
+} else {
 	search=require("ksana-corpus-search").search;
 	groupStat=require("ksana-corpus-search").groupStat;
 	filterMatch=require("ksana-corpus-search").filterMatch;
-} catch(e){
-	search=require("ksana-corpus-lib").search;
-	groupStat=require("ksana-corpus-lib").groupStat;
-	filterMatch=require("ksana-corpus-lib").filterMatch;
 }
 
 const Store=function() {

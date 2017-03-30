@@ -7,12 +7,11 @@ const store=observable({
   	,now:0
 	,hitperbatch:20
 });
-
-var fetchExcerpts=null;
-try {
+var fetchExcerpts;
+if (typeof KsanaCorpus!=="undefined") {
+	fetchExcerpts=KsanaCorpus&&KsanaCorpusSearch.excerpt.fetchExcerpts;
+} else {
 	fetchExcerpts=require("ksana-corpus-search").excerpt.fetchExcerpts;
-} catch(e){
-	fetchExcerpts=require("ksana-corpus-lib").excerpt.fetchExcerpts;
 }
 
 
