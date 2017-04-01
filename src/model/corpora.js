@@ -2,12 +2,14 @@ const {extendObservable,action}=require("mobx");
 const expandVariant=require("ksana-unihan-variant").expandVariant;
 
 var openCorpus,closeCorpus;
+debugger
 if (typeof KsanaCorpus!=="undefined") {	
 	openCorpus=KsanaCorpus&&KsanaCorpus.openCorpus;
 	closeCorpus=KsanaCorpus&&KsanaCorpus.closeCorpus;
 } else {
-	openCorpus=require("ksana-corpus").openCorpus;
-	closeCorpus=require("ksana-corpus").closeCorpus;
+	const KSANACORPUS="ksana-corpus";
+	openCorpus=require(KSANACORPUS).openCorpus;
+	closeCorpus=require(KSANACORPUS).closeCorpus;
 }
 
 const {connectCorpus}=require("../unit/connect");
@@ -39,6 +41,7 @@ const close=action((id)=>closeCorpus(id));
 const open=(corpus,setActive,cb)=>{
 	//console.log("open",corpus)
 	const opts={expandVariant};
+	debugger
 	openCorpus(corpus,opts,action((err,cor)=>{
 		if (err) {
 			console.log(err);

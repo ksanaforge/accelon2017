@@ -8,10 +8,13 @@ const store=observable({
 	,hitperbatch:20
 });
 var fetchExcerpts;
+
 if (typeof KsanaCorpus!=="undefined") {
 	fetchExcerpts=KsanaCorpus&&KsanaCorpusSearch.excerpt.fetchExcerpts;
 } else {
-	fetchExcerpts=require("ksana-corpus-search").excerpt.fetchExcerpts;
+	const KSANACORPUSSEARCH="ksana-corpus-search";
+	debugger
+	fetchExcerpts=require(KSANACORPUSSEARCH).excerpt.fetchExcerpts;
 }
 
 

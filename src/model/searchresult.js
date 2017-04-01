@@ -9,9 +9,10 @@ if (typeof KsanaCorpusSearch!=="undefined") {
 	groupStat=KsanaCorpusSearch.groupStat;
 	filterMatch=KsanaCorpusSearch.filterMatch;
 } else {
-	search=require("ksana-corpus-search").search;
-	groupStat=require("ksana-corpus-search").groupStat;
-	filterMatch=require("ksana-corpus-search").filterMatch;
+	const KSANACORPUSSEARCH="ksana-corpus-search";
+	search=require(KSANACORPUSSEARCH).search;
+	groupStat=require(KSANACORPUSSEARCH).groupStat;
+	filterMatch=require(KSANACORPUSSEARCH).filterMatch;
 }
 
 const Store=function() {
