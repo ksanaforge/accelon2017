@@ -2,7 +2,6 @@ const {extendObservable,action}=require("mobx");
 const expandVariant=require("ksana-unihan-variant").expandVariant;
 
 var openCorpus,closeCorpus;
-debugger
 if (typeof KsanaCorpus!=="undefined") {	
 	openCorpus=KsanaCorpus&&KsanaCorpus.openCorpus;
 	closeCorpus=KsanaCorpus&&KsanaCorpus.closeCorpus;
@@ -41,7 +40,6 @@ const close=action((id)=>closeCorpus(id));
 const open=(corpus,setActive,cb)=>{
 	//console.log("open",corpus)
 	const opts={expandVariant};
-	debugger
 	openCorpus(corpus,opts,action((err,cor)=>{
 		if (err) {
 			console.log(err);

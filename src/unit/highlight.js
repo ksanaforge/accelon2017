@@ -38,6 +38,7 @@ const highlightExcerpt=function(cor,excerpt,phrasepostings){
   for(let j=0;j<excerpt.phrasehits.length;j++) {
     const hits=excerpt.phrasehits[j].hits;
     const hitsend=excerpt.phrasehits[j].hitsend;
+    if (!phrasepostings[j])continue;
     const phraselengths=phrasepostings[j].lengths;
     const linecharr=hits.map((hit,idx)=>{
       const range=cor.makeRange(hit,hitsend[idx]);
