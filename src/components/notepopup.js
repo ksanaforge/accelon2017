@@ -19,7 +19,8 @@ var NotePopup=React.createClass({
 		text:PT.string.isRequired,
 		title:PT.string,
 		tagname:PT.string,
-		openLink:PT.func.isRequired
+		openLink:PT.func.isRequired,
+		cor:PT.object
 	},
 	close:function(){
 		this.setState({close:true});
@@ -34,7 +35,7 @@ var NotePopup=React.createClass({
 		if (!cm)return;
 		cm=cm.getCodeMirror();
 		const markLines=LinesMarkers[this.props.tagname];
-		markLines&&markLines(cm,0,cm.lineCount()-1,this.props.openLink);
+		markLines&&markLines(cm,0,cm.lineCount()-1,this.props.openLink,this.props.cor);
 	},
 	render:function(){
 		if (!this.props.text||this.props.x<0 ||this.state.close){

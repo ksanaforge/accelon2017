@@ -4,12 +4,12 @@ var patterns={
  taisho:/@t(\d+p\d+[a-c\-0-9]*)/g,
  taisho_full:/@t(\d+p\d+[a-c][0-9]+)/g,
  yinshun_note:/@y([A-Z][0-9]+)#([0-9]+)/g,
- taisho_app:/@a(\d+p.+)/g
+ taisho_app:/@a(\d+p.+)/g,
+ svg:/\{svg\|(.+?),([\s\S]+?)\|svg\}/g
 }
 const markLine=function(doc,i,visitlink){
 	if (i>doc.lineCount())return;
 	var line=doc.getLine(i);
-
 
 	line.replace(patterns.taisho,function(m,taisho,idx){
 		const link=document.createElement("span");
@@ -50,9 +50,10 @@ const markLine=function(doc,i,visitlink){
 		doc.markText({line:i,ch:idx+m.length-1},{line:i,ch:idx+m.length},{className:"hide"});
 	});
 
+
 }
 
-var markNoteLines=function(doc,from,to,openLink){
+var markNoteLines=function(doc,from,to,openLink,cor){
 	const visitlink=function(e){
 		const url=e.target.dataset.target;
 		if (url.substr(0,7)==="http://") {
@@ -69,8 +70,8 @@ var markNoteLines=function(doc,from,to,openLink){
 		markLine(doc, i, visitlink);
 	}
 
-
-	doc.getValue().replace(patterns.kai,function(m,idx,self){
+	const footnotetext=doc.getValue();
+	footnotetext.replace(patterns.kai,function(m,idx,self){
 		const start=doc.posFromIndex(idx);
 		const end=doc.posFromIndex(idx+m.length);
 		var marker=doc.markText({line:start.line,ch:start.ch+2},{line:end.line,ch:end.ch-2},
@@ -81,5 +82,26 @@ var markNoteLines=function(doc,from,to,openLink){
 		doc.markText({line:end.line,ch:end.ch-2},{line:end.line,ch:end.ch},{className:"hide"});
 	});
 
+	const replacesvg=function(from,to,svgcontent){
+		const replacedWith=document.createElement("div");
+		replacedWith.innerHTML=svgcontent;
+		const start=doc.posFromIndex(from);
+		const end=doc.posFromIndex(to);
+		doc.markText(start,end,{replacedWith});
+	}
+	footnotetext.replace(patterns.svg,function(mm,fn,text,idx){
+		const m=fn.match(/M(\d+)\.(\d+)/);
+		if (!m)return;
+		const juan=parseInt(m[1],10),seq=m[2];
+		cor.getArticleField(juan,"footnotesvg",function(field){
+			const svgs=field[0].value;
+			for(var i=0;i<svgs.length;i++) {
+				if (svgs[i].indexOf(fn)>-1) {
+					replacesvg(idx,idx+mm.length,svgs[i]);
+					break;
+				}
+			}
+		});
+	}.bind(this));
 }
 module.exports={markNoteLines};

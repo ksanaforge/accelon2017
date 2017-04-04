@@ -82,7 +82,7 @@ class ReadText extends React.Component {
 		return E("div",{},
 			E(NotePopup,{x:this.state.popupX,y:this.state.popupY,openLink,
 				text:this.state.text,title:this.state.title,tagname:this.state.tagname,
-				timestamp:this.state.popuptimestamp}),
+				timestamp:this.state.popuptimestamp,cor:cors[mainCorpus]}),
 			E(LinkPopup,{x:this.state.lpopupX,y:this.state.lpopupY,openLink,
 				title:this.state.ltitle,links:this.state.links,cors,mainAddress,mainCorpus,
 				close:this.state.lclose,
