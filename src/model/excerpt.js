@@ -13,7 +13,6 @@ if (typeof KsanaCorpus!=="undefined") {
 	fetchExcerpts=KsanaCorpus&&KsanaCorpusSearch.excerpt.fetchExcerpts;
 } else {
 	const KSANACORPUSSEARCH="ksana-corpus-search";
-	debugger
 	fetchExcerpts=require(KSANACORPUSSEARCH).excerpt.fetchExcerpts;
 }
 

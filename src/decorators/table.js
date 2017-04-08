@@ -17,6 +17,8 @@ const newwindow=function(e){
 	e.stopPropagation();
 }
 const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
+	// ..\unit\mpps contains the code to replace of svg in footnote 
+	
 	const replacedWith=document.createElement("div");
 	//var svgcontent=target.replace(/ height=".*?"/,'height="100%"');
 	//svgcontent=svgcontent.replace(/ width=".*?"/,'width="100%"').replace(/\r?\n/g,"");

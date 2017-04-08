@@ -1,5 +1,5 @@
 var patterns={
- bold:/\{([^k]+?)\}/g,
+ bold:/\{b[\s\S]+?b\}/g,
  kai:/\{k[\s\S]+?k\}/g,
  taisho:/@t(\d+p\d+[a-c\-0-9]*)/g,
  taisho_full:/@t(\d+p\d+[a-c][0-9]+)/g,
@@ -41,18 +41,40 @@ const markLine=function(doc,i,visitlink){
 		link.dataset.target="http://ya.ksana.tw/mpps_yinshun_note_img/"+filename.charAt(0)+"/"+filename+".jpg";
 		doc.markText({line:i,ch:idx},{line:i,ch:idx+m.length+1},{replacedWith:link});
 	})
-
-	line.replace(patterns.bold,function(m,m1,idx){
-		var marker=doc.markText({line:i,ch:idx+1},{line:i,ch:idx+m.length-1},
-			{className:"bold"});
-		//hide control code
-		doc.markText({line:i,ch:idx},{line:i,ch:idx+1},{className:"hide"});
-		doc.markText({line:i,ch:idx+m.length-1},{line:i,ch:idx+m.length},{className:"hide"});
-	});
-
-
 }
+const newwindow=function(e){
+	e.target.innerHTML;
+	e.stopPropagation();
+}
+const replacesvg=function(doc,from,to,svgcontent,count){
+	var replacedWith=document.createElement("div");
+	var filename=svgcontent.match(/[\.A-Za-z\d\-]+\.svg/) || "mpps.svg";
 
+	var opennew=document.createElement("a");
+	opennew.style="z-index:200";
+	
+	opennew.setAttribute("href","data:image/svg+xml;utf8,"+encodeURI(svgcontent));
+
+	opennew.innerHTML="\u21E9";
+	opennew.setAttribute("download",filename);
+	opennew.onmousedown=newwindow;
+
+	if (count==0) {
+		var svg=document.createElement("div");
+		svg.innerHTML=svgcontent;
+		replacedWith.appendChild(svg);		
+	} else {
+		const ele=document.createElement("div");
+		ele.innerHTML=filename;
+		replacedWith.appendChild(ele)
+	}
+
+	replacedWith.appendChild(opennew);
+
+	const start=doc.posFromIndex(from);
+	const end=doc.posFromIndex(to);
+	doc.markText(start,end,{replacedWith});
+}
 var markNoteLines=function(doc,from,to,openLink,cor){
 	const visitlink=function(e){
 		const url=e.target.dataset.target;
@@ -71,6 +93,18 @@ var markNoteLines=function(doc,from,to,openLink,cor){
 	}
 
 	const footnotetext=doc.getValue();
+
+	footnotetext.replace(patterns.bold,function(m,idx,self){
+		const start=doc.posFromIndex(idx);
+		const end=doc.posFromIndex(idx+m.length);
+		var marker=doc.markText({line:start.line,ch:start.ch+2},{line:end.line,ch:end.ch-2},
+			{className:"b"});
+
+		//hide control code
+		doc.markText({line:start.line,ch:start.ch},{line:start.line,ch:start.ch+2},{className:"hide"});
+		doc.markText({line:end.line,ch:end.ch-2},{line:end.line,ch:end.ch},{className:"hide"});
+	});
+
 	footnotetext.replace(patterns.kai,function(m,idx,self){
 		const start=doc.posFromIndex(idx);
 		const end=doc.posFromIndex(idx+m.length);
@@ -82,13 +116,7 @@ var markNoteLines=function(doc,from,to,openLink,cor){
 		doc.markText({line:end.line,ch:end.ch-2},{line:end.line,ch:end.ch},{className:"hide"});
 	});
 
-	const replacesvg=function(from,to,svgcontent){
-		const replacedWith=document.createElement("div");
-		replacedWith.innerHTML=svgcontent;
-		const start=doc.posFromIndex(from);
-		const end=doc.posFromIndex(to);
-		doc.markText(start,end,{replacedWith});
-	}
+	var count=0;
 	footnotetext.replace(patterns.svg,function(mm,fn,text,idx){
 		const m=fn.match(/M(\d+)\.(\d+)/);
 		if (!m)return;
@@ -97,11 +125,12 @@ var markNoteLines=function(doc,from,to,openLink,cor){
 			const svgs=field[0].value;
 			for(var i=0;i<svgs.length;i++) {
 				if (svgs[i].indexOf(fn)>-1) {
-					replacesvg(idx,idx+mm.length,svgs[i]);
+					replacesvg(doc,idx,idx+mm.length,svgs[i],count);
 					break;
 				}
 			}
 		});
-	}.bind(this));
+		count++;		
+	}.bind(this),10);
 }
 module.exports={markNoteLines};

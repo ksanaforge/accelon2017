@@ -8,6 +8,8 @@ const LinesMarkers={
 	yinshunnote:require("../unit/yinshun").markNoteLines,
 	footnote:require("../unit/mpps").markNoteLines
 }
+const quoteCopy=require("../unit/quotecopy");
+
 var NotePopup=React.createClass({
 	getInitialState:function(){
 		return {close:true};
@@ -29,6 +31,15 @@ var NotePopup=React.createClass({
 		if (nextProps.timestamp!==this.props.timestamp) {
 			this.setState({close:false});
 		}
+	},
+	onCopy:function(cm,evt){
+		var v=evt.target.value;
+		v="("+this.props.title+")"+v
+		.replace(/\{k/g,"").replace(/k\}/g,"")
+		.replace(/\{b/g,"").replace(/b\}/g,"")
+		.replace(/@t/,"大正");
+		evt.target.value=v;
+		evt.target.select();		
 	},
 	componentDidUpdate:function(){
 		var cm=this.refs.cm;
@@ -64,7 +75,9 @@ var NotePopup=React.createClass({
 				E("div",{style,className:"notepopup"},
 					E("span",{style:styles.title,className:"notepopuptitle",onClick:this.close}
 						,"✕ "+this.props.title),
-					E(CodeMirror,{ref:"cm",readOnly:true,value:this.props.text})
+					E(CodeMirror,{ref:"cm",readOnly:true,value:this.props.text,
+						onCopy:this.onCopy
+				})
 				)
 		)
 	}

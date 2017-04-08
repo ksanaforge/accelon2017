@@ -23,6 +23,7 @@ const createPopupNote=function({cm,cor,corpus,field,start,end,id,tabid,target,ac
 	dom.cor=cor;
 	dom.dataset.tagname=field;
 	if (target instanceof Array) {
+		target=target.sort(); // for mpps footnote 1.221, 1.222
 		var idarr=[],textarr=[];
 		for (var i=0;i<target.length;i++) {
 			const parts=target[i].split("\t");

@@ -60,15 +60,18 @@ const clear=action(function(){
 })
 var waitsearch=0;
 function setQ(q,cb){
-	if (!q || q==store.q && store.matches.length) {
+	if (q==store.q && store.matches.length) {
 		setTimeout(function(){
 			cb&&cb();
 		},10);  	
 		return;
 	}
 	action(function(){
+		if (!q) {
+			clear();
+			q="";
+		}
 		store.q=q; //update q immediately
-		if (!q) clear();
 	})();
 
   var searchtimer=setInterval(()=>{

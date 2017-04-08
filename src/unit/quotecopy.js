@@ -33,6 +33,9 @@ const quoteCopy_mpps=function({cor,value,krange,fields}){
 	const article=cor.articleOf(r.start);
 	const toc=cor.getTOC(r.start);
 
+	value=value.replace(/\{k/g,"").replace(/k\}/g,"")
+	.replace(/\{b/g,"").replace(/b\}/g,"").replace(/@t/g,"大正");
+
 	gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
 	return "「"+value+"」（《大智度論講義》"+gn+pinname+"，"+selrange+"）";
 }
