@@ -46,9 +46,29 @@ const newwindow=function(e){
 	e.target.innerHTML;
 	e.stopPropagation();
 }
+const showsvg=function(e){
+	const marks=e.target.doc.getAllMarks();
+
+	for(var i=0;i<marks.length;i++) {
+		const rep=marks[i].replacedWith;
+		if (!rep)continue;
+		svg=rep.children[0];
+		if (svg!==e.target && rep.className=='footnotesvg') {
+			svg.innerHTML='show '+svg.filename;
+			svg.onclick=showsvg;
+			svg.className='svgbutton';
+			svg.doc=e.target.doc;
+		}
+	}
+
+	e.target.innerHTML=e.target.svgcontent;
+	e.target.className='';
+	e.target.onclick=null;
+}
 const replacesvg=function(doc,from,to,svgcontent,count){
 	var replacedWith=document.createElement("div");
 	var filename=svgcontent.match(/[\.A-Za-z\d\-]+\.svg/) || "mpps.svg";
+	if (filename instanceof Array)filename=filename[0];
 
 	var opennew=document.createElement("a");
 	opennew.style="z-index:200";
@@ -62,13 +82,20 @@ const replacesvg=function(doc,from,to,svgcontent,count){
 	if (count==0) {
 		var svg=document.createElement("div");
 		svg.innerHTML=svgcontent;
+		svg.svgcontent=svgcontent;
+		svg.filename=filename;
 		replacedWith.appendChild(svg);		
-	} else {
-		const ele=document.createElement("div");
-		ele.innerHTML=filename;
+	} else { //error displaying second svg
+		var ele=document.createElement("div");
+		ele.innerHTML='show '+filename;
+		ele.filename=filename;
+		ele.className='svgbutton';
+		ele.svgcontent=svgcontent;
+		ele.doc=doc;
+		ele.onclick=showsvg;
 		replacedWith.appendChild(ele)
 	}
-
+	replacedWith.className='footnotesvg';
 	replacedWith.appendChild(opennew);
 
 	const start=doc.posFromIndex(from);
