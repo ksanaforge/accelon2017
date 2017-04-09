@@ -37,7 +37,9 @@ var NotePopup=React.createClass({
 		v="("+this.props.title+")"+v
 		.replace(/\{k/g,"").replace(/k\}/g,"")
 		.replace(/\{b/g,"").replace(/b\}/g,"")
-		.replace(/@t/,"大正");
+		.replace(/@t(\d+)p/g,function(m,m1){
+			return "大正"+m1+"，";
+		});
 		evt.target.value=v;
 		evt.target.select();		
 	},

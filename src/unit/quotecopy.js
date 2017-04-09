@@ -27,7 +27,7 @@ const quoteCopy_mpps=function({cor,value,krange,fields}){
 	if (ep!==sp) selrange="p"+selrange+'-'+ep;
 	
 	const pin=getPin(rend,krange);
-	const pinname="〈"+pin.n+pin.t+"〉";
+	var pinname="〈"+pin.n+pin.t+"〉";
 
 	var gn=cor.getGroupName(krange);
 	const article=cor.articleOf(r.start);
@@ -35,6 +35,11 @@ const quoteCopy_mpps=function({cor,value,krange,fields}){
 
 	value=value.replace(/\{k/g,"").replace(/k\}/g,"")
 	.replace(/\{b/g,"").replace(/b\}/g,"").replace(/@t/g,"大正");
+
+	if (!pin.n) {//use article name as 
+		gn='〈'+gn+'〉';
+		pinname="";
+	}
 
 	gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
 	return "「"+value+"」（《大智度論講義》"+gn+pinname+"，"+selrange+"）";
