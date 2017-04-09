@@ -147,6 +147,7 @@ var markNoteLines=function(doc,from,to,openLink,cor){
 	footnotetext.replace(patterns.svg,function(mm,fn,text,idx){
 		const m=fn.match(/M(\d+)\.(\d+)/);
 		if (!m)return;
+		fn=fn+".svg";
 		const juan=parseInt(m[1],10),seq=m[2];
 		cor.getArticleField(juan,"footnotesvg",function(field){
 			const svgs=field[0].value;
