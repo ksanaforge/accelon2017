@@ -54,7 +54,7 @@ const showsvg=function(e){
 		if (!rep)continue;
 		svg=rep.children[0];
 		if (svg!==e.target && rep.className=='footnotesvg') {
-			svg.innerHTML='show '+svg.filename;
+			svg.innerHTML=svg.filename+" ";
 			svg.onclick=showsvg;
 			svg.className='svgbutton';
 			svg.doc=e.target.doc;
@@ -80,14 +80,14 @@ const replacesvg=function(doc,from,to,svgcontent,count){
 	opennew.onmousedown=newwindow;
 
 	if (count==0) {
-		var svg=document.createElement("div");
+		var svg=document.createElement("span");
 		svg.innerHTML=svgcontent;
 		svg.svgcontent=svgcontent;
 		svg.filename=filename;
 		replacedWith.appendChild(svg);		
 	} else { //error displaying second svg
-		var ele=document.createElement("div");
-		ele.innerHTML='show '+filename;
+		var ele=document.createElement("span");
+		ele.innerHTML=filename+" ";
 		ele.filename=filename;
 		ele.className='svgbutton';
 		ele.svgcontent=svgcontent;

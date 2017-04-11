@@ -23,7 +23,7 @@ const corpora=require("../model/corpora");
 const {execURL,syncURL}=require("../model/url");
 
 const styles={
-	body:{overflowY:"auto",height:"96%",overflowX:"hidden"}
+body:{overflowY:"auto",height:"96%",overflowX:"hidden"}
 }
 
 class MainScreen extends React.Component{

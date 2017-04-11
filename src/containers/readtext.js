@@ -90,6 +90,7 @@ class ReadText extends React.Component {
 
 			E(SplitPane,{split:"vertical",minSize:this.state.minSize,
 				defaultSize:this.state.defaultSize,
+				style:{paddingBottom:"2em"}, //need this because splitPanel set height to 100%
 				onChange:this.onChangeMainSize.bind(this)
 			},
 				E("div",{},E(ReadMain,props))

@@ -34,7 +34,10 @@ const quoteCopy_mpps=function({cor,value,krange,fields}){
 	const toc=cor.getTOC(r.start);
 
 	value=value.replace(/\{k/g,"").replace(/k\}/g,"")
-	.replace(/\{b/g,"").replace(/b\}/g,"").replace(/@t/g,"大正");
+	.replace(/\{b/g,"").replace(/b\}/g,"").replace(/@t/g,"大正")
+	.replace(/@y([A-Z][0-9]+)#([0-9]+)/g,function(m,m1){
+		return "《印順導師大智度論筆記》"+m1;
+	});
 
 	if (!pin.n) {//use article name as 
 		gn='〈'+gn+'〉';
