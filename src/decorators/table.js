@@ -18,7 +18,6 @@ const newwindow=function(e){
 }
 const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	// ..\unit\mpps contains the code to replace of svg in footnote 
-	
 	const replacedWith=document.createElement("div");
 	//var svgcontent=target.replace(/ height=".*?"/,'height="100%"');
 	//svgcontent=svgcontent.replace(/ width=".*?"/,'width="100%"').replace(/\r?\n/g,"");
@@ -45,9 +44,22 @@ const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	replacedWith.appendChild(opennew);
 	replacedWith.appendChild(svg);
 
-	const ch=end.ch+255; //cover entire line
+	
+	var startch=start.ch;
+	const textline=cm.getLine(start.line);
+	const endch=textline.length; //cover entire line
 
-	return cm.markText({line:start.line,ch:0},{line:end.line,ch},
-		{replacedWith,handleMouseEvents:true});
+	const textbefore=textline.substr(0,start.ch);
+	c=cor.kcount(textbefore);
+	if (!c)startch=0;
+	
+	if (start.line==end.line && start.ch==endch){
+		return cm.setBookmark(start,{widget:replacedWith
+			,handleMouseEvents:true});
+	} else {
+		return cm.markText({line:start.line,ch:startch},{line:end.line,ch:endch},
+			{replacedWith,handleMouseEvents:true});
+
+	}
 }
 module.exports=createTable;
