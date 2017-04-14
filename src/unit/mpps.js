@@ -65,6 +65,13 @@ const showsvg=function(e){
 	e.target.className='';
 	e.target.onclick=null;
 }
+const resolveStyleConflict=function(svgcontent,id){
+	//stylesheet of svg conflict
+	return svgcontent.replace(/st(\d+)/g,function(m,m1){
+		return "st"+id+"-"+m1;
+	})
+}
+
 const replacesvg=function(doc,from,to,svgcontent,count){
 	var replacedWith=document.createElement("div");
 	var filename=svgcontent.match(/[\.A-Za-z\d\-]+\.svg/) || "mpps.svg";
@@ -79,22 +86,11 @@ const replacesvg=function(doc,from,to,svgcontent,count){
 	opennew.setAttribute("download",filename);
 	opennew.onmousedown=newwindow;
 
-	if (count==0) {
-		var svg=document.createElement("span");
-		svg.innerHTML=svgcontent;
-		svg.svgcontent=svgcontent;
-		svg.filename=filename;
-		replacedWith.appendChild(svg);		
-	} else { //error displaying second svg
-		var ele=document.createElement("span");
-		ele.innerHTML=filename+" ";
-		ele.filename=filename;
-		ele.className='svgbutton';
-		ele.svgcontent=svgcontent;
-		ele.doc=doc;
-		ele.onclick=showsvg;
-		replacedWith.appendChild(ele)
-	}
+	var svg=document.createElement("span");
+	svg.innerHTML=resolveStyleConflict(svgcontent,count);
+	svg.filename=filename;
+	replacedWith.appendChild(svg);		
+
 	replacedWith.className='footnotesvg';
 	replacedWith.appendChild(opennew);
 

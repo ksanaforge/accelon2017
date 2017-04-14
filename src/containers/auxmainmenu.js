@@ -18,7 +18,7 @@ class AuxMainmenu extends React.Component {
 	}
 	constructor(props){
 		super(props)
-		this.state={opened:false};
+		this.state={opened:false,address:this.props.address};
 	}
 	closemenu(){
 		this.setState({opened:false});	
@@ -27,12 +27,22 @@ class AuxMainmenu extends React.Component {
 		this.closemenu();
 		address.openNewWindow(this.props.address,this.props.corpus);
 	}
+	changeAddress(e){
+		this.setState({address:e.target.value});
+	}
+	goAddress(e){
+		if (e.key=="Enter") {
+			address.setAux(this.props.corpus+"@"+this.state.address);
+		}
+	}
 	render(){
 		if (this.state.opened) {
 			return E("div",{style:styles.menu},
 				E("span",{onClick:this.closemenu.bind(this),style:styles.closebutton},"✕"),
 				"　",
-				E("span",{},this.props.address),
+				E("input",{value:this.state.address,
+					onChange:this.changeAddress.bind(this),
+					onKeyPress:this.goAddress.bind(this)}),
 				E("br"),
 				E("span",{},this.props.cor.getTitle(this.props.address)),
 				E("button",{onClick:this.opennew.bind(this)},_("Open New Window"))

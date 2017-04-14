@@ -16,6 +16,12 @@ const newwindow=function(e){
 	e.target.innerHTML;
 	e.stopPropagation();
 }
+//give each style a unique name
+const resolveStyleConflict=function(svgcontent,id){
+	return svgcontent.replace(/st(\d+)/g,function(m,m1){
+		return "st"+id+"-"+m1;
+	})
+}
 const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	// ..\unit\mpps contains the code to replace of svg in footnote 
 	const replacedWith=document.createElement("div");
@@ -36,18 +42,18 @@ const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	opennew.setAttribute("download",filename);
 	opennew.onmousedown=newwindow;
 
-	const svg=document.createElement("div");
-	svg.innerHTML=svgcontent;
 	
-	//replacedWith.appendChild(smaller);
-	//replacedWith.appendChild(larger);
 	replacedWith.appendChild(opennew);
+
+
+	const svg=document.createElement("div");
+	svg.innerHTML=resolveStyleConflict(svgcontent,id);
 	replacedWith.appendChild(svg);
 
-	
 	var startch=start.ch;
 	const textline=cm.getLine(start.line);
-	const endch=textline.length; //cover entire line
+	const endline=cm.getLine(end.line);
+	const endch=endline.length; //cover entire line
 
 	const textbefore=textline.substr(0,start.ch);
 	c=cor.kcount(textbefore);
