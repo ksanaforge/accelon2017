@@ -22,7 +22,7 @@ const {_}=require("ksana-localization");
 const styles={
 	abscontainer:{position:"relative",zIndex:200},
 	nav:{position:"absolute",right:100},
-	menu:{position:"absolute",left:10,top:10}
+	menu:{position:"absolute",left:1,top:1}
 }
 
 class ReferenceView extends React.Component {

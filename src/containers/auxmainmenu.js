@@ -49,7 +49,8 @@ class AuxMainmenu extends React.Component {
 			)
 		}
 
-		return E("div",{style:styles.container,onClick:this.openMenu.bind(this)},"☰")
+		return E("div",{style:styles.container,onClick:this.openMenu.bind(this)},
+			E("span",{className:"hamburger"},"☰"))
 	}
 }
 
