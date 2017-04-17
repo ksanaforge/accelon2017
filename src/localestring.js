@@ -48,7 +48,7 @@ const stringtable={
 	["Layout Off","段落重排"],
 	["total book","分佈於"],
 	["Open New Window","以新視窗開啟"],
-	["Puncuation to enable Fuzzy Search","條件含有標點符號啟用模糊搜尋"],
+	["Puncuation to enable Fuzzy Search","條件含有標點符號啟用模糊搜尋（實驗性）"],
 	["Open local cor","開啟本機資料庫"],
 	["click and select one or more *.cor file in your local drive",
 	"↓↓請開啟本機資料庫"],

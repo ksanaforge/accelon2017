@@ -17,6 +17,9 @@ class FuzzyResult extends React.Component {
 		mode.readText();
 	}	
 	renderExcerpt(excerpt,key){
+		if (!excerpt)return null;
+		if (!excerpt.linebreaks)return null;
+		if (!excerpt.linebreaks[0])return null;
 		const hits=highlightExcerpt(this.props.cor,excerpt,searchresult.store.phrasepostings);
 		const addr=excerpt.linebreaks[0];
 		const page=this.props.cor.stringify(addr).match(/p\d+[abc]?/)[0];
@@ -30,11 +33,10 @@ class FuzzyResult extends React.Component {
 				E("span",{className:"score"},score+"%")
 			),
 			renderHits(excerpt.text,hits, (o,t)=> E("span",o,t) )
-
 		);
 	}
 	render(){
-		const excerpts=excerpt.store.excerpts;		
+		const excerpts=excerpt.store.excerpts;
 		if (!excerpts||!excerpts.length) {
 			return E("div",{},"No found");
 		}
