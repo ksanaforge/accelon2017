@@ -5,6 +5,8 @@ const fetchArticle=function(cor,address,markups,cb){
 
   if (!range.start) {
     address=getAnchorAddress(cor,address);
+  } else {
+    address=cor.stringify(range.start);
   }
   const article=cor.articleOf(address);
   if (article){
