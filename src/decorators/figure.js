@@ -1,3 +1,4 @@
+//obsolete code, not used, see table.js
 const createFigure=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	const replacedWith=document.createElement("div");
 	var svg=target.replace(/ height=".*?"/,'height="100%"');

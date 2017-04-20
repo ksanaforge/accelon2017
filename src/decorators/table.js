@@ -22,7 +22,7 @@ const resolveStyleConflict=function(svgcontent,id){
 		return "st"+id+"-"+m1;
 	})
 }
-const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
+const createTable=function({cm,cor,start,end,id,tabid,target,actions,field,fields}){
 	// ..\unit\mpps contains the code to replace of svg in footnote 
 	const replacedWith=document.createElement("div");
 	//var svgcontent=target.replace(/ height=".*?"/,'height="100%"');
@@ -47,7 +47,7 @@ const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 
 
 	const svg=document.createElement("div");
-	svg.innerHTML=resolveStyleConflict(svgcontent,id);
+	svg.innerHTML=resolveStyleConflict(svgcontent,field[0]+id);
 	replacedWith.appendChild(svg);
 
 	var startch=start.ch;
@@ -56,6 +56,7 @@ const createTable=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	const endch=endline.length; //cover entire line
 
 	const textbefore=textline.substr(0,start.ch);
+
 	c=cor.kcount(textbefore);
 	if (!c)startch=0;
 	
