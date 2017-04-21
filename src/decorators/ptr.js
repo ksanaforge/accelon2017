@@ -23,6 +23,9 @@ const onPtrEnter=function(e){
 		const text=target.cor.getText(parseInt(target.dataset.target,10)+1,function(data){
 			target.innerHTML=data.join("");
 		});
+		if ( text instanceof Array) {
+			text=text.join("");
+		}
 		target.innerHTML=text;//if text is ready, call back will be ignored
 	},50);
 }
