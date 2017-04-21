@@ -39,7 +39,7 @@ const markLine=function(doc,i,visitlink){
 		link.className="link"
 		link.onclick=visitlink;
 		link.dataset.target="http://ya.ksana.tw/mpps_yinshun_note_img/"+filename.charAt(0)+"/"+filename+".jpg";
-		doc.markText({line:i,ch:idx},{line:i,ch:idx+m.length+1},{replacedWith:link});
+		doc.markText({line:i,ch:idx},{line:i,ch:idx+m.length},{replacedWith:link});
 	})
 }
 const newwindow=function(e){
