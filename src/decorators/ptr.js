@@ -21,7 +21,7 @@ const onPtrEnter=function(e){
 		//+1 to include tailing puncuation
 		target.className="ptr"+ (layout?"":(" ptr_ori"));
 		const text=target.cor.getText(parseInt(target.dataset.target,10)+1,function(data){
-			target.innerHTML=data;
+			target.innerHTML=data.join("");
 		});
 		target.innerHTML=text;//if text is ready, call back will be ignored
 	},50);

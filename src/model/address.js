@@ -27,6 +27,8 @@ const openLink=action((fulladdress,cor)=>{
 	}
 
 	const corpus=r[0].toLowerCase();
+	//taixu positioning is invalid, remove this line when fixed
+	if (corpus=="taixu")return;
 
 	if (!corpora.store.corpora[corpus]) {
 		if (mode.store.fileprotocol) {

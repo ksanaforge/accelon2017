@@ -62,17 +62,34 @@ const quoteCopy_taisho=function({cor,value,krange}){
 	var fascicle=calFascicle(cor,krange);
 	return "《"+group+"》卷"+fascicle+"：「"+value.replace(/\r?\n/g,"")+"」（大正"+vol+"，"+shortaddress+"）";
 }
+const quoteCopy_taixu=function({cor,value,krange,pagerange}){
+	const volmaps={
+		1:'1',2:3,3:3,4:4,5:6,6:7,7:10,8:16,9:17,10:18,11:18
+		,12:20,13:20,14:23,15:24,16:25,17:26,18:27,19:29,20:32
+	}
+	const address=cor.stringify(krange);
+	const compile=address.replace(/p.*/,"");
+	const vol=volmaps[compile]||"";
+
+	return value+"（《太虛大師全書》精 第"+compile+"編，大約在第"+vol+"冊，"+pagerange+"）";
+}
 const quoteCopy=function({cor,value,krange,fields}){
-	if (value.length<10) {
+	if (value.length<10 && value!=="-") {
 		return value;
 	}
-	if (cor.id=="taisho") return quoteCopy_taisho({cor,value,krange,fields});
-	if (cor.id=="mpps") return quoteCopy_mpps({cor,value,krange,fields});
 	const r=cor.parseRange(krange);
 	const sp=cor.pageOf(r.start)+1;
 	const ep=cor.pageOf(r.end)+1;
 	var pagerange="p."+sp;
 	if (ep!==sp) pagerange="p"+pagerange+'-'+ep;
+
+	if (cor.id=="taisho") return quoteCopy_taisho({cor,value,krange,fields});
+	if (cor.id=="mpps") return quoteCopy_mpps({cor,value,krange,fields});
+	if (cor.id=="taixu") return quoteCopy_taixu({cor,value,krange,fields,pagerange});
+
+	//taixu positing is incorrect, disable quote copy
+	//if (cor.id=="taixu") return value;
+	
 	return "「"+value+"」（《"+cor.getGroupName(krange)+"》"+"，"+pagerange+"）";
 }
 module.exports=quoteCopy;
