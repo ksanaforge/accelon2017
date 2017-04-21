@@ -73,6 +73,19 @@ const quoteCopy_taixu=function({cor,value,krange,pagerange}){
 
 	return value+"（《太虛大師全書》精 第"+compile+"編，大約在第"+vol+"冊，"+pagerange+"）";
 }
+const quoteCopy_yinshun=function({cor,value,krange,fields,pagerange}){
+
+	var gn=cor.getGroupName(krange);
+	const regexs=[/（.*?）/,/第[一二三四五]冊/];
+	var sub="";
+	regexs.forEach(function(regex){
+		if (gn.match(regex)){
+			sub=gn.match(regex)[0];
+			gn=gn.replace(regex,"");
+		}
+	})
+	return "「"+value+"」（《"+gn+"》"+sub+"，"+pagerange+"）";
+}
 const quoteCopy=function({cor,value,krange,fields}){
 	if (value.length<10 && value!=="-") {
 		return value;
@@ -82,10 +95,10 @@ const quoteCopy=function({cor,value,krange,fields}){
 	const ep=cor.pageOf(r.end)+1;
 	var pagerange="p."+sp;
 	if (ep!==sp) pagerange="p"+pagerange+'-'+ep;
-
 	if (cor.id=="taisho") return quoteCopy_taisho({cor,value,krange,fields});
 	if (cor.id=="mpps") return quoteCopy_mpps({cor,value,krange,fields});
 	if (cor.id=="taixu") return quoteCopy_taixu({cor,value,krange,fields,pagerange});
+	if (cor.id=="yinshun") return quoteCopy_yinshun({cor,value,krange,fields,pagerange});
 
 	//taixu positing is incorrect, disable quote copy
 	//if (cor.id=="taixu") return value;
