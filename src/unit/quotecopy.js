@@ -98,7 +98,7 @@ const taixu_vol=function(compilation,page){ //編, 頁
 		}
 	}
 
-	return vol?"精冊"+vol+"，":"";
+	return vol?"精 第"+vol+"冊，":"";
 }
 const quoteCopy_taixu=function({cor,value,krange,pagerange}){
 	const r=cor.parseRange(krange);
@@ -108,7 +108,7 @@ const quoteCopy_taixu=function({cor,value,krange,pagerange}){
 	const vol=taixu_vol(compilation,page);
 
 	const gn=cor.getGroupName(krange);
-	return value+"（《太虛大師全書》"+gn+"，"+vol+pagerange+"）";
+	return "《"+gn+"》：「"+value+"」（《太虛大師全書》"+"，"+vol+pagerange+"）";
 }
 const quoteCopy_yinshun=function({cor,value,krange,fields,pagerange}){
 
