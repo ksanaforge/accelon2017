@@ -8,8 +8,7 @@ const LinesMarkers={
 	yinshunnote:require("../unit/yinshun").markNoteLines,
 	footnote:require("../unit/mpps").markNoteLines
 }
-const quoteCopy=require("../unit/quotecopy");
-
+const citation=require("../unit/citation");
 var NotePopup=React.createClass({
 	getInitialState:function(){
 		return {close:true};
@@ -19,6 +18,7 @@ var NotePopup=React.createClass({
 		x:PT.number.isRequired,
 		y:PT.number.isRequired,
 		text:PT.string.isRequired,
+		kpos:PT.number,
 		title:PT.string,
 		tagname:PT.string,
 		openLink:PT.func.isRequired,
@@ -34,15 +34,19 @@ var NotePopup=React.createClass({
 	},
 	onCopy:function(cm,evt){
 		var v=evt.target.value;
-		v="("+this.props.title+")"+v
-		.replace(/\{k/g,"").replace(/k\}/g,"")
+
+		v="("+this.props.title+")「"+
+		  v.replace(/\{k/g,"").replace(/k\}/g,"")
 		.replace(/\{b/g,"").replace(/b\}/g,"")
-		.replace(/@t(\d+)p/g,function(m,m1){
-			return "大正"+m1+"，";
+		.replace(/@t(\d+)p([\d\-abcd]+)/g,function(m,m1,m2){
+			return "（大正"+m1+"，"+m2+"）";
 		})
 		.replace(/@y([A-Z][0-9]+)#([0-9]+)/g,function(m,m1,m2){
 			return "（印順導師，《大智度論筆記》〔"+m1+"〕p."+m2+"）";
-		});		
+		})+"」";
+		if (this.props.kpos) {
+			v+=citation(this.props.cor,this.props.kpos);
+		}
 		evt.target.value=v;
 		evt.target.select();		
 	},

@@ -131,7 +131,7 @@ class ReferenceView extends React.Component {
 		if (y<50) y=coords.top+30;
 		var x=coords.left-30;
 		
-		this.props.showLinkPopup({x,y,links,title:"backlink",actions});
+		this.props.showLinkPopup({x,y,links,title:_("backlink"),actions});
 		return true;
 	}
 	openfile(e){

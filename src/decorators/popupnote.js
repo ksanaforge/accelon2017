@@ -6,14 +6,15 @@ const onLinkMouseOver=function(e){
 	const x=e.pageX,y=e.pageY;
 	const action=e.target.action;
 	const tagname=e.target.dataset.tagname;
+	const kpos=parseInt(e.target.dataset.kpos,10)||0;
 	popuptimer=setTimeout(function(){
-		action({title,text,x,y,tagname});
+		action({title,text,x,y,tagname,kpos});
 	},500);
 }
 const onLinkMouseLeave=function(e){
 	clearTimeout(popuptimer);
 }
-const createPopupNote=function({cm,cor,corpus,field,start,end,id,tabid,target,actions,fields}){
+const createPopupNote=function({cm,cor,corpus,field,kpos,start,end,id,tabid,target,actions,fields}){
 	const dom=document.createElement("span");
 	const layout=mode.store.layout;
 	dom.className=field+ (layout?"":(" "+field+"_ori"));
@@ -22,6 +23,7 @@ const createPopupNote=function({cm,cor,corpus,field,start,end,id,tabid,target,ac
 	dom.action=actions.showNotePopup;
 	dom.cor=cor;
 	dom.dataset.tagname=field;
+	dom.dataset.kpos=kpos;
 	if (target instanceof Array) {
 		target=target.sort(); // for mpps footnote 1.221, 1.222
 		var idarr=[],textarr=[];

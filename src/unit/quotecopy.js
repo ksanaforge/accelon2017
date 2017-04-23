@@ -6,32 +6,10 @@ const calFascicle=function(cor,krange){
 	const b=cor.articleOf(r.start).at;
 	return (a-b+1);
 }
-const getPin=function(rend,kpos){
-	if (!rend)return;
-	var pin=null;
-	for (var i=0;i<rend.value.length;i++) {
-		if (rend.value[i].substr(0,4)=="pin|") {
-			pin=JSON.parse(rend.value[i].substr(4));
-		}
-		if (kpos<rend.pos[i]) break;
-	}
-	return pin;
-}
+
+
+const citation=require("./citation");
 const quoteCopy_mpps=function({cor,value,krange,fields}){
-	const r=cor.parseRange(krange);
-	const sp=cor.pageOf(r.start)+1;
-	const ep=cor.pageOf(r.end)+1;
-	var selrange="p."+sp;
-
-	const rend=fields&&fields.rend;
-	if (ep!==sp) selrange="p"+selrange+'-'+ep;
-	
-	const pin=getPin(rend,krange);
-	var pinname="〈"+pin.n+pin.t+"〉";
-
-	var gn=cor.getGroupName(krange);
-	const article=cor.articleOf(r.start);
-	const toc=cor.getTOC(r.start);
 
 	value=value.replace(/\{k/g,"").replace(/k\}/g,"")
 	.replace(/\{b/g,"").replace(/b\}/g,"").replace(/@t/g,"大正")
@@ -39,13 +17,7 @@ const quoteCopy_mpps=function({cor,value,krange,fields}){
 		return "《印順導師大智度論筆記》"+m1;
 	});
 
-	if (!pin.n) {//use article name as 
-		gn='〈'+gn+'〉';
-		pinname="";
-	}
-
-	gn=gn.replace(/(卷\d+).*/,function(m,m1){return m1});
-	return "「"+value+"」（《大智度論講義》"+gn+pinname+"，"+selrange+"）";
+	return "「"+value+"」"+citation(cor,krange);
 }
 
 const quoteCopy_taisho=function({cor,value,krange}){

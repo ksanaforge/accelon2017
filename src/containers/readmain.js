@@ -39,7 +39,7 @@ class ReadMain extends React.Component {
 		if (article &&article.at==this.state.article.at) return;
 
 		fetchArticle(this.props.cor,address.store.main,markups.store,(states)=>{
-			console.log(states.fields)
+			//console.log(states.fields)
 			states.layoutTags=this.props.cor.getParagraphBreaks(states.fields);
 			if (!this._unmounted) this.setState(states);
 		})  	

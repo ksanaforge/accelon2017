@@ -61,8 +61,9 @@ const stringtable={
 	["no result","無搜尋結果"],
 	["unknowncor","來路不明"],
 	["download latest zip and cor files, and open index.html",
-	"下載最新的zip及所需之資料庫，再打開index.html"]
-	]
+	"下載最新的zip及所需之資料庫，再打開index.html"],
+	["backlink","逆向連結"]
+	],
 }
 for (var locale in stringtable) {
 	localization.setLocale(locale);

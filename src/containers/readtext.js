@@ -17,13 +17,12 @@ class ReadText extends React.Component {
 		super(props);
 		const minSize=Math.floor(window.innerWidth * 0.35);
 		const w=parseInt(localStorage.getItem(mainsizekey)||"0",10);
-		console.log("default size",localStorage.getItem(mainsizekey))
 		const defaultSize=w||minSize*2;
 		this.state={popupX:0,popupY:0,text:"",title:"",hidefields:{},
 		lpopupX:0,lpopupY:0,ltitle:"",links:[],lclose:true,minSize,defaultSize};
 	}
 	showNotePopup(opts){
-		this.setState({popupX:opts.x,popupY:opts.y,text:opts.text,
+		this.setState({popupX:opts.x,popupY:opts.y,text:opts.text,notekpos:opts.kpos,
 			title:opts.title,tagname:opts.tagname,popuptimestamp:new Date()});
 	}
 	showLinkPopup(opts){
@@ -82,6 +81,7 @@ class ReadText extends React.Component {
 		return E("div",{},
 			E(NotePopup,{x:this.state.popupX,y:this.state.popupY,openLink,
 				text:this.state.text,title:this.state.title,tagname:this.state.tagname,
+				kpos:this.state.notekpos,
 				timestamp:this.state.popuptimestamp,cor:cors[mainCorpus]}),
 			E(LinkPopup,{x:this.state.lpopupX,y:this.state.lpopupY,openLink,
 				title:this.state.ltitle,links:this.state.links,cors,mainAddress,mainCorpus,
