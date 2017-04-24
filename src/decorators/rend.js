@@ -1,3 +1,4 @@
+// tag specified in  -corpus.json  will be render with css class
 const createRend=function({cm,cor,start,end,id,tabid,target,actions,fields}){
 	if (target instanceof Array) { //array of className
 		className=target.join(" ");

@@ -18,7 +18,6 @@ if (typeof KsanaCorpusSearch!=="undefined") {
 const Store=function() {
 	this.phrasepostings=[];
 	this.scores=[];
-	this.matches=[];
 	extendObservable(this,{
 		matches:[],
 		timer:null,

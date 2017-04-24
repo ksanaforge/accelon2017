@@ -28,7 +28,6 @@ const setNow=action(now=>{
 	store.now=now;
 });
 const showExcerpt=action((now)=>{
-	console.log("showexcerpt",now)
 	if (typeof now=="undefined") {
 		now=store.now;
 	}

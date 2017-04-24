@@ -30,21 +30,40 @@ class ReadMain extends React.Component {
 	this.state= {article:{at:-1},kpos};
 	}
 	fetch(props){
+		const mrks=markups.store.markups[this.props.cor.id];
 		if (this.state.address==address.store.main) {
 			return;
 		}
+
 		props=props||this.props;
 
 		const article=this.props.cor.articleOf(address.store.main);
 		if (article &&article.at==this.state.article.at) return;
 
-		fetchArticle(this.props.cor,address.store.main,markups.store,(states)=>{
+		fetchArticle(this.props.cor,address.store.main,mrks,(states)=>{
 			//console.log(states.fields)
 			states.layoutTags=this.props.cor.getParagraphBreaks(states.fields);
-			if (!this._unmounted) this.setState(states);
+			if (!this._unmounted) {
+				this.setState(states);
+				this.setState({mrks:mrks});
+			}
 		})  	
 	}
 	componentWillUpdate(){
+		const age=markups.store.age[this.props.cor.id];
+		if (age&&age!==this.state.age){
+			var fields=this.state.fields;
+			console.log("markup changed");
+			const mrks=markups.store.markups[this.props.cor.id];
+			for (var i in mrks) {
+				fields[i]=mrks[i];
+			}
+			fields=Object.assign({},fields);
+			setTimeout(()=>{
+				this.setState({fields,age});
+			},10)
+		}
+		
 		if (!this._unmounted) this.fetch(this.props);
 	}
 	componentWillMount(){
@@ -74,6 +93,7 @@ class ReadMain extends React.Component {
 		const caretpos=this.getCaretKPos();
 		const navprops={caretpos,cor:this.props.cor,
 			onSelectItem:this.updateArticleByAddress.bind(this)};
+		const age=markups.store.age[this.props.cor.id];
 		
 		const menuprops=Object.assign({},this.props,{
 			layout:mode.store.layout,

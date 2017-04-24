@@ -1,10 +1,11 @@
 const {extendObservable,action,autorun}=require("mobx");
-const corpora=require("./corpora");
 const Store=function() {
+	this.markups={};
 	extendObservable(this,{
-		markups:{}
+		age:{}
 	})
 };
+
 const store= new Store;
 const setMarkup=action(function(corpus,name,markups){
 	if (!store.markups[corpus]){
@@ -12,5 +13,14 @@ const setMarkup=action(function(corpus,name,markups){
 	}
 	store.markups[corpus][name]=markups;
 	store.markups=Object.assign({},store.markups);
+	store.age[corpus]=new Date();
+	store.age=Object.assign({},store.age);
 });
-module.exports={store,setMarkup};
+
+
+const {loadMarkup}=require("../unit/markup");
+const loadExternalMarkup=function(meta,json,cor){
+	const markups=loadMarkup(cor,json);
+	setMarkup(cor.id,meta.type,markups);
+}
+module.exports={store,setMarkup,loadExternalMarkup};

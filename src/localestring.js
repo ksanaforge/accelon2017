@@ -4,6 +4,7 @@ const stringtable={
 	["inlinenote","內文夾注"],
 	["span","其他樣式"],
 	["rend","其他樣式"],
+	["punc","標點"],
 	["p","段落"],
 	["table","表"],
 	["figure","圖"],

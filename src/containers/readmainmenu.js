@@ -2,6 +2,7 @@ const React =require('react');
 const PT=React.PropTypes;
 const E=React.createElement;
 const FieldSelector=require("../components/fieldselector");
+const {loadExternalMarkup}=require("../model/markups");
 const styles={
 	container:{cursor:"pointer"},
 	inputfile:{opacity:0,zIndex:-1},	
@@ -31,7 +32,7 @@ class ReadMainmenu extends React.Component {
 				this.setState({lasterror:"markup is not for this corpus"});
 			} else {
 				this.setState({lasterror:"",first:meta.first});
-				this.props.loadExternalMarkup(meta,json,this.props.cor.id);
+				loadExternalMarkup(meta,json,this.props.cor);
 			}
 		});
 	}
