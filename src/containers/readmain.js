@@ -51,14 +51,9 @@ class ReadMain extends React.Component {
 	}
 	componentWillUpdate(){
 		const age=markups.store.age[this.props.cor.id];
-		if (age&&age!==this.state.age){
-			var fields=this.state.fields;
-			console.log("markup changed");
+		if (age&&age!==this.state.age){ //age changed
 			const mrks=markups.store.markups[this.props.cor.id];
-			for (var i in mrks) {
-				fields[i]=mrks[i];
-			}
-			fields=Object.assign({},fields);
+			const fields=loadArticleMarkup(this.state.fields,mrks,this.state.article.at);
 			setTimeout(()=>{
 				this.setState({fields,age});
 			},10)
@@ -94,7 +89,7 @@ class ReadMain extends React.Component {
 		const navprops={caretpos,cor:this.props.cor,
 			onSelectItem:this.updateArticleByAddress.bind(this)};
 		const age=markups.store.age[this.props.cor.id];
-		
+
 		const menuprops=Object.assign({},this.props,{
 			layout:mode.store.layout,
 			fields:this.state.fields,hidefields:this.props.hidefields,
