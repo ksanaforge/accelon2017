@@ -19,6 +19,7 @@ const png=require("./image");
 const inlinesvg=require("./inlinesvg");
 const svg=require("./table");
 const punc=require("./punc");
+const pu=require("./punc");
 /* might be simplified to maketext with className same as type */
 const inlinenote=require("./inlinenote");
 const jin=require("./jin");
@@ -26,7 +27,8 @@ const p=require("./p");
 const span=require("./span");
 const rend=require("./rend"); //same as span for TEI rend
 const origin=require("./origin");
+const collation=require("./collation");
 module.exports={ptr,def,note,link,k,bilink,figure,table,kepan,translation,cdata,
 	inlinesvg,
 	mppsnote,yinshunnote,inlinenote,jin,p,span,head,rend,footnote,origin,rubynote,png,jpeg,svg
-}
+,punc,pu,collation}

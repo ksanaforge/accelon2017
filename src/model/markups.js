@@ -21,6 +21,6 @@ const setMarkup=action(function(corpus,name,markups){
 const {loadMarkup}=require("../unit/markup");
 const loadExternalMarkup=function(meta,json,cor){
 	const markups=loadMarkup(cor,json);
-	setMarkup(cor.id,meta.type,markups);
+	if (markups) setMarkup(cor.id,meta.type,markups);
 }
 module.exports={store,setMarkup,loadExternalMarkup};
