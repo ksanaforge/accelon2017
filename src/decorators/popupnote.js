@@ -35,7 +35,7 @@ const createPopupNote=function({cm,cor,corpus,field,kpos,start,end,id,tabid,targ
 				idarr.push(noteid?noteid[0]:id);
 				textarr.push(noteid+"\n"+notetext);
 			} else {
-				const noteid=target[i].match(/^[\d\.]+/);
+				const noteid=target[i];
 				idarr.push(noteid?noteid[0]:id);
 				textarr.push(target[i]);
 			}
@@ -45,14 +45,14 @@ const createPopupNote=function({cm,cor,corpus,field,kpos,start,end,id,tabid,targ
 	} else {
 		const parts=target.split("\t");
 		if (parts.length>1) {
-			const noteid=parts.shift().match(/^[\d\.]+/),
+			const noteid=parts.shift(),
 			notetext=parts.join("\t").trim();
 
-			dom.innerHTML=noteid?noteid[0]:id;
+			dom.innerHTML=noteid?noteid:id;
 			dom.dataset.text=notetext;
 		} else {
 			const nid=target.match(/^[\d\.]+/);
-			dom.innerHTML=nid?nid[0]:id;
+			dom.innerHTML=nid?nid:id;
 			dom.dataset.text=target;
 		}
 	}

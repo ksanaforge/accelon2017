@@ -1,5 +1,5 @@
 const onNoteMouseDown=function(e){
-
+	console.log(e)
 }
 var entertimer,leavetimer;
 const onNoteEnter=function(e){
@@ -24,6 +24,11 @@ const onNoteLeave=function(e){
 const note=function({cm,cor,start,end,id,target}){
 	const dom=document.createElement("span");
 	dom.className="note";
+	if (target.indexOf("\t")>-1) {
+		const t=target.split("\t");
+		id=t.shift();
+		target=t.join("");
+	}
 	dom.innerHTML=id;
 	dom.dataset.id=id;
 	dom.dataset.target=target;
