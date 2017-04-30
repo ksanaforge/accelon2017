@@ -45,7 +45,6 @@ const createTable=function({cm,cor,start,end,id,tabid,target,actions,field,field
 	
 	replacedWith.appendChild(opennew);
 
-
 	const svg=document.createElement("div");
 	svg.innerHTML=resolveStyleConflict(svgcontent,field[0]+id);
 	replacedWith.appendChild(svg);
@@ -53,8 +52,10 @@ const createTable=function({cm,cor,start,end,id,tabid,target,actions,field,field
 	var startch=start.ch;
 	const textline=cm.getLine(start.line);
 	const endline=cm.getLine(end.line);
-	const endch=endline.length; //cover entire line
-
+	var endch=255;
+	if (endline) {
+		endch=endline.length;
+	}
 	const textbefore=textline.substr(0,start.ch);
 
 	c=cor.kcount(textbefore);

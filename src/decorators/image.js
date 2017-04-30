@@ -1,6 +1,5 @@
 const createImage=function({cm,cor,start,end,field,id,tabid,target,actions,fields}){
 	const container=JSON.stringify(start)==JSON.stringify(end)?"span":"div";
-
 	const widget=document.createElement(container);
 	const img=document.createElement("img");
 	img.src='data:img/'+field+';base64,'+target;

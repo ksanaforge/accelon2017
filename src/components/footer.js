@@ -11,7 +11,7 @@ class Footer extends React.Component{
 				,E("td",{}
 					,E("img",{style:styles.logoimg,src:"logo.png"}))
 				,E("td",{}
-					,E("div",{},"Accelon 2017.4.26")
+					,E("div",{},"Accelon 2017.4.27")
 					,E("div",{},"Freely Redistributable")
 					,E("div",{},"本軟體為結緣品")
 				)

@@ -35,6 +35,9 @@ class AuxMainmenu extends React.Component {
 			address.setAux(this.props.corpus+"@"+this.state.address);
 		}
 	}
+	canopennew(){
+		return (window.location.protocol.substr(0,4)!="file");
+	}
 	render(){
 		if (this.state.opened) {
 			return E("div",{style:styles.menu},
@@ -45,7 +48,7 @@ class AuxMainmenu extends React.Component {
 					onKeyPress:this.goAddress.bind(this)}),
 				E("br"),
 				E("span",{},this.props.cor.getTitle(this.props.address)),
-				E("button",{onClick:this.opennew.bind(this)},_("Open New Window"))
+				this.canopennew()?E("button",{onClick:this.opennew.bind(this)},_("Open New Window")):null
 			)
 		}
 

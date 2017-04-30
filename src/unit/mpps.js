@@ -99,6 +99,7 @@ const replacesvg=function(doc,from,to,svgcontent,count){
 	doc.markText(start,end,{replacedWith});
 }
 var markNoteLines=function(doc,from,to,openLink,cor){
+
 	const visitlink=function(e){
 		const url=e.target.dataset.target;
 		if (url.substr(0,7)==="http://") {
@@ -145,7 +146,7 @@ var markNoteLines=function(doc,from,to,openLink,cor){
 		if (!m)return;
 		fn=fn+".svg";
 		const juan=parseInt(m[1],10),seq=m[2];
-		cor.getArticleField(juan,"footnotesvg",function(field){
+		cor.getArticleField(juan-1,"footnotesvg",function(field){
 			const svgs=field[0].value;
 			for(var i=0;i<svgs.length;i++) {
 				if (svgs[i].indexOf(fn)>-1) {

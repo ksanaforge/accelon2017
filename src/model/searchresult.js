@@ -84,11 +84,12 @@ function setQ(q,cb){
     }
   	waitsearch=0;
     searching=true;
-    clearInterval(searchtimer);
     search(cor,q,function(result){
+    	console.log("search",q,result)
     	const {matches,phrasepostings,timer,fuzzy,scores}=result;
 	        setResult({phrasepostings,matches,q,timer,fuzzy,scores});
 	    searching=false;
+	    clearInterval(searchtimer);
     	setTimeout(function(){
 	     	cb&&cb();
 	    },1);
