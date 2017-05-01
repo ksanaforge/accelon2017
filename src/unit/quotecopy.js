@@ -7,20 +7,33 @@ const calFascicle=function(cor,krange){
 	return (a-b+1);
 }
 
+const getTailPunc=function(str){
+	const m=str.match(/([。！；、．•？…」）︶｝︸〕︺】︼》︾〉﹀﹂』]*)$/);
+	if (m) return m[1]
+}
+
 const getCopyText=function(cor,krange,p){
 	if (!p) return null;
 	const r=cor.parseRange(krange);
+
 	const para=cor.trimField(p,r.start,r.end).pos;
 	if (!para||!para.length) return null;
 	const out=[];
-	var prev=r.start;
+	var prev=r.start,tail="";
 	for (var i=0;i<para.length;i++){
-		const t=(cor.getText(cor.makeRange(prev,para[i]))||[]).join("");
+		var t=(cor.getText(cor.makeRange(prev,para[i]))||[]).join("");
+		if (t.substr(0,tail.length)==tail) {
+			t=t.substr(tail.length);
+		}
+		tail=getTailPunc(t);
 		prev=para[i];
 		out.push(t);
 	}
-	const t=(cor.getText(cor.makeRange(para[para.length-1],r.end))||[]).join("");
-	out.push(t);
+	var t2=(cor.getText(cor.makeRange(para[para.length-1],r.end))||[]).join("");
+	if (t2.substr(0,tail.length)==tail) {
+		t2=t2.substr(tail.length);
+	}	
+	out.push(t2);
 	return out.join("\n");
 }
 
@@ -53,7 +66,7 @@ const quoteCopy_taisho=function({cor,value,krange,fields}){
 		shortaddress=shortaddress.replace(/-.*/,"");
 	}
 	var fascicle=calFascicle(cor,krange);
-	return "《"+group+"》卷"+fascicle+"：「"+value.replace(/\r?\n/g,"")+"」（大正"+vol+"，"+shortaddress+"）";
+	return "《"+group+"》卷"+fascicle+"：「"+value+"」（大正"+vol+"，"+shortaddress+"）";
 }
 const taixu_vol=function(compilation,page){ //編, 頁
 	const volmaps={
