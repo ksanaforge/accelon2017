@@ -8,7 +8,7 @@ const calFascicle=function(cor,krange){
 }
 
 const getTailPunc=function(str){
-	const m=str.match(/([。！；、．•？…」）︶｝︸〕︺】︼》︾〉﹀﹂』]*)$/);
+	const m=str.match(/([。！；：、．•？…」）︶｝︸〕︺】︼》︾〉＞﹀﹂』]*)$/);
 	if (m) return m[1]
 }
 
@@ -29,7 +29,9 @@ const getCopyText=function(cor,krange,fields){
 	const para=f1.concat(f2);
 	para.sort();
 
-	if (!para||!para.length) return null;
+	if (!para||!para.length) {
+		return (cor.getText(krange)||[]).join("");
+	}
 	const out=[];
 	var prev=r.start,tail="";
 	for (var i=0;i<para.length;i++){
