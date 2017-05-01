@@ -7,9 +7,27 @@ const calFascicle=function(cor,krange){
 	return (a-b+1);
 }
 
+const getCopyText=function(cor,krange,p){
+	if (!p) return null;
+	const r=cor.parseRange(krange);
+	const para=cor.trimField(p,r.start,r.end).pos;
+	if (!para||!para.length) return null;
+	const out=[];
+	var prev=r.start;
+	for (var i=0;i<para.length;i++){
+		const t=(cor.getText(cor.makeRange(prev,para[i]))||[]).join("");
+		prev=para[i];
+		out.push(t);
+	}
+	const t=(cor.getText(cor.makeRange(para[para.length-1],r.end))||[]).join("");
+	out.push(t);
+	return out.join("\n");
+}
 
 const citation=require("./citation");
 const quoteCopy_mpps=function({cor,value,krange,fields}){
+	const text=getCopyText(cor,krange,fields.p);
+	if (text) value=text;
 
 	value=value.replace(/\{k/g,"").replace(/k\}/g,"")
 	.replace(/\{b/g,"").replace(/b\}/g,"").replace(/@t/g,"大正")
@@ -20,7 +38,10 @@ const quoteCopy_mpps=function({cor,value,krange,fields}){
 	return "「"+value+"」"+citation(cor,krange);
 }
 
-const quoteCopy_taisho=function({cor,value,krange}){
+const quoteCopy_taisho=function({cor,value,krange,fields}){
+	const text=getCopyText(cor,krange,fields.p);
+	if (text) value=text;
+
 	const group=cor.getGroupName(krange).replace(/.*@/,"");
 	const address=cor.stringify(krange);
 	const vol=address.replace(/p.*/,"");
@@ -72,7 +93,10 @@ const taixu_vol=function(compilation,page){ //編, 頁
 
 	return vol?"精 第"+vol+"冊，":"";
 }
-const quoteCopy_taixu=function({cor,value,krange,pagerange}){
+const quoteCopy_taixu=function({cor,value,krange,pagerange,fields}){
+	const text=getCopyText(cor,krange,fields.p);
+	if (text) value=text;
+
 	const r=cor.parseRange(krange);
 	const page=cor.pageOf(r.start)+1;
 	const address=cor.stringify(krange);
@@ -83,6 +107,8 @@ const quoteCopy_taixu=function({cor,value,krange,pagerange}){
 	return "《"+gn+"》：「"+value+"」（《太虛大師全書》"+"，"+vol+pagerange+"）";
 }
 const quoteCopy_yinshun=function({cor,value,krange,fields,pagerange}){
+	const text=getCopyText(cor,krange,fields.p);
+	if (text) value=text;
 
 	var gn=cor.getGroupName(krange);
 	const regexs=[/（.*?）/,/第[一二三四五]冊/];
@@ -96,9 +122,14 @@ const quoteCopy_yinshun=function({cor,value,krange,fields,pagerange}){
 	return "「"+value+"」（《"+gn+"》"+sub+"，"+pagerange+"）";
 }
 const quoteCopy=function({cor,value,krange,fields}){
+
 	if (value.length<10 && value!=="-") {
 		return value;
 	}
+
+	const text=getCopyText(cor,krange,fields.p);
+	if (text) value=text;
+
 	const r=cor.parseRange(krange);
 	const sp=cor.pageOf(r.start)+1;
 	const ep=cor.pageOf(r.end)+1;
