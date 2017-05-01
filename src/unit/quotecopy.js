@@ -12,11 +12,23 @@ const getTailPunc=function(str){
 	if (m) return m[1]
 }
 
-const getCopyText=function(cor,krange,p){
-	if (!p) return null;
+const getCopyText=function(cor,krange,fields){
+	if (!fields.head && !fields.p) return null;
 	const r=cor.parseRange(krange);
+	var f1=[],f2=[];
+	if (fields.p) {
+		f1=cor.trimField(fields.p,r.start,r.end).pos;
+	}
+	if (fields.head) {
+		const f3=cor.trimRangeField(fields.head,r.start,r.end).pos;
+		for (var i=0;i<f3.length;i++) {
+			const rr=cor.parseRange(f3[i]);
+			f2.push(rr.start);
+		}
+	}
+	const para=f1.concat(f2);
+	para.sort();
 
-	const para=cor.trimField(p,r.start,r.end).pos;
 	if (!para||!para.length) return null;
 	const out=[];
 	var prev=r.start,tail="";
@@ -39,7 +51,7 @@ const getCopyText=function(cor,krange,p){
 
 const citation=require("./citation");
 const quoteCopy_mpps=function({cor,value,krange,fields}){
-	const text=getCopyText(cor,krange,fields.p);
+	const text=getCopyText(cor,krange,fields);
 	if (text) value=text;
 
 	value=value.replace(/\{k/g,"").replace(/k\}/g,"")
@@ -52,7 +64,7 @@ const quoteCopy_mpps=function({cor,value,krange,fields}){
 }
 
 const quoteCopy_taisho=function({cor,value,krange,fields}){
-	const text=getCopyText(cor,krange,fields.p);
+	const text=getCopyText(cor,krange,fields);
 	if (text) value=text;
 
 	const group=cor.getGroupName(krange).replace(/.*@/,"");
@@ -107,7 +119,7 @@ const taixu_vol=function(compilation,page){ //編, 頁
 	return vol?"精 第"+vol+"冊，":"";
 }
 const quoteCopy_taixu=function({cor,value,krange,pagerange,fields}){
-	const text=getCopyText(cor,krange,fields.p);
+	const text=getCopyText(cor,krange,fields);
 	if (text) value=text;
 
 	const r=cor.parseRange(krange);
@@ -120,7 +132,7 @@ const quoteCopy_taixu=function({cor,value,krange,pagerange,fields}){
 	return "《"+gn+"》：「"+value+"」（《太虛大師全書》"+"，"+vol+pagerange+"）";
 }
 const quoteCopy_yinshun=function({cor,value,krange,fields,pagerange}){
-	const text=getCopyText(cor,krange,fields.p);
+	const text=getCopyText(cor,krange,fields);
 	if (text) value=text;
 
 	var gn=cor.getGroupName(krange);
@@ -140,7 +152,7 @@ const quoteCopy=function({cor,value,krange,fields}){
 		return value;
 	}
 
-	const text=getCopyText(cor,krange,fields.p);
+	const text=getCopyText(cor,krange,fields);
 	if (text) value=text;
 
 	const r=cor.parseRange(krange);
