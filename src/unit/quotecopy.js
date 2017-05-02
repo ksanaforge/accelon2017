@@ -6,10 +6,12 @@ const calFascicle=function(cor,krange){
 	const b=cor.articleOf(r.start).at;
 	return (a-b+1);
 }
-
 const getTailPunc=function(str){
-	const m=str.match(/([。！；：、．•？…」）︶｝︸〕︺】︼》︾〉＞﹀﹂』]*)$/);
+	const m=str.match(/([，。！；：、．•？…」）︶｝︸〕︺】︼》︾〉＞﹀﹂』]*)$/);
 	if (m) return m[1]
+}
+const removeHeadPunc=function(str){
+	return str.replace(/^([，。！；：、．•？…」）︶｝︸〕︺】︼》︾〉＞﹀﹂』]*)/,"");
 }
 
 const getCopyText=function(cor,krange,fields){
@@ -30,10 +32,11 @@ const getCopyText=function(cor,krange,fields){
 	para.sort();
 
 	if (!para||!para.length) {
-		return (cor.getText(krange)||[]).join("");
+		return removeHeadPunc((cor.getText(krange)||[]).join(""));
 	}
 	const out=[];
 	var prev=r.start,tail="";
+
 	for (var i=0;i<para.length;i++){
 		var t=(cor.getText(cor.makeRange(prev,para[i]))||[]).join("");
 		if (t.substr(0,tail.length)==tail) {
@@ -48,7 +51,7 @@ const getCopyText=function(cor,krange,fields){
 		t2=t2.substr(tail.length);
 	}	
 	out.push(t2);
-	return out.join("\n");
+	return removeHeadPunc(out.join("\n"));
 }
 
 const citation=require("./citation");

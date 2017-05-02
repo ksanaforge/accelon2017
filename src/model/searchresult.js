@@ -46,12 +46,6 @@ const setResult=action(function(opts){
 	store.timer=opts.timer;
 	store.q=opts.q;
 	store.fuzzy=opts.fuzzy;
-	setTimeout(action(function(){
-		//reset n
-		const excerpt=require("./excerpt");
-		if (!excerpt.store.now) excerpt.store.now=0;
-	}),1)
-
 });
 const clear=action(function(){
 	store.phrasepostings=[];
@@ -70,6 +64,7 @@ function setQ(q,cb){
 			clear();
 			q="";
 		}
+
 		store.q=q; //update q immediately
 	})();
 
@@ -84,8 +79,8 @@ function setQ(q,cb){
     }
   	waitsearch=0;
     searching=true;
+
     search(cor,q,function(result){
-    	console.log("search",q,result)
     	const {matches,phrasepostings,timer,fuzzy,scores}=result;
 	        setResult({phrasepostings,matches,q,timer,fuzzy,scores});
 	    searching=false;

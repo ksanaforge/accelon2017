@@ -33,7 +33,7 @@ class SearchBox extends React.Component {
 			address.setMain(a);
 		} else {
 			searchresult.setQ(this.state.q,function(){
-				excerpt.showExcerpt();
+				excerpt.showExcerpt(0);
 				mode.excerptView();
 			});
 			this.input.focus();

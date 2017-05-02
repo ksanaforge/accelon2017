@@ -31,6 +31,7 @@ const showExcerpt=action((now)=>{
 	if (typeof now=="undefined") {
 		now=store.now;
 	}
+
 	//store.now=now;
 	//store.extra=extra;
 	now=parseInt(now,10)||0;
@@ -46,6 +47,7 @@ const showExcerpt=action((now)=>{
 		if (at<hits.length && hits[at]) tpos.push(hits[at]);
 		else break;
 	}
+	
 	fetchExcerpts(cor,{tpos,line,
 		phrasepostings:searchresult.store.phrasepostings},
 		action(function(excerpts){
