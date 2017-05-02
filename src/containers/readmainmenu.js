@@ -53,11 +53,17 @@ class ReadMainmenu extends React.Component {
 		const layout=this.props.layout;
 		const hasP=this.props.fields&&this.props.fields.p &&
 		this.props.fields.p.pos&&this.props.fields.p.pos.length;
+		var layoutable=hasP;
+		if (window.accelon2017 && window.accelon2017.disableLayout) {
+			if (window.accelon2017.disableLayout.indexOf(this.props.cor.id)>-1){
+				layoutable=false;
+			}
+		}
 		if (this.state.opened) {
 			return E("div",{className:"readmainmenu"},
 				E("span",{onClick:this.closemenu.bind(this),style:styles.closebutton},"✕"),
 				"　",
-				hasP?E("button",{onClick:this.togglelayout.bind(this)},layout?_("Layout Off"):_("Layout On")):null,
+				layoutable?E("button",{onClick:this.togglelayout.bind(this)},layout?_("Layout Off"):_("Layout On")):null,
 				E("br"),
 				E(FieldSelector,{fields:this.props.fields,hidefields:this.props.hidefields,setField:this.props.setField}),
 				E("br"),"　",
