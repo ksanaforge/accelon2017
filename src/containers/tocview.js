@@ -22,7 +22,7 @@ class TOCView extends React.Component {
 			const item=rawtoc[i];
 			const parts=item.split("\t");
 			const depth=parseInt(parts[0]);
-			const label=parts[1];
+			const label=parts[1].replace(/\r?\n/g,"");
 			const kpos=parseInt(parts[2],36);
 			toc.push([kpos,depth,label])
 		}
