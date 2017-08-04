@@ -74,7 +74,7 @@ const resolveStyleConflict=function(svgcontent,id){
 
 const replacesvg=function(doc,from,to,svgcontent,count){
 	var replacedWith=document.createElement("div");
-	var filename=svgcontent.match(/[\.A-Za-z\d\-]+\.svg/) || "mpps.svg";
+	var filename=svgcontent.match(/\S+\.svg/) || "noname.svg";
 	if (filename instanceof Array)filename=filename[0];
 
 	var opennew=document.createElement("a");

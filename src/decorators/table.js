@@ -27,7 +27,7 @@ const createTable=function({cm,cor,start,end,id,tabid,target,actions,field,field
 	const replacedWith=document.createElement("div");
 	//var svgcontent=target.replace(/ height=".*?"/,'height="100%"');
 	//svgcontent=svgcontent.replace(/ width=".*?"/,'width="100%"').replace(/\r?\n/g,"");
-	const filename=target.match(/y[\.a-z\d\-]+\.svg/) || "yinshun.svg";
+	const filename=target.match(/\S+\.svg/) || "noname.svg";
 
 	var svgcontent=target.replace(/<!--.+?-->\r?\n?/g,"")
 	.replace(/<!DOCTYPE.+?>\r?\n/,"").replace(/<\?xml.+>\r?\n/,"");
