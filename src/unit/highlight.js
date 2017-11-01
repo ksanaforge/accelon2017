@@ -2,6 +2,22 @@ var renderHits=function(text,hits,func){
 	if (!text) return [];
   var i, ex=0,out=[],now;
   hits=hits||[];
+
+  // hist 的內容要排序, 才會產生合理的節錄文字
+  if(hits.length>0)
+  {
+    hits.sort(SortHitsFunc);
+    function SortHitsFunc(a, b) 
+    {
+      if (a[0] === b[0]) {
+          return 0;
+      }
+      else {
+          return (a[0] < b[0]) ? -1 : 1;
+      }
+    }
+  }
+
   for (i=0;i<hits.length;i+=1) {
     now=hits[i][0];
     if (now>ex) {
