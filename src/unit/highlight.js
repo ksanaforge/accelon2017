@@ -23,11 +23,29 @@ var renderHits=function(text,hits,func){
     if (now>ex) {
       const t=text.substring(ex,now);
       out.push(func({key:i},t));
+      ex = now;
     }
-    const stext=text.substr(now,hits[i][1]);
+    // 有時搜尋字串重覆, 所以輸出的字串要處理, 
+    // 例如搜尋 "非執取 + 執取" , 執取會重覆出現
+    // const stext=text.substr(now,hits[i][1]);
 
-    out.push(func({key:"h"+i, className:"hl"+hits[i][2]||""},stext));
-    ex = now+hits[i][1];
+    if(now == ex)
+    {
+      const stext=text.substr(now,hits[i][1]);  
+      out.push(func({key:"h"+i, className:"hl"+hits[i][2]||""},stext));
+      ex = now+hits[i][1];
+    }
+    else if((now < ex) && (now + hits[i][1] > ex))
+    {
+      // now 小於 ex , 但要取的長度超過 ex
+      // 例如原文是 "非執取中...." ,
+      // 前一筆是 "非執取" , 下一筆是 "執" 或 "執取" 已經塗過色, 就不處理
+      // 若下一筆是 "執取中" , 則還有一個 "中" 字要處理塗色
+
+      const stext=text.substr(ex,now+hits[i][1]-ex);
+      out.push(func({key:"h"+i, className:"hl"+hits[i][2]||""},stext));
+      ex = now+hits[i][1];
+    }
   }
   out.push(func({key:i+1},text.substr(ex)));
   return out;
